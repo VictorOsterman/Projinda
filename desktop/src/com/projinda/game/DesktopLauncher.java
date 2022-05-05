@@ -2,14 +2,17 @@ package com.projinda.game;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.projinda.game.PlatformGameboard;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 public class DesktopLauncher {
+	public static final int GAMESCREEN_SIZE = 960;
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
+		config.useVsync(true);
 		config.setTitle("Projinda");
-		new Lwjgl3Application(new PlatformGameboard(), config);
+
+		config.setWindowedMode(GAMESCREEN_SIZE, GAMESCREEN_SIZE);
+		new Lwjgl3Application(new Boot(), config);
 	}
 }
