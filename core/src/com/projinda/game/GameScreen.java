@@ -46,4 +46,8 @@ public class GameScreen extends ScreenAdapter {
 
         batch.end();
     }
+
+    public World getWorld() {
+        return world;
+    }
 }
