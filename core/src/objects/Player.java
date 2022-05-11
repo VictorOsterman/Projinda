@@ -42,7 +42,7 @@ public class Player {
         this.width = 40;
         this.height = 60;
 
-        this.body = BodyHelper.createBody(x, y, width, height, false, 0, gameScreen.getWorld(), ContactType.PLAYER);
+        this.body = BodyHelper.createBody(x, y, width, height, false, 0, this.gameScreen.getWorld(), ContactType.PLAYER);
 
         // Skapar sensor med följande form
         PolygonShape shape = new PolygonShape();
@@ -68,7 +68,7 @@ public class Player {
         velX = 0;
 
         // Apply gravity
-        body.applyForceToCenter(0, -50, true);
+        //body.applyForceToCenter(0, -50, true);
 
         //Walk right
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
