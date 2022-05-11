@@ -68,7 +68,7 @@ public class Player {
         velX = 0;
 
         // Apply gravity
-        body.applyForceToCenter(0, -50, true);
+        //body.applyForceToCenter(0, -50, true);
 
         //Walk right
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))

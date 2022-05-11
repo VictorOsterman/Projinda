@@ -33,7 +33,7 @@ public class GameScreen extends ScreenAdapter {
         this.world = new World(new Vector2(0,-10),false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
-        this.player = new Player(this, 16,Boot.INSTANCE.getScreenHeight()/2);
+        this.player = new Player(this, Boot.INSTANCE.getScreenWidth()/2, 128);
         this.camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth()/2,Boot.INSTANCE.getScreenHeight()/2, 0));
 
         this.tiledMapHelper = new TiledMapHelper();
@@ -48,7 +48,6 @@ public class GameScreen extends ScreenAdapter {
 
     public void update(){
         world.step(1/60f, 6, 2);
-
         player.update();
         updateCamera();
 
@@ -68,10 +67,11 @@ public class GameScreen extends ScreenAdapter {
 
         orthogonalTiledMapRenderer.render();
         batch.begin();
+        player.render(batch);
 
         batch.end();
 
-        box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+        //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
     }
 
     public World getWorld() {
