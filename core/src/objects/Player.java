@@ -108,4 +108,12 @@ public class Player {
     public void setOnGround(boolean onGround) {
         this.onGround = onGround;
     }
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
 }
