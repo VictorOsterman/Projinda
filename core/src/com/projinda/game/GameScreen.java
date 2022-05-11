@@ -77,4 +77,8 @@ public class GameScreen extends ScreenAdapter {
     public World getWorld() {
         return world;
     }
+
+    public World getWorld() {
+        return world;
+    }
 }
