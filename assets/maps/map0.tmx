@@ -26,5 +26,7 @@
    <polygon points="0,0 0,64 1280,64 1280,0"/>
   </object>
   <object id="9" name="player" x="850" y="100" width="62" height="62"/>
+  <object id="16" name="enemy" x="256.077" y="319.802" width="60.1841" height="60.1841"/>
+  <object id="17" name="enemy" x="1090.39" y="449.611" width="61.3642" height="125.089"/>
  </objectgroup>
 </map>

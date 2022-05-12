@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.projinda.game.GameScreen;
+import objects.Enemy;
 import objects.Player;
 
 import static helper.Const.PPM;
@@ -65,6 +66,20 @@ public class TiledMapHelper {
                             ContactType.PLAYER
                     );
                     gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+                }
+                //Check if the map object is an enemy
+                else if (rectangleName.equals("enemy")) {
+                    //Create a body with position and size specified in tiled map
+                    Body body = BodyHelper.createBody(
+                            rectangle.getX() + rectangle.getWidth() / 2,
+                            rectangle.getY() + rectangle.getHeight() / 2,
+                            rectangle.getWidth(),
+                            rectangle.getHeight(),
+                            false,
+                            gameScreen.getWorld(),
+                            ContactType.ENEMY
+                    );
+                    gameScreen.addEnemy(new Enemy(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
                 }
             }
         }
