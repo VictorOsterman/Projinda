@@ -20,6 +20,8 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private World world;
+
+    //Game objects
     private Player player;
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
@@ -30,10 +32,9 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(OrthographicCamera camera) {
         this.camera = camera;
         this.batch = new SpriteBatch();
-        this.world = new World(new Vector2(0,-10),false);
+        this.world = new World(new Vector2(0,-25),false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
-        this.player = new Player(this, Boot.INSTANCE.getScreenWidth()/2, 128);
         this.camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth()/2,Boot.INSTANCE.getScreenHeight()/2, 0));
 
         this.tiledMapHelper = new TiledMapHelper(this);
@@ -76,5 +77,9 @@ public class GameScreen extends ScreenAdapter {
 
     public World getWorld() {
         return world;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
