@@ -29,6 +29,8 @@ public abstract class MovingRectangle {
 
     protected Texture texture;
 
+    private boolean reset;
+
     /**
      * Constructor for moving rectangle
      * @param width width of the players body
@@ -53,6 +55,7 @@ public abstract class MovingRectangle {
         this.height = height;
 
         this.jumpCounter = 0;
+        this.reset = false;
 
         this.body = body;
 
@@ -65,16 +68,27 @@ public abstract class MovingRectangle {
         fixtureDef.density = 0;
         fixtureDef.isSensor = true;
         this.body.createFixture(fixtureDef).setUserData(ContactType.SENSOR);
+
     }
 
     /**
-     * Sets the rectangles position to its start position
+     * Pause game for one second
+     * Sets the players position to its start position
      */
-    public void reset() {
+    public void reset(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         this.body.setTransform(startX, startY, 0);
+        reset = false;
     }
 
     public void update() {
+        if(reset) {
+            reset();
+        }
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
 
@@ -95,4 +109,20 @@ public abstract class MovingRectangle {
         batch.draw(texture, x, y, width, height);
     }
 
+
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public Body getBody() {
+        return body;
+    }
+
+    public void setReset(boolean reset) {
+        this.reset = reset;
+    }
 }
