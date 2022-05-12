@@ -79,7 +79,7 @@ public class Player {
             velX = -1;
 
         //Jump up
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && onGround == true)
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && onGround)
             body.applyForceToCenter(0, 1500, true);
 
         //Dash down
