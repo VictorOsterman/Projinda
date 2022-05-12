@@ -12,6 +12,7 @@ public class DesktopLauncher {
 		config.setTitle("Projinda");
 
 		config.setWindowedMode(960, 640);
+		config.setResizable(false);
 		new Lwjgl3Application(new Boot(), config);
 	}
 }
