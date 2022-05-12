@@ -72,7 +72,7 @@ public class GameScreen extends ScreenAdapter {
     public void update(float dt){
         world.step(1/60f, 6, 2);
         player.update();
-        scoreBoard.update(dt);
+        scoreBoard.update(dt, player.getScore());
         for (Enemy enemy :
                 enemies) {
             enemy.update();
