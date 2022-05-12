@@ -1,6 +1,7 @@
 package com.projinda.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import helper.ContactType;
 
@@ -22,7 +23,13 @@ public class GameContactListener implements ContactListener {
         // on something and the jump counter should be reset
         if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
             gameScreen.getPlayer().resetJumpCounter();
+            if(a.getUserData() == ContactType.SAFE || b.getUserData() == ContactType.SAFE) {
+                // Player is standing on safe, recieve money from the safe.
+                gameScreen.getMatchingSafe().collect();
+                Gdx.app.log("Safe in contact", "");
+            }
         }
+
     }
 
     @Override

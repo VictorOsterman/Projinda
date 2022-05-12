@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.projinda.game.GameScreen;
 import objects.Enemy;
 import objects.Player;
+import objects.Safe;
 
 import static helper.Const.PPM;
 
@@ -80,6 +81,20 @@ public class TiledMapHelper {
                             ContactType.ENEMY
                     );
                     gameScreen.addEnemy(new Enemy(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
+                }
+                // Check if the map object is a safe
+                else if (rectangleName.equals("safe")) {
+                    //Create a body with correct posistion and size
+                    Body body = BodyHelper.createBody(
+                            rectangle.getX() + rectangle.getWidth() / 2,
+                            rectangle.getY() + rectangle.getHeight() / 2,
+                            rectangle.getWidth(),
+                            rectangle.getHeight(),
+                            true,
+                            gameScreen.getWorld(),
+                            ContactType.SAFE
+                    );
+                    gameScreen.addSafe(new Safe(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
                 }
             }
         }
