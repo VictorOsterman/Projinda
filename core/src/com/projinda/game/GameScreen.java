@@ -15,6 +15,7 @@ import helper.Const;
 import helper.TiledMapHelper;
 import objects.Enemy;
 import objects.Player;
+import scenes.ScoreBoard;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,8 @@ public class GameScreen extends ScreenAdapter {
     private TiledMapHelper tiledMapHelper;
     private Box2DDebugRenderer box2DDebugRenderer;
 
+    private ScoreBoard scoreBoard;
+
 
     public GameScreen(OrthographicCamera camera) {
 
@@ -50,7 +53,7 @@ public class GameScreen extends ScreenAdapter {
         this.tiledMapHelper = new TiledMapHelper(this);
         this.orthogonalTiledMapRenderer = tiledMapHelper.setupMap();
 
-
+        scoreBoard = new ScoreBoard(batch);
     }
 
     private void updateCamera(){
@@ -66,9 +69,10 @@ public class GameScreen extends ScreenAdapter {
         camera.update();
     }
 
-    public void update(){
+    public void update(float dt){
         world.step(1/60f, 6, 2);
         player.update();
+        scoreBoard.update(dt);
         for (Enemy enemy :
                 enemies) {
             enemy.update();
@@ -85,7 +89,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta){
-        update();
+        update(delta);
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -99,6 +103,8 @@ public class GameScreen extends ScreenAdapter {
 
         batch.end();
         //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+        batch.setProjectionMatrix(scoreBoard.stage.getCamera().combined);
+        scoreBoard.stage.draw();
     }
 
     public World getWorld() {
