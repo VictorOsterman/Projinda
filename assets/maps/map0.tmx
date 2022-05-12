@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="19">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="43">
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer id="1" name="Tile Layer 1" width="30" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowAVMEHxYLGTCQ3Tw05qmIvNfEJ2iqPhwQoYBwgDAKrsAJs=
+   eJxjYBgFtAKpdLaPCQlTwxx6Anx2MjFQz2/E2kkNc7GZT8hOcTQ8WAHjAGEADG4BBg==
   </data>
  </layer>
  <objectgroup id="3" name="Objects">
@@ -34,5 +34,9 @@
   <object id="17" x="1472" y="384">
    <polygon points="0,0 0,-64 -256,-64 -256,0"/>
   </object>
+  <object id="39" x="1599.01" y="189.993">
+   <polygon points="0,0 1.18008,63.7243 191.173,63.7243 191.173,3.54024"/>
+  </object>
+  <object id="42" name="safe" x="1728.82" y="129.809" width="61.3642" height="62.5443"/>
  </objectgroup>
 </map>

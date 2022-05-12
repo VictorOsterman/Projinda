@@ -15,6 +15,7 @@ import helper.Const;
 import helper.TiledMapHelper;
 import objects.Enemy;
 import objects.Player;
+import objects.Safe;
 import scenes.ScoreBoard;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class GameScreen extends ScreenAdapter {
     //Game objects
     private Player player;
     private ArrayList<Enemy> enemies;
+    private ArrayList<Safe> safes;
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TiledMapHelper tiledMapHelper;
@@ -50,6 +52,7 @@ public class GameScreen extends ScreenAdapter {
         this.camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth()/2,Boot.INSTANCE.getScreenHeight()/2, 0));
 
         enemies = new ArrayList<>();
+        safes = new ArrayList<>();
         this.tiledMapHelper = new TiledMapHelper(this);
         this.orthogonalTiledMapRenderer = tiledMapHelper.setupMap();
 
@@ -100,6 +103,10 @@ public class GameScreen extends ScreenAdapter {
                 enemies) {
             enemy.render(batch);
         }
+        for (Safe safe :
+                safes) {
+            safe.render(batch);
+        }
 
         batch.end();
         //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
@@ -123,5 +130,13 @@ public class GameScreen extends ScreenAdapter {
         if(enemy != null) {
             enemies.add(enemy);
         }
+    }
+
+    public void addSafe(Safe safe) {
+        safes.add(safe);
+    }
+
+    public Safe getMatchingSafe() {
+        return safes.get(0);
     }
 }
