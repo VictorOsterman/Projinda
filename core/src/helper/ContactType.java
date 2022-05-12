@@ -1,5 +1,5 @@
 package helper;
 
 public enum ContactType {
-    PLAYER, PLATFORM, SENSOR, ENEMY, ITEM;
+    PLAYER, PLATFORM, SENSOR, PLAYERSENSOR, ENEMY, ITEM;
 }

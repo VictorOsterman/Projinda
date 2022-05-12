@@ -31,6 +31,20 @@ public class Player extends MovingRectangle{
         super(width, height, body, gameScreen);
     }
 
+    @Override
+    public void addSensor() {
+        // Skapar sensor med följande form
+        PolygonShape shape = new PolygonShape();
+        //Narrower width than movingRectangle's sensor
+        shape.setAsBox((width / 2 - 10) / Const.PPM  , height / 16 / Const.PPM, new Vector2(0, -height/2 / Const.PPM), 0);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = shape;
+        fixtureDef.density = 0;
+        fixtureDef.isSensor = true;
+        this.body.createFixture(fixtureDef).setUserData(ContactType.PLAYERSENSOR);
+    }
+
     /**
      * Update method of player
      * Updates x and y positions
@@ -68,10 +82,6 @@ public class Player extends MovingRectangle{
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
             body.applyLinearImpulse(new Vector2(0, 15), body.getPosition(), true);
             jumpCounter ++;
-        }
-
-        if(body.getLinearVelocity().y == 0) {
-            jumpCounter = 0;
         }
         //Dash down
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
