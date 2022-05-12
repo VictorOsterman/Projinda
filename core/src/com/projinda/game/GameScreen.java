@@ -23,6 +23,7 @@ public class GameScreen extends ScreenAdapter {
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private World world;
+    private GameContactListener gameContactListener;
 
     //Game objects
     private Player player;
@@ -39,6 +40,9 @@ public class GameScreen extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0,-25),false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
+
+        gameContactListener = new GameContactListener(this);
+        world.setContactListener(gameContactListener);
 
         this.camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth()/2,Boot.INSTANCE.getScreenHeight()/2, 0));
 
