@@ -50,7 +50,15 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void updateCamera(){
-        camera.position.set(new Vector3(player.getX(),player.getY(),0));
+        if(player.getX() - Boot.INSTANCE.getScreenWidth() / 2 < 0){
+            camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth() / 2, player.getY(),0));
+        }else if (player.getX() + Boot.INSTANCE.getScreenWidth() / 2 > tiledMapHelper.getMapSize().x * tiledMapHelper.getTileSize().x ) {
+            camera.position.set(new Vector3(tiledMapHelper.getMapSize().x * tiledMapHelper.getTileSize().x - Boot.INSTANCE.getScreenWidth()/2, player.getY(),0));
+
+        }else{
+            camera.position.set(new Vector3(player.getX(),player.getY(),0));
+        }
+
         camera.update();
     }
 
@@ -86,7 +94,6 @@ public class GameScreen extends ScreenAdapter {
         }
 
         batch.end();
-
         //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
     }
 
