@@ -18,23 +18,15 @@ public class GameContactListener implements ContactListener {
         Fixture a = contact.getFixtureA();
         Fixture b = contact.getFixtureB();
 
-
-        if(a == null || b == null) return;
-        if(a.getUserData() == null || b.getUserData() == null) return;
-
-        // If any of the objects is the player
-        if(a.getUserData() == ContactType.PLAYER || b.getUserData() == ContactType.PLAYER) {
-            // If any of the objects is an enemy
-            if(a.getUserData() == ContactType.ENEMY || b.getUserData() == ContactType.ENEMY) {
-                // Reset the players position
-                gameScreen.getPlayer().setReset(true);
-            }
+        //If any of the involved objects is the player's sensor, the player is standing
+        // on something and the jump counter should be reset
+        if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
+            gameScreen.getPlayer().resetJumpCounter();
         }
     }
 
     @Override
     public void endContact(Contact contact) {
-
     }
 
     @Override

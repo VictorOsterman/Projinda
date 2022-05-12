@@ -59,6 +59,10 @@ public abstract class MovingRectangle {
 
         this.body = body;
 
+        addSensor();
+    }
+
+    public void addSensor() {
         // Skapar sensor med följande form
         PolygonShape shape = new PolygonShape();
         shape.setAsBox((width / 2 - 2) / Const.PPM  , height / 16 / Const.PPM, new Vector2(0, -height/2 / Const.PPM), 0);
@@ -68,7 +72,6 @@ public abstract class MovingRectangle {
         fixtureDef.density = 0;
         fixtureDef.isSensor = true;
         this.body.createFixture(fixtureDef).setUserData(ContactType.SENSOR);
-
     }
 
     /**
@@ -124,5 +127,9 @@ public abstract class MovingRectangle {
 
     public void setReset(boolean reset) {
         this.reset = reset;
+    }
+
+    public void resetJumpCounter() {
+        this.jumpCounter = 0;
     }
 }
