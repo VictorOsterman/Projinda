@@ -30,6 +30,8 @@ public class Player {
 
     private Texture texture;
 
+    private boolean reset;
+
     /**
      * Constructor for player
      * @param width width of the players body
@@ -64,13 +66,22 @@ public class Player {
         fixtureDef.density = 0;
         fixtureDef.isSensor = true;
         this.body.createFixture(fixtureDef).setUserData(ContactType.SENSOR);
+
+        this.reset = false;
     }
 
     /**
+     * Pause game for one second
      * Sets the players position to its start position
      */
-    public void reset() {
+    public void reset(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         this.body.setTransform(startX, startY, 0);
+        reset = false;
     }
 
     /**
@@ -78,7 +89,10 @@ public class Player {
      * Updates x and y positions
      * Listens to user input
      */
-    public void update() {
+    public void update(){
+        if(reset) {
+            reset();
+        }
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
 
@@ -148,5 +162,9 @@ public class Player {
 
     public Body getBody() {
         return body;
+    }
+
+    public void setReset(boolean reset) {
+        this.reset = reset;
     }
 }
