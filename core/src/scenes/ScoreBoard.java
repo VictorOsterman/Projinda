@@ -57,13 +57,20 @@ public class ScoreBoard {
         stage.addActor(table);
     }
 
-    public void update (float dt) {
+    public void update (float dt, int playerScore) {
+
         timeCount += dt;
         if(timeCount >= 1) {
             worldTimer --;
             countdownLabel.setText(String.format("%03d", worldTimer));
             timeCount = 0;
         }
+
+        if(score != playerScore) {
+            score = playerScore;
+            scoreLabel.setText(String.format("%04d", score));
+        }
+
     }
 
 

@@ -27,8 +27,11 @@ public class Player extends MovingRectangle{
      * @param height height of the players body
      * @param body body to be used by player
      */
+
+    private int score;
     public Player(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body, gameScreen);
+        score = 0;
     }
 
     @Override
@@ -93,4 +96,8 @@ public class Player extends MovingRectangle{
         if(Gdx.input.isKeyJustPressed(Input.Keys.D))
             velX *= 8;
     }
+
+    public int getScore() { return score; }
+    public void increaseScore(int newScore) { score = newScore; }
+
 }
