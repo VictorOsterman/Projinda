@@ -22,6 +22,8 @@ public class TiledMapHelper {
 
     private TiledMap tiledMap;
     private GameScreen gameScreen;
+    private Vector2 tileSize = new Vector2();
+    private Vector2 mapSize = new Vector2();
 
     public TiledMapHelper(GameScreen gameScreen){
         this.gameScreen = gameScreen;
@@ -30,6 +32,12 @@ public class TiledMapHelper {
     public OrthogonalTiledMapRenderer setupMap(){
         tiledMap = new TmxMapLoader().load("maps/map0.tmx");
         parseObjects(tiledMap.getLayers().get("Objects").getObjects());
+        tileSize.x = (int) tiledMap.getProperties().get("tilewidth");
+        tileSize.y = (int) tiledMap.getProperties().get("tileheight");
+
+        mapSize.x = (int) tiledMap.getProperties().get("width");
+        mapSize.y = (int) tiledMap.getProperties().get("height");
+
         return new OrthogonalTiledMapRenderer(tiledMap);
     }
 
@@ -84,5 +92,13 @@ public class TiledMapHelper {
         PolygonShape shape = new PolygonShape();
         shape.set(worldVertices);
         return shape;
+    }
+
+    public Vector2 getTileSize() {
+        return tileSize;
+    }
+
+    public Vector2 getMapSize() {
+        return mapSize;
     }
 }
