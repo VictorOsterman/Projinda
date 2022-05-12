@@ -65,7 +65,7 @@ public class TiledMapHelper {
                             gameScreen.getWorld(),
                             ContactType.PLAYER
                     );
-                    gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body));
+                    gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
                 }
                 //Check if the map object is an enemy
                 else if (rectangleName.equals("enemy")) {
