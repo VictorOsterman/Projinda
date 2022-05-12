@@ -23,7 +23,7 @@
    <polygon points="0,0 -1.16542,61.084 126.835,61.084 126.835,-2.91598"/>
   </object>
   <object id="7" x="0" y="576" visible="0">
-   <polygon points="0,0 0,64 1280,64 1280,0"/>
+   <polygon points="0,0 0,64 1920,64 1920,0"/>
   </object>
   <object id="9" name="player" x="850" y="100" width="62" height="62"/>
   <object id="16" name="enemy" x="256.077" y="319.802" width="60.1841" height="60.1841"/>
