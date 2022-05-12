@@ -13,7 +13,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import helper.Const;
 import helper.TiledMapHelper;
+import objects.Enemy;
 import objects.Player;
+
+import java.util.ArrayList;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -23,6 +26,7 @@ public class GameScreen extends ScreenAdapter {
 
     //Game objects
     private Player player;
+    private ArrayList<Enemy> enemies;
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TiledMapHelper tiledMapHelper;
@@ -30,6 +34,7 @@ public class GameScreen extends ScreenAdapter {
 
 
     public GameScreen(OrthographicCamera camera) {
+
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0,-25),false);
@@ -37,8 +42,10 @@ public class GameScreen extends ScreenAdapter {
 
         this.camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth()/2,Boot.INSTANCE.getScreenHeight()/2, 0));
 
+        enemies = new ArrayList<>();
         this.tiledMapHelper = new TiledMapHelper(this);
         this.orthogonalTiledMapRenderer = tiledMapHelper.setupMap();
+
 
     }
 
@@ -50,6 +57,10 @@ public class GameScreen extends ScreenAdapter {
     public void update(){
         world.step(1/60f, 6, 2);
         player.update();
+        for (Enemy enemy :
+                enemies) {
+            enemy.update();
+        }
         updateCamera();
 
         batch.setProjectionMatrix(camera.combined);
@@ -69,6 +80,10 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.render();
         batch.begin();
         player.render(batch);
+        for (Enemy enemy :
+                enemies) {
+            enemy.render(batch);
+        }
 
         batch.end();
 
@@ -81,5 +96,15 @@ public class GameScreen extends ScreenAdapter {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void addEnemy(Enemy enemy) {
+        if(enemy != null) {
+            enemies.add(enemy);
+        }
     }
 }
