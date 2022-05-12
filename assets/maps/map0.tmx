@@ -1,9 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="2" nextobjectid="1">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="20" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="8">
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer id="1" name="Tile Layer 1" width="20" height="10">
   <data encoding="base64" compression="zlib">
    eJxjYBgF9AZMUDzUzWJCw7RyFymAkcoYACDYAC0=
   </data>
  </layer>
+ <objectgroup id="3" name="Objects">
+  <object id="1" x="192" y="512">
+   <polygon points="0,0 256,0 256,-64 0,-64"/>
+  </object>
+  <object id="3" x="640" y="448">
+   <polygon points="0,0 0,64 128,64 128,0"/>
+  </object>
+  <object id="4" x="704" y="384">
+   <polygon points="0,0 0,64 128,64 128,0"/>
+  </object>
+  <object id="5" x="768" y="320">
+   <polygon points="0,0 0,64 128,64 128,0"/>
+  </object>
+  <object id="6" x="833.165" y="258.916">
+   <polygon points="0,0 -1.16542,61.084 126.835,61.084 126.835,-2.91598"/>
+  </object>
+  <object id="7" x="0" y="576">
+   <polygon points="0,0 0,64 1280,64 1280,0"/>
+  </object>
+ </objectgroup>
 </map>

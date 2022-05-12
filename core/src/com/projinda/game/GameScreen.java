@@ -36,7 +36,7 @@ public class GameScreen extends ScreenAdapter {
         this.player = new Player(this, Boot.INSTANCE.getScreenWidth()/2, 128);
         this.camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth()/2,Boot.INSTANCE.getScreenHeight()/2, 0));
 
-        this.tiledMapHelper = new TiledMapHelper();
+        this.tiledMapHelper = new TiledMapHelper(this);
         this.orthogonalTiledMapRenderer = tiledMapHelper.setupMap();
 
     }
@@ -77,6 +77,4 @@ public class GameScreen extends ScreenAdapter {
     public World getWorld() {
         return world;
     }
-
-
 }
