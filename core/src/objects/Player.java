@@ -16,33 +16,44 @@ import helper.ContactType;
 
 /**
  * Player class
- *
+ * Creates a player object and listens to user input.
  */
 public class Player {
     private Body body;
     private GameScreen gameScreen;
 
+    private float startX, startY;
     private float x, y, velX, velY, speed;
-    private int width, height;
+    private float width, height;
 
-    private boolean onGround;
+    private int jumpCounter;
 
     private Texture texture;
 
-    public Player(GameScreen gameScreen, float x, float y) {
-        this.x = x;
-        this.y = y;
-        this.gameScreen = gameScreen;
+    /**
+     * Constructor for player
+     * @param width width of the players body
+     * @param height height of the players body
+     * @param body body to be used by player
+     */
+    public Player(float width, float height, Body body) {
+        this.startX = body.getPosition().x;
+        this.startY = body.getPosition().y;
+
+        this.x = body.getPosition().x;
+        this.y = body.getPosition().y;
 
         this.speed = 10;
         this.velX = 0;
         this.velY = 0;
 
         this.texture = new Texture("badlogic.jpg");
-        this.width = 40;
-        this.height = 60;
+        this.width = width;
+        this.height = height;
 
-        this.body = BodyHelper.createBody(x, y, width, height, false, 0, this.gameScreen.getWorld(), ContactType.PLAYER);
+        this.jumpCounter = 0;
+
+        this.body = body;
 
         // Skapar sensor med följande form
         PolygonShape shape = new PolygonShape();
@@ -55,10 +66,18 @@ public class Player {
         this.body.createFixture(fixtureDef).setUserData(ContactType.SENSOR);
     }
 
+    /**
+     * Sets the players position to its start position
+     */
     public void reset() {
-        this.body.setTransform(Boot.INSTANCE.getScreenHeight() / 2 / Const.PPM, Boot.INSTANCE.getScreenHeight() / 2 / Const.PPM, 0);
+        this.body.setTransform(startX, startY, 0);
     }
 
+    /**
+     * Update method of player
+     * Updates x and y positions
+     * Listens to user input
+     */
     public void update() {
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
@@ -67,46 +86,56 @@ public class Player {
         // Removing this will result in player "gliding"
         velX = 0;
 
-        // Apply gravity
-        //body.applyForceToCenter(0, -50, true);
-
-        //Walk right
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            velX = 1;
-
-        //Walk left
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            velX = -1;
-
-        //Jump up
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && onGround == true)
-            body.applyForceToCenter(0, 1500, true);
-
-        //Dash down
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            body.applyForceToCenter(0, -1500, true);
-
-        //Reset
-        if(Gdx.input.isKeyPressed(Input.Keys.R))
-            reset();
-
-        //Run
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
-            velX *= 1.5;
-
-        //Dash to side
-        if(Gdx.input.isKeyJustPressed(Input.Keys.D))
-            velX *= 8;
+        manageUserInput();
 
         body.setLinearVelocity(velX*speed, body.getLinearVelocity().y);
     }
 
-    public void render(SpriteBatch batch) {
-        batch.draw(texture, x, y, width, height);
+    /**
+     * Listens to user input
+     *
+     * KEY - ACTION
+     * RIGHT - WALKS RIGHT
+     * LEFT - WALKS LEFT
+     * UP - JUMPS UP
+     * DOWN - DASHES DOWNWARDS
+     * R - RESETS PLAYER
+     * SPACE - RUNS
+     * D - DASHES
+     */
+    private void manageUserInput() {
+        //Walk right
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+            velX = 1;
+        //Walk left
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+            velX = -1;
+        //Jump up
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCounter < 2) {
+            body.setLinearVelocity(body.getLinearVelocity().x, 0);
+            body.applyLinearImpulse(new Vector2(0, 15), body.getPosition(), true);
+            jumpCounter ++;
+        }
+
+        if(body.getLinearVelocity().y == 0) {
+            jumpCounter = 0;
+        }
+        //Dash down
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+            body.applyForceToCenter(0, -1500, true);
+        //Reset
+        if(Gdx.input.isKeyPressed(Input.Keys.R))
+            reset();
+        //Run
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
+            velX *= 1.5;
+        //Dash to side
+        if(Gdx.input.isKeyJustPressed(Input.Keys.D))
+            velX *= 8;
     }
 
-    public void setOnGround(boolean onGround) {
-        this.onGround = onGround;
+    public void render(SpriteBatch batch) {
+        batch.draw(texture, x, y, width, height);
     }
 
     public float getX() {
@@ -115,5 +144,9 @@ public class Player {
 
     public float getY() {
         return y;
+    }
+
+    public Body getBody() {
+        return body;
     }
 }
