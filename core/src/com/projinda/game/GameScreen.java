@@ -29,6 +29,7 @@ public class GameScreen extends ScreenAdapter {
     //Game objects
     private Player player;
     private ArrayList<MovingRectangle> movingRectangles;
+    private ArrayList<MoneyItems> moneyItems;
     private ArrayList<Safe> safes;
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
@@ -51,6 +52,7 @@ public class GameScreen extends ScreenAdapter {
         this.camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth()/2,Boot.INSTANCE.getScreenHeight()/2, 0));
 
         movingRectangles = new ArrayList<>();
+        moneyItems = new ArrayList<>();
         safes = new ArrayList<>();
         this.tiledMapHelper = new TiledMapHelper(this);
         this.orthogonalTiledMapRenderer = tiledMapHelper.setupMap();
@@ -129,6 +131,20 @@ public class GameScreen extends ScreenAdapter {
         if(movingRectangle != null) {
             movingRectangles.add(movingRectangle);
         }
+    }
+
+    public void addMoneyItem(MoneyItems moneyItem) {
+        moneyItems.add(moneyItem);
+    }
+
+    public MoneyItems getMatchingMoneyItem(float x, float y) {
+        for (MoneyItems moneyItem: moneyItems) {
+            if(x*Const.PPM == moneyItem.getX() + moneyItem.getWidth()/2 && y*Const.PPM == moneyItem.getY() + moneyItem.getHeight() / 2) {
+                return moneyItem;
+            }
+        }
+        Gdx.app.log("No matching money item found", "");
+        return null;
     }
 
     public void addSafe(Safe safe) {
