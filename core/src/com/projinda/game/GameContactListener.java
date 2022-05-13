@@ -46,6 +46,12 @@ public class GameContactListener implements ContactListener {
             }
         }
 
+        if(a.getUserData() == ContactType.PLAYER || b.getUserData() == ContactType.PLAYER) {
+            if(a.getUserData() == ContactType.ENEMY || b.getUserData() == ContactType.ENEMY) {
+                gameScreen.getPlayer().lowerLives();
+                //gameScreen.getPlayer().reset();
+            }
+        }
 
     }
 

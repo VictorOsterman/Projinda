@@ -24,8 +24,8 @@ public class ScoreBoard {
     Label countdownLabel;
     Label scoreLabel;
     Label timeLabel;
-    Label levelLabel;
-    Label worldLabel;
+    Label livesLabel;
+    Label livesDescLabel;
     Label playerLabel;
 
     public ScoreBoard(SpriteBatch sb) {
@@ -44,16 +44,16 @@ public class ScoreBoard {
         countdownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel = new Label(String.format("%04d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel = new Label(String.format("%01d", lives), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("Lives:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        livesLabel = new Label(String.format("%01d", lives), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        livesDescLabel = new Label("Lives:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         playerLabel = new Label("Score", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(playerLabel).expandX().padTop(10);
-        table.add(worldLabel).expandX().padTop(10);
+        table.add(livesDescLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.row();
         table.add(scoreLabel).expandX();
-        table.add(levelLabel).expandX();
+        table.add(livesLabel).expandX();
         table.add(countdownLabel).expandX();
 
         stage.addActor(table);
@@ -75,7 +75,7 @@ public class ScoreBoard {
 
         if(lives != playerLives) {
             lives = playerLives;
-            scoreLabel.setText(String.format("%04d", lives));
+            livesLabel.setText(String.format("%01d", lives));
         }
 
     }

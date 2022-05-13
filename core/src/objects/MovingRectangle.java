@@ -81,11 +81,6 @@ public abstract class MovingRectangle {
      * Sets the players position to its start position
      */
     public void reset(){
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         this.body.setTransform(startX, startY, 0);
         reset = false;
     }
@@ -130,6 +125,8 @@ public abstract class MovingRectangle {
     public float getWidth() { return width; }
     public float getHeight() { return height; }
     public int getLives() { return lives; }
+
+    public void lowerLives() { lives--; }
 
     public Body getBody() {
         return body;
