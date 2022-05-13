@@ -1,6 +1,7 @@
 package objects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.projinda.game.GameScreen;
 
@@ -42,6 +43,7 @@ public class MovingPlatform extends MovingRectangle{
         }
 
         this.body.setGravityScale(0);    //Remove gravity from floating Platform
+        this.texture = new Texture("steel.png");
     }
 
     @Override
