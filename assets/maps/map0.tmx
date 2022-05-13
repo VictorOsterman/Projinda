@@ -27,7 +27,7 @@
   </object>
   <object id="9" name="player" x="850" y="0" width="62" height="62"/>
   <object id="16" name="enemy" x="256.077" y="319.802" width="60.1841" height="60.1841"/>
-  <object id="17" name="enemy" x="1090.39" y="449.611" width="61.3642" height="125.089"/>
+  <object id="17" name="enemy" x="1090.39" y="449.611" width="128" height="128"/>
   <object id="16" x="1280" y="640">
    <polygon points="0,0 640,0 640,-64 0,-64"/>
   </object>

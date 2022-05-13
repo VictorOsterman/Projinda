@@ -1,5 +1,6 @@
 package objects;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.projinda.game.GameScreen;
 
@@ -19,6 +20,7 @@ public class Enemy extends MovingRectangle{
         super(width, height, body, gameScreen);
         velX = 0;
         speed = 5;
+        this.texture = new Texture("cop.png");
     }
 
     @Override
