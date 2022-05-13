@@ -40,8 +40,10 @@ public abstract class MovingRectangle {
     public MovingRectangle(float width, float height, Body body, GameScreen gameScreen) {
         this.gameScreen = gameScreen;
 
-        this.startX = body.getPosition().x;
-        this.startY = body.getPosition().y;
+        //this.startX = body.getPosition().x;
+        //this.startY = body.getPosition().y;
+        this.startX = body.getPosition().x * Const.PPM - (width / 2);
+        this.startY = body.getPosition().y * Const.PPM - (height / 2);
 
         this.x = body.getPosition().x;
         this.y = body.getPosition().y;
@@ -58,8 +60,6 @@ public abstract class MovingRectangle {
         this.reset = false;
 
         this.body = body;
-
-        addSensor();
     }
 
     public void addSensor() {
@@ -97,7 +97,7 @@ public abstract class MovingRectangle {
 
         // Reset velX, when user stops moving the player instantly stops
         // Removing this will result in player "gliding"
-        velX = 0;
+        //velX = 0;
 
         manageUserInput();
     }
@@ -120,6 +120,13 @@ public abstract class MovingRectangle {
     public float getY() {
         return y;
     }
+
+    public float getVelX() { return velX; }
+
+    public float getSpeed() { return speed; }
+
+    public float getWidth() { return width; }
+    public float getHeight() { return height; }
 
     public Body getBody() {
         return body;

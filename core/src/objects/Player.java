@@ -29,9 +29,13 @@ public class Player extends MovingRectangle{
      */
 
     private int score;
+    private boolean onPlatform;
+    private MovingPlatform movingPlatform;
     public Player(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body, gameScreen);
-        score = 0;
+        this.score = 0;
+        this.onPlatform = false;
+        addSensor();
     }
 
     @Override
@@ -55,7 +59,12 @@ public class Player extends MovingRectangle{
      */
     @Override
     public void update(){
+        velX = 0;
         super.update();
+        // If the player is standing on a platform, the platforms velocity is the player's "base velocity"
+        if(onPlatform) {
+            velX += movingPlatform.getVelX();
+        }
         body.setLinearVelocity(velX*speed, body.getLinearVelocity().y);
     }
 
@@ -99,5 +108,14 @@ public class Player extends MovingRectangle{
 
     public int getScore() { return score; }
     public void increaseScore(int newScore) { score = newScore; }
+
+    public void setOnPlatform(MovingPlatform movingPlatform) {
+        this.movingPlatform = movingPlatform;
+        this.onPlatform = true;
+    }
+
+    public void setOnPlatform(boolean onPlatform) {
+        this.onPlatform = onPlatform;
+    }
 
 }

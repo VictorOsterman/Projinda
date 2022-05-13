@@ -17,6 +17,7 @@ public class Enemy extends MovingRectangle{
      */
     public Enemy(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body, gameScreen);
+        velX = 0;
         speed = 5;
     }
 
