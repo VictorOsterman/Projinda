@@ -100,13 +100,13 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.render();
         batch.begin();
         player.render(batch);
-        for (MovingRectangle enemy :
+        for (MovingRectangle movingRectangle :
                 movingRectangles) {
-            enemy.render(batch);
+            movingRectangle.render(batch);
         }
-        for (Safe safe :
-                safes) {
-            safe.render(batch);
+        for (MoneyItems moneyItem :
+                moneyItems) {
+            moneyItem.render(batch);
         }
 
         batch.end();
@@ -139,7 +139,7 @@ public class GameScreen extends ScreenAdapter {
 
     public MoneyItems getMatchingMoneyItem(float x, float y) {
         for (MoneyItems moneyItem: moneyItems) {
-            if(x*Const.PPM == moneyItem.getX() + moneyItem.getWidth()/2 && y*Const.PPM == moneyItem.getY() + moneyItem.getHeight() / 2) {
+            if(x == moneyItem.getX() && y == moneyItem.getY()) {
                 return moneyItem;
             }
         }

@@ -98,7 +98,7 @@ public class TiledMapHelper {
                             gameScreen.getWorld(),
                             ContactType.SAFE
                     );
-                    gameScreen.addSafe(new Safe(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
+                    gameScreen.addMoneyItem(new Safe(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
                 }
                 // Check if the map object is a moving platform
                 else if (rectangleName.contains("movingplatform")) {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import helper.ContactType;
 import objects.MovingPlatform;
+import objects.Safe;
 
 /**
  * The game's contact listener
@@ -25,8 +26,13 @@ public class GameContactListener implements ContactListener {
         if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
             gameScreen.getPlayer().resetJumpCounter();
             if(a.getUserData() == ContactType.SAFE || b.getUserData() == ContactType.SAFE) {
+                Fixture safe = b;
+                if(a.getUserData() == ContactType.SAFE) {
+                    safe = a;
+                }
                 // Player is standing on safe, recieve money from the safe.
-                gameScreen.getMatchingSafe().collect();
+                ((Safe) gameScreen.getMatchingMoneyItem(safe.getBody().getPosition().x, safe.getBody().getPosition().y)).collect();
+                //gameScreen.getMatchingSafe().collect();
                 Gdx.app.log("Safe in contact", "");
             }
             else if(a.getUserData() == ContactType.MOVINGPLATFORM || b.getUserData() == ContactType.MOVINGPLATFORM) {
