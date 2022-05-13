@@ -29,7 +29,7 @@ public class GameScreen extends ScreenAdapter {
     //Game objects
     private Player player;
     private ArrayList<MovingRectangle> movingRectangles;
-    private ArrayList<Safe> safes;
+    private ArrayList<MoneyItems> moneyItems;
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TiledMapHelper tiledMapHelper;
@@ -51,7 +51,7 @@ public class GameScreen extends ScreenAdapter {
         this.camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth()/2,Boot.INSTANCE.getScreenHeight()/2, 0));
 
         movingRectangles = new ArrayList<>();
-        safes = new ArrayList<>();
+        moneyItems = new ArrayList<>();
         this.tiledMapHelper = new TiledMapHelper(this);
         this.orthogonalTiledMapRenderer = tiledMapHelper.setupMap();
 
@@ -98,13 +98,13 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.render();
         batch.begin();
         player.render(batch);
-        for (MovingRectangle enemy :
+        for (MovingRectangle movingRectangle :
                 movingRectangles) {
-            enemy.render(batch);
+            movingRectangle.render(batch);
         }
-        for (Safe safe :
-                safes) {
-            safe.render(batch);
+        for (MoneyItems moneyItem :
+                moneyItems) {
+            moneyItem.render(batch);
         }
 
         batch.end();
@@ -131,15 +131,26 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-    public void addSafe(Safe safe) {
-        safes.add(safe);
+    public void addMoneyItem(MoneyItems moneyItem) {
+        moneyItems.add(moneyItem);
     }
 
-
-    public Safe getMatchingSafe() {
-        return safes.get(0);
+    /**
+     * Finds moneyItem corresponding to fixture's coordinates
+     * @param x coordinate of fixture
+     * @param y coordinate of fixture
+     * @return corresponding money item
+     */
+    public MoneyItems getMatchingMoneyItem(float x, float y) {
+        for (MoneyItems moneyItem: moneyItems) {
+            if(x == moneyItem.getX() && y == moneyItem.getY()) {
+                return moneyItem;
+            }
+        }
+        Gdx.app.log("No matching money item found", "");
+        return null;
     }
-
+    
     /**
      * Find which rectangle a player has collided with by finding rectangle with correct position
      * @param x x-coordinate of fixture collided with

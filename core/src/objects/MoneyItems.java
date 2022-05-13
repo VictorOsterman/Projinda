@@ -59,6 +59,22 @@ public abstract class MoneyItems {
      */
     public void changeTexture() {}
 
+    public float getX() {
+        return x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
     public void render(SpriteBatch batch) {
         batch.draw(texture, x * Const.PPM - width/2, y * Const.PPM - height/2, width, height);
     }
