@@ -26,6 +26,7 @@ public class Enemy extends MovingRectangle{
     @Override
     public void update() {
         super.update();
+        velX = 0;
 
         moveAccordingToPlayer();
 

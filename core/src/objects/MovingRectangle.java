@@ -89,6 +89,10 @@ public abstract class MovingRectangle {
         if(reset) {
             reset();
         }
+        // rectangle is below point of return, will never get back, lower life.
+        if(y < -300) {
+            rectangleFallen();
+        }
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
 
@@ -127,6 +131,20 @@ public abstract class MovingRectangle {
     public int getLives() { return lives; }
 
     public void lowerLives() { lives--; }
+
+    public void rectangleFallen() {
+        lowerLives();
+        if(lives <= 0) {
+            handleDeath();
+        }
+    }
+
+    /**
+     * Default should be that the object "dissapears"
+     */
+    public void handleDeath() {
+
+    }
 
     public Body getBody() {
         return body;
