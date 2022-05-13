@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.projinda.game.GameScreen;
 import objects.Enemy;
+import objects.MovingPlatform;
 import objects.Player;
 import objects.Safe;
 
@@ -63,6 +64,7 @@ public class TiledMapHelper {
                             rectangle.getWidth(),
                             rectangle.getHeight(),
                             false,
+                            0,
                             gameScreen.getWorld(),
                             ContactType.PLAYER
                     );
@@ -77,10 +79,11 @@ public class TiledMapHelper {
                             rectangle.getWidth(),
                             rectangle.getHeight(),
                             false,
+                            0,
                             gameScreen.getWorld(),
                             ContactType.ENEMY
                     );
-                    gameScreen.addEnemy(new Enemy(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
+                    gameScreen.addMovingRectangle(new Enemy(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
                 }
                 // Check if the map object is a safe
                 else if (rectangleName.equals("safe")) {
@@ -91,10 +94,31 @@ public class TiledMapHelper {
                             rectangle.getWidth(),
                             rectangle.getHeight(),
                             true,
+                            0,
                             gameScreen.getWorld(),
                             ContactType.SAFE
                     );
                     gameScreen.addSafe(new Safe(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
+                }
+                // Check if the map object is a moving platform
+                else if (rectangleName.contains("movingplatform")) {
+                    int direction = 2;
+                    if (rectangleName.contains("side"))
+                        direction = 0;
+                    else if(rectangleName.contains("up"))
+                        direction = 1;
+                    //Create a body with correct posistion and size
+                    Body body = BodyHelper.createBody(
+                            rectangle.getX() + rectangle.getWidth() / 2,
+                            rectangle.getY() + rectangle.getHeight() / 2,
+                            rectangle.getWidth(),
+                            rectangle.getHeight(),
+                            false,
+                            99999999,   // Makes the platform "immovable" in collisions
+                            gameScreen.getWorld(),
+                            ContactType.MOVINGPLATFORM
+                    );
+                    gameScreen.addMovingRectangle(new MovingPlatform(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen, direction));
                 }
             }
         }

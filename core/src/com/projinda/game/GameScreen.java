@@ -12,10 +12,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import helper.Const;
+import helper.ContactType;
 import helper.TiledMapHelper;
-import objects.Enemy;
-import objects.Player;
-import objects.Safe;
+import objects.*;
 import scenes.ScoreBoard;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class GameScreen extends ScreenAdapter {
 
     //Game objects
     private Player player;
-    private ArrayList<Enemy> enemies;
+    private ArrayList<MovingRectangle> movingRectangles;
     private ArrayList<Safe> safes;
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
@@ -51,7 +50,7 @@ public class GameScreen extends ScreenAdapter {
 
         this.camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth()/2,Boot.INSTANCE.getScreenHeight()/2, 0));
 
-        enemies = new ArrayList<>();
+        movingRectangles = new ArrayList<>();
         safes = new ArrayList<>();
         this.tiledMapHelper = new TiledMapHelper(this);
         this.orthogonalTiledMapRenderer = tiledMapHelper.setupMap();
@@ -76,8 +75,8 @@ public class GameScreen extends ScreenAdapter {
         world.step(1/60f, 6, 2);
         player.update();
         scoreBoard.update(dt, player.getScore());
-        for (Enemy enemy :
-                enemies) {
+        for (MovingRectangle enemy :
+                movingRectangles) {
             enemy.update();
         }
         updateCamera();
@@ -99,8 +98,8 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.render();
         batch.begin();
         player.render(batch);
-        for (Enemy enemy :
-                enemies) {
+        for (MovingRectangle enemy :
+                movingRectangles) {
             enemy.render(batch);
         }
         for (Safe safe :
@@ -126,9 +125,9 @@ public class GameScreen extends ScreenAdapter {
         return player;
     }
 
-    public void addEnemy(Enemy enemy) {
-        if(enemy != null) {
-            enemies.add(enemy);
+    public void addMovingRectangle(MovingRectangle movingRectangle) {
+        if(movingRectangle != null) {
+            movingRectangles.add(movingRectangle);
         }
     }
 
@@ -136,7 +135,24 @@ public class GameScreen extends ScreenAdapter {
         safes.add(safe);
     }
 
+
     public Safe getMatchingSafe() {
         return safes.get(0);
+    }
+
+    /**
+     * Find which rectangle a player has collided with by finding rectangle with correct position
+     * @param x x-coordinate of fixture collided with
+     * @param y y-coordinate of fixture collided with
+     * @return movingRectangle collided with
+     */
+    public MovingRectangle getMatchingRectangle(float x, float y) {
+        for (MovingRectangle movingRectangle: movingRectangles) {
+            if(x*Const.PPM == movingRectangle.getX() + movingRectangle.getWidth()/2 && y*Const.PPM == movingRectangle.getY() + movingRectangle.getHeight() / 2) {
+                return movingRectangle;
+            }
+        }
+        Gdx.app.log("No matching platform found", "");
+        return null;
     }
 }

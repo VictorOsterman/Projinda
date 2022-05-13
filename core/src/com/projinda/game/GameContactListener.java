@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import helper.ContactType;
+import objects.MovingPlatform;
 
 /**
  * The game's contact listener
@@ -28,12 +29,32 @@ public class GameContactListener implements ContactListener {
                 gameScreen.getMatchingSafe().collect();
                 Gdx.app.log("Safe in contact", "");
             }
+            else if(a.getUserData() == ContactType.MOVINGPLATFORM || b.getUserData() == ContactType.MOVINGPLATFORM) {
+                Fixture platform = b;
+                if(a.getUserData() == ContactType.MOVINGPLATFORM) {
+                    platform = a;
+                }
+                // Player is standing on platform, find platform and set player's platform to this platform
+                MovingPlatform movingPlatform = (MovingPlatform) gameScreen.getMatchingRectangle(platform.getBody().getPosition().x, platform.getBody().getPosition().y);
+                gameScreen.getPlayer().setOnPlatform(movingPlatform);
+            }
         }
+
 
     }
 
     @Override
     public void endContact(Contact contact) {
+        Fixture a = contact.getFixtureA();
+        Fixture b = contact.getFixtureB();
+
+        if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
+            gameScreen.getPlayer().resetJumpCounter();
+            if(a.getUserData() == ContactType.MOVINGPLATFORM || b.getUserData() == ContactType.MOVINGPLATFORM) {
+                // Player is no longer standing on platform, set boolean onPlatform to false
+                gameScreen.getPlayer().setOnPlatform(false);
+            }
+        }
     }
 
     @Override
