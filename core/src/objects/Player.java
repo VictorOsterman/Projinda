@@ -35,6 +35,7 @@ public class Player extends MovingRectangle{
         super(width, height, body, gameScreen);
         this.score = 0;
         this.onPlatform = false;
+        this.texture = new Texture("player.png");
         addSensor();
     }
 
