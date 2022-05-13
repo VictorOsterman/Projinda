@@ -30,7 +30,7 @@ public class GameContactListener implements ContactListener {
                 if(a.getUserData() == ContactType.SAFE) {
                     safe = a;
                 }
-                // Player is standing on safe, recieve money from the safe.
+                // Player is standing on safe, find safe and retrieve money.
                 ((Safe) gameScreen.getMatchingMoneyItem(safe.getBody().getPosition().x, safe.getBody().getPosition().y)).collect();
                 //gameScreen.getMatchingSafe().collect();
                 Gdx.app.log("Safe in contact", "");

@@ -30,7 +30,6 @@ public class GameScreen extends ScreenAdapter {
     private Player player;
     private ArrayList<MovingRectangle> movingRectangles;
     private ArrayList<MoneyItems> moneyItems;
-    private ArrayList<Safe> safes;
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TiledMapHelper tiledMapHelper;
@@ -53,7 +52,6 @@ public class GameScreen extends ScreenAdapter {
 
         movingRectangles = new ArrayList<>();
         moneyItems = new ArrayList<>();
-        safes = new ArrayList<>();
         this.tiledMapHelper = new TiledMapHelper(this);
         this.orthogonalTiledMapRenderer = tiledMapHelper.setupMap();
 
@@ -137,6 +135,12 @@ public class GameScreen extends ScreenAdapter {
         moneyItems.add(moneyItem);
     }
 
+    /**
+     * Finds moneyItem corresponding to fixture's coordinates
+     * @param x coordinate of fixture
+     * @param y coordinate of fixture
+     * @return corresponding money item
+     */
     public MoneyItems getMatchingMoneyItem(float x, float y) {
         for (MoneyItems moneyItem: moneyItems) {
             if(x == moneyItem.getX() && y == moneyItem.getY()) {
@@ -146,16 +150,7 @@ public class GameScreen extends ScreenAdapter {
         Gdx.app.log("No matching money item found", "");
         return null;
     }
-
-    public void addSafe(Safe safe) {
-        safes.add(safe);
-    }
-
-
-    public Safe getMatchingSafe() {
-        return safes.get(0);
-    }
-
+    
     /**
      * Find which rectangle a player has collided with by finding rectangle with correct position
      * @param x x-coordinate of fixture collided with
