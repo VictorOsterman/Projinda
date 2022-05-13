@@ -37,6 +37,7 @@ public class Player extends MovingRectangle{
         this.onPlatform = false;
         this.texture = new Texture("player.png");
         addSensor();
+        this.lives = 3;
     }
 
     @Override

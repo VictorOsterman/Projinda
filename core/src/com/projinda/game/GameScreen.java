@@ -74,7 +74,7 @@ public class GameScreen extends ScreenAdapter {
     public void update(float dt){
         world.step(1/60f, 6, 2);
         player.update();
-        scoreBoard.update(dt, player.getScore());
+        scoreBoard.update(dt, player.getScore(), player.getLives());
         for (MovingRectangle enemy :
                 movingRectangles) {
             enemy.update();

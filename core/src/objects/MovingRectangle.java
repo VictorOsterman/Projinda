@@ -26,6 +26,7 @@ public abstract class MovingRectangle {
     protected float width, height;
 
     protected int jumpCounter;
+    protected int lives;
 
     protected Texture texture;
 
@@ -60,6 +61,7 @@ public abstract class MovingRectangle {
         this.reset = false;
 
         this.body = body;
+        this.lives = 1;
     }
 
     public void addSensor() {
@@ -127,6 +129,7 @@ public abstract class MovingRectangle {
 
     public float getWidth() { return width; }
     public float getHeight() { return height; }
+    public int getLives() { return lives; }
 
     public Body getBody() {
         return body;
