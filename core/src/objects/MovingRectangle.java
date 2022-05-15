@@ -31,6 +31,7 @@ public abstract class MovingRectangle {
     protected Texture texture;
 
     private boolean reset;
+    private boolean isDead;
 
     /**
      * Constructor for moving rectangle
@@ -59,6 +60,7 @@ public abstract class MovingRectangle {
 
         this.jumpCounter = 0;
         this.reset = false;
+        this.isDead = false;
 
         this.body = body;
         this.lives = 1;
@@ -81,13 +83,13 @@ public abstract class MovingRectangle {
      * Sets the players position to its start position
      */
     public void reset(){
-        this.body.setTransform(startX, startY, 0);
+        this.body.setTransform(startX / Const.PPM, startY / Const.PPM, 0);
         reset = false;
     }
 
     public void update() {
-        if(reset) {
-            reset();
+        if(isDead) {
+            handleDeath();
         }
         // rectangle is below point of return, will never get back, lower life.
         if(y < -300) {
@@ -130,10 +132,7 @@ public abstract class MovingRectangle {
     public float getHeight() { return height; }
     public int getLives() { return lives; }
 
-    public void lowerLives() { lives--; }
-
     public void rectangleFallen() {
-        lowerLives();
         if(lives <= 0) {
             handleDeath();
         }
@@ -143,8 +142,12 @@ public abstract class MovingRectangle {
      * Default should be that the object "dissapears"
      */
     public void handleDeath() {
-
+        lives--;
+        reset();
+        isDead = false;
     }
+
+    public void setIsDead(boolean isDead) { this.isDead = isDead; }
 
     public Body getBody() {
         return body;

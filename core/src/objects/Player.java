@@ -85,6 +85,9 @@ public class Player extends MovingRectangle{
     @Override
     public void manageUserInput() {
         super.manageUserInput();
+        //Temporary reset button
+        if(Gdx.input.isKeyJustPressed(Input.Keys.G))
+            reset();
         //Walk right
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             velX = 1;
