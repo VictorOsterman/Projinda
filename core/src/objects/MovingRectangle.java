@@ -85,13 +85,12 @@ public abstract class MovingRectangle {
     }
 
     public void update() {
-        if(isDead) {
+
+        //If the player has died or 
+        if(isDead || y < -300) {
             handleDeath();
         }
-        // rectangle is below point of return, will never get back, lower life.
-        if(y < -300) {
-            rectangleFallen();
-        }
+
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
 
