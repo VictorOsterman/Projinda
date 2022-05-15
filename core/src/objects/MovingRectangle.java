@@ -30,7 +30,6 @@ public abstract class MovingRectangle {
 
     protected Texture texture;
 
-    private boolean reset;
     private boolean isDead;
 
     /**
@@ -59,7 +58,6 @@ public abstract class MovingRectangle {
         this.height = height;
 
         this.jumpCounter = 0;
-        this.reset = false;
         this.isDead = false;
 
         this.body = body;
@@ -84,7 +82,6 @@ public abstract class MovingRectangle {
      */
     public void reset(){
         this.body.setTransform(startX / Const.PPM, startY / Const.PPM, 0);
-        reset = false;
     }
 
     public void update() {
@@ -151,10 +148,6 @@ public abstract class MovingRectangle {
 
     public Body getBody() {
         return body;
-    }
-
-    public void setReset(boolean reset) {
-        this.reset = reset;
     }
 
     public void resetJumpCounter() {
