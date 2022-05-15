@@ -20,6 +20,10 @@ public class Enemy extends MovingRectangle{
         super(width, height, body, gameScreen);
         velX = 0;
         speed = 5;
+        //TANKE
+        // Dumt att ändra speed variabeln
+        // Borde: låt moving rectangle ha en variabel velocity.
+        // I update: sätt velocity*velX och velocity*velY istället.cd 
         this.texture = new Texture("cop.png");
     }
 
