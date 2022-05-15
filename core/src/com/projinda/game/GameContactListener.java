@@ -21,34 +21,33 @@ public class GameContactListener implements ContactListener {
         Fixture a = contact.getFixtureA();
         Fixture b = contact.getFixtureB();
 
+
         //If any of the involved objects is the player's sensor, the player is standing
         // on something and the jump counter should be reset
         if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
             gameScreen.getPlayer().resetJumpCounter();
+
+            Fixture notPlayer = b;
+            if(b.getUserData() == ContactType.PLAYER) {
+                notPlayer = a;
+            }
+
             if(a.getUserData() == ContactType.SAFE || b.getUserData() == ContactType.SAFE) {
-                Fixture safe = b;
-                if(a.getUserData() == ContactType.SAFE) {
-                    safe = a;
-                }
                 // Player is standing on safe, find safe and retrieve money.
-                ((Safe) gameScreen.getMatchingMoneyItem(safe.getBody().getPosition().x, safe.getBody().getPosition().y)).collect();
+                ((Safe) gameScreen.getMatchingMoneyItem(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y)).collect();
                 //gameScreen.getMatchingSafe().collect();
                 Gdx.app.log("Safe in contact", "");
             }
             else if(a.getUserData() == ContactType.MOVINGPLATFORM || b.getUserData() == ContactType.MOVINGPLATFORM) {
-                Fixture platform = b;
-                if(a.getUserData() == ContactType.MOVINGPLATFORM) {
-                    platform = a;
-                }
                 // Player is standing on platform, find platform and set player's platform to this platform
-                MovingPlatform movingPlatform = (MovingPlatform) gameScreen.getMatchingRectangle(platform.getBody().getPosition().x, platform.getBody().getPosition().y);
+                MovingPlatform movingPlatform = (MovingPlatform) gameScreen.getMatchingRectangle(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y);
                 gameScreen.getPlayer().setOnPlatform(movingPlatform);
             }
         }
 
         if(a.getUserData() == ContactType.PLAYER || b.getUserData() == ContactType.PLAYER) {
             if(a.getUserData() == ContactType.ENEMY || b.getUserData() == ContactType.ENEMY) {
-                gameScreen.getPlayer().setIsDead(true);       //Gör detta utanför denna fil, skicka in i någon resetklass
+                gameScreen.getPlayer().setIsDead(true);       //Player has died
             }
         }
 

@@ -86,7 +86,7 @@ public abstract class MovingRectangle {
 
     public void update() {
 
-        //If the player has died or 
+        //If the player has died or fallen below y = -300
         if(isDead || y < -300) {
             handleDeath();
         }
@@ -135,7 +135,8 @@ public abstract class MovingRectangle {
     }
 
     /**
-     * Default should be that the object "dissapears"
+     * Object has "died"
+     * Lower lives by one, reset position to start.
      */
     public void handleDeath() {
         lives--;
