@@ -22,14 +22,15 @@ public abstract class MovingRectangle {
     protected GameScreen gameScreen;
 
     protected float startX, startY;
-    protected float x, y, velX, velY, speed;
+    protected float x, y, directionX, directionY, speedLevel, speed;
     protected float width, height;
 
     protected int jumpCounter;
+    protected int lives;
 
     protected Texture texture;
 
-    private boolean reset;
+    private boolean isDead;
 
     /**
      * Constructor for moving rectangle
@@ -49,17 +50,19 @@ public abstract class MovingRectangle {
         this.y = body.getPosition().y;
 
         this.speed = 10;
-        this.velX = 0;
-        this.velY = 0;
+        this.directionX = 0;
+        this.directionY = 0;
+        this.speedLevel = 1;
 
         this.texture = new Texture("badlogic.jpg");
         this.width = width;
         this.height = height;
 
         this.jumpCounter = 0;
-        this.reset = false;
+        this.isDead = false;
 
         this.body = body;
+        this.lives = 1;
     }
 
     public void addSensor() {
@@ -79,25 +82,22 @@ public abstract class MovingRectangle {
      * Sets the players position to its start position
      */
     public void reset(){
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        this.body.setTransform(startX, startY, 0);
-        reset = false;
+        this.body.setTransform(startX / Const.PPM, startY / Const.PPM, 0);
     }
 
     public void update() {
-        if(reset) {
-            reset();
+
+        //If the player has died or fallen below y = -300
+        if(isDead || y < -300) {
+            handleDeath();
         }
+
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
 
-        // Reset velX, when user stops moving the player instantly stops
+        // Reset directionX, when user stops moving the player instantly stops
         // Removing this will result in player "gliding"
-        //velX = 0;
+        //directionX = 0;
 
         manageUserInput();
     }
@@ -121,19 +121,34 @@ public abstract class MovingRectangle {
         return y;
     }
 
-    public float getVelX() { return velX; }
+    public float getDirectionX() { return directionX; }
 
     public float getSpeed() { return speed; }
 
     public float getWidth() { return width; }
     public float getHeight() { return height; }
+    public int getLives() { return lives; }
+
+    public void rectangleFallen() {
+        if(lives <= 0) {
+            handleDeath();
+        }
+    }
+
+    /**
+     * Object has "died"
+     * Lower lives by one, reset position to start.
+     */
+    public void handleDeath() {
+        lives--;
+        reset();
+        isDead = false;
+    }
+
+    public void setIsDead(boolean isDead) { this.isDead = isDead; }
 
     public Body getBody() {
         return body;
-    }
-
-    public void setReset(boolean reset) {
-        this.reset = reset;
     }
 
     public void resetJumpCounter() {

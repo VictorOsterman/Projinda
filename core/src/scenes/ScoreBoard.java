@@ -19,18 +19,20 @@ public class ScoreBoard {
     private Integer worldTimer;
     private float timeCount;
     private Integer score;
+    private Integer lives;
 
     Label countdownLabel;
     Label scoreLabel;
     Label timeLabel;
-    Label levelLabel;
-    Label worldLabel;
+    Label livesLabel;
+    Label livesDescLabel;
     Label playerLabel;
 
     public ScoreBoard(SpriteBatch sb) {
         worldTimer = 300;
         timeCount = 0;
         score = 0;
+        lives = 3;
 
         viewport = new FitViewport(Boot.INSTANCE.getScreenWidth(), Boot.INSTANCE.getScreenHeight(), new OrthographicCamera());
         stage = new Stage(viewport, sb);
@@ -42,22 +44,22 @@ public class ScoreBoard {
         countdownLabel = new Label(String.format("%03d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         scoreLabel = new Label(String.format("%04d", score), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        levelLabel = new Label("& POLIS", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        worldLabel = new Label("TJUV", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        livesLabel = new Label(String.format("%01d", lives), new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+        livesDescLabel = new Label("Lives:", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         playerLabel = new Label("Score", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
 
         table.add(playerLabel).expandX().padTop(10);
-        table.add(worldLabel).expandX().padTop(10);
+        table.add(livesDescLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.row();
         table.add(scoreLabel).expandX();
-        table.add(levelLabel).expandX();
+        table.add(livesLabel).expandX();
         table.add(countdownLabel).expandX();
 
         stage.addActor(table);
     }
 
-    public void update (float dt, int playerScore) {
+    public void update (float dt, int playerScore, int playerLives) {
 
         timeCount += dt;
         if(timeCount >= 1) {
@@ -69,6 +71,11 @@ public class ScoreBoard {
         if(score != playerScore) {
             score = playerScore;
             scoreLabel.setText(String.format("%04d", score));
+        }
+
+        if(lives != playerLives) {
+            lives = playerLives;
+            livesLabel.setText(String.format("%01d", lives));
         }
 
     }

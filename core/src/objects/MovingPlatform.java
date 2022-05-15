@@ -19,8 +19,6 @@ import com.projinda.game.GameScreen;
 public class MovingPlatform extends MovingRectangle{
 
 
-    // Moves with its own velocity
-    private float velocity;
     /**
      * Constructor for moving rectangle
      *
@@ -31,15 +29,15 @@ public class MovingPlatform extends MovingRectangle{
      */
     public MovingPlatform(float width, float height, Body body, GameScreen gameScreen, int direction) {
         super(width, height, body, gameScreen);
-        this.velocity = 0.3F;
+        this.speedLevel = 0.3F;
         // Set direction of platform
         if (direction == 0)
-            this.velX = velocity;
+            this.directionX = 1;
         else if (direction == 1)
-            this.velY = velocity;
+            this.directionY = 1;
         else {
-            this.velX = velocity;
-            this.velY = velocity;
+            this.directionX = 1;
+            this.directionY = 1;
         }
 
         this.body.setGravityScale(0);    //Remove gravity from floating Platform
@@ -50,7 +48,7 @@ public class MovingPlatform extends MovingRectangle{
     public void update(){
         super.update();
         updatePlatformVelocity();
-        body.setLinearVelocity(velX*speed, velY*speed);
+        body.setLinearVelocity(directionX*speedLevel*speed, directionY*speedLevel*speed);
     }
 
     /**
@@ -58,14 +56,14 @@ public class MovingPlatform extends MovingRectangle{
      */
     public void updatePlatformVelocity() {
         if(x > startX + width) {
-            velX = -velocity;
+            directionX = -1;
         } else if(x < startX - width) {
-            velX = velocity;
+            directionX = 1;
         }
         if(y > startY + width) {
-            velY = -velocity;
+            directionY = -1;
         } else if(y < startY - width) {
-            velY = velocity;
+            directionY = 1;
         }
     }
 
