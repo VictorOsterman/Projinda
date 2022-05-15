@@ -56,13 +56,15 @@ public class GameContactListener implements ContactListener {
             }
             if(a.getUserData() == ContactType.ENEMY || b.getUserData() == ContactType.ENEMY) {
                 // Player is in contact with enemy.
-                // If player is on the enemy, the enemy is like a platform
-                // If player is not on the enemy, the player dies.
-
+                // If the player is not standing on the enemy it should die.
+                // Meaning, if the players lowest y is below enemy's highest y
                 // Get the matching enemy
                 Enemy enemy = (Enemy) gameScreen.getMatchingRectangle(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y);
-                //gameScreen.getPlayer().setOnRectangle(enemy);
-                //gameScreen.getPlayer().setIsDead(true);       //Player has died
+
+                //If the player's bottom y is below enemy's bottom y (+30) and the player is not dashing downards, the player is killed by the enemy
+                if(gameScreen.getPlayer().getY() < enemy.getY() + 30 && gameScreen.getPlayer().getBody().getLinearVelocity().y > -100) {
+                    gameScreen.getPlayer().setIsDead(true);
+                }
             }
         }
 
@@ -80,7 +82,6 @@ public class GameContactListener implements ContactListener {
                 gameScreen.getPlayer().setOnRectangle(false);
             }
             else if(a.getUserData() == ContactType.ENEMY || b.getUserData() == ContactType.ENEMY) {
-                Gdx.app.log("player not on enemy", "");
                 gameScreen.getPlayer().setOnRectangle(false);
             }
         }

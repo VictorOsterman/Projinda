@@ -64,9 +64,8 @@ public class Player extends MovingRectangle{
         directionX = 0;
         super.update();
         float velocityX = directionX*speedLevel;
-        // If the player is standing on a platform, the platforms velocity is the player's "base velocity"
+        // If the player is standing on a platform, the platform's velocity is the player's "base velocity"
         if(onRectangle) {
-            Gdx.app.log("player is still on rectangle", "");
             velocityX = directionX*speedLevel + movingRectangle.directionX* movingRectangle.speedLevel;
         }
         body.setLinearVelocity(velocityX*speed, body.getLinearVelocity().y);
@@ -125,4 +124,7 @@ public class Player extends MovingRectangle{
         this.onRectangle = onRectangle;
     }
 
+    public boolean isOnRectangle() {
+        return onRectangle;
+    }
 }

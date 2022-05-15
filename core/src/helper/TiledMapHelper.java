@@ -79,7 +79,7 @@ public class TiledMapHelper {
                             rectangle.getWidth(),
                             rectangle.getHeight(),
                             false,
-                            0,
+                            99999999,
                             gameScreen.getWorld(),
                             ContactType.ENEMY
                     );
