@@ -22,7 +22,7 @@ public abstract class MovingRectangle {
     protected GameScreen gameScreen;
 
     protected float startX, startY;
-    protected float x, y, velX, velY, speed;
+    protected float x, y, directionX, directionY, speedLevel, speed;
     protected float width, height;
 
     protected int jumpCounter;
@@ -50,8 +50,9 @@ public abstract class MovingRectangle {
         this.y = body.getPosition().y;
 
         this.speed = 10;
-        this.velX = 0;
-        this.velY = 0;
+        this.directionX = 0;
+        this.directionY = 0;
+        this.speedLevel = 1;
 
         this.texture = new Texture("badlogic.jpg");
         this.width = width;
@@ -94,9 +95,9 @@ public abstract class MovingRectangle {
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
 
-        // Reset velX, when user stops moving the player instantly stops
+        // Reset directionX, when user stops moving the player instantly stops
         // Removing this will result in player "gliding"
-        //velX = 0;
+        //directionX = 0;
 
         manageUserInput();
     }
@@ -120,7 +121,7 @@ public abstract class MovingRectangle {
         return y;
     }
 
-    public float getVelX() { return velX; }
+    public float getDirectionX() { return directionX; }
 
     public float getSpeed() { return speed; }
 

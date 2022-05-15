@@ -61,14 +61,15 @@ public class Player extends MovingRectangle{
      */
     @Override
     public void update(){
-        velX = 0;
+        directionX = 0;
         super.update();
+        float velocityX = directionX*speedLevel;
         // If the player is standing on a platform, the platforms velocity is the player's "base velocity"
         if(onRectangle) {
             Gdx.app.log("player is still on rectangle", "");
-            velX += movingRectangle.getVelX();
+            velocityX = directionX*speedLevel + movingRectangle.directionX* movingRectangle.speedLevel;
         }
-        body.setLinearVelocity(velX*speed, body.getLinearVelocity().y);
+        body.setLinearVelocity(velocityX*speed, body.getLinearVelocity().y);
     }
 
     /**
@@ -91,10 +92,10 @@ public class Player extends MovingRectangle{
             reset();
         //Walk right
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            velX = 1;
+            directionX = 1;
         //Walk left
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            velX = -1;
+            directionX = -1;
         //Jump up
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCounter < 2) {
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
@@ -106,10 +107,10 @@ public class Player extends MovingRectangle{
             body.applyForceToCenter(0, -1500, true);
         //Run
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
-            velX *= 1.5;
+            directionX *= 1.5;
         //Dash to side
         if(Gdx.input.isKeyJustPressed(Input.Keys.D))
-            velX *= 8;
+            directionX *= 8;
     }
 
     public int getScore() { return score; }
