@@ -31,6 +31,7 @@ public class Player extends MovingRectangle{
     private int score;
     private boolean onRectangle;
     private MovingRectangle movingRectangle;
+    private int moving; //Used to make player stop when not moving, allows directionX to still be 1 or -1 in order to create bullets
     public Player(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body, gameScreen);
         this.score = 0;
@@ -38,6 +39,7 @@ public class Player extends MovingRectangle{
         this.texture = new Texture("player.png");
         addSensor();
         this.lives = 3;
+        moving = 0;
     }
 
     @Override
@@ -61,14 +63,14 @@ public class Player extends MovingRectangle{
      */
     @Override
     public void update(){
-        directionX = 0;
+        moving = 0;
         super.update();
         float velocityX = directionX*speedLevel;
         // If the player is standing on a platform, the platform's velocity is the player's "base velocity"
         if(onRectangle) {
             velocityX = directionX*speedLevel + movingRectangle.directionX* movingRectangle.speedLevel;
         }
-        body.setLinearVelocity(velocityX*speed, body.getLinearVelocity().y);
+        body.setLinearVelocity(moving*velocityX*speed, body.getLinearVelocity().y);
     }
 
     /**
@@ -90,11 +92,17 @@ public class Player extends MovingRectangle{
         if(Gdx.input.isKeyJustPressed(Input.Keys.G))
             reset();
         //Walk right
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             directionX = 1;
+            moving = 1;
+        }
+
         //Walk left
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT))
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             directionX = -1;
+            moving = 1;
+        }
+
         //Jump up
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCounter < 2) {
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
@@ -110,6 +118,11 @@ public class Player extends MovingRectangle{
         //Dash to side
         if(Gdx.input.isKeyJustPressed(Input.Keys.D))
             directionX *= 8;
+
+        //Shoot bullet
+        if(Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+
+        }
     }
 
     public int getScore() { return score; }
