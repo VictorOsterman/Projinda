@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="17">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="49">
  <tileset firstgid="1" source="tiles.tsx"/>
  <layer id="1" name="Tile Layer 1" width="30" height="10">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowAVMEHxqJ2UmYvNfEJ24tM7mADjAGEAPjQAPw==
+   eJxjYBgFtAKpdLaPCQlTwxx6Anx2MjFQz2/E2kkNc7GZT8hOcTQ8WAHjAGEADG4BBg==
   </data>
  </layer>
  <objectgroup id="3" name="Objects">
@@ -20,11 +20,22 @@
    <polygon points="0,0 0,64 128,64 128,0"/>
   </object>
   <object id="7" x="0" y="576" visible="0">
-   <polygon points="0,0 0,64 1280,64 1280,0"/>
+   <polygon points="0,0 0,64 1920,64 1920,0"/>
   </object>
-  <object id="9" name="player" x="850" y="100" width="62" height="62"/>
-  <object id="16" x="832" y="256">
-   <polygon points="0,0 0,64 128,64 128,0 0,0"/>
+  <object id="9" name="player" x="850" y="0" width="62" height="62"/>
+  <object id="16" name="enemy" x="256.077" y="319.802" width="60.1841" height="60.1841"/>
+  <object id="17" name="enemy" x="1090.39" y="449.611" width="128" height="128"/>
+  <object id="16" x="1280" y="640">
+   <polygon points="0,0 640,0 640,-64 0,-64"/>
   </object>
+  <object id="17" x="1472" y="384">
+   <polygon points="0,0 0,-64 -256,-64 -256,0"/>
+  </object>
+  <object id="39" x="1599.01" y="189.993">
+   <polygon points="0,0 1.18008,63.7243 191.173,63.7243 191.173,3.54024"/>
+  </object>
+  <object id="42" name="safe" x="1728.82" y="129.809" width="61.3642" height="62.5443"/>
+  <object id="43" name="movingplatformside" x="800" y="128.629" width="191.173" height="62.5443"/>
+  <object id="44" name="movingplatformup" x="1400" y="3.54024" width="191.173" height="60.1841"/>
  </objectgroup>
 </map>

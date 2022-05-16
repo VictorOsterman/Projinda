@@ -1,0 +1,23 @@
+* [32mmaster[m
+  [31mremotes/origin/CreatePlatforms[m
+  [31mremotes/origin/CreateTiledMap[m
+  [31mremotes/origin/CreateWorld[m
+  [31mremotes/origin/HEAD[m -> origin/master
+  [31mremotes/origin/ImproveCameraPos[m
+  [31mremotes/origin/ImproveMap[m
+  [31mremotes/origin/addCollisionHandling[m
+  [31mremotes/origin/addContactType[m
+  [31mremotes/origin/addGettersPlayer[m
+  [31mremotes/origin/addScoreItems[m
+  [31mremotes/origin/createConst[m
+  [31mremotes/origin/createContactTypes[m
+  [31mremotes/origin/createEnemies[m
+  [31mremotes/origin/createPackages[m
+  [31mremotes/origin/createPlayer[m
+  [31mremotes/origin/createScoreBoard[m
+  [31mremotes/origin/getWorld[m
+  [31mremotes/origin/improveCollisionHandling[m
+  [31mremotes/origin/master[m
+  [31mremotes/origin/parsePlayerObjects[m
+  [31mremotes/origin/playerExtendMovingRectangle[m
+  [31mremotes/origin/removeGetWorldMethod[m

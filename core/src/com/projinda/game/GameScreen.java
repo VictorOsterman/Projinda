@@ -12,34 +12,50 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import helper.Const;
+import helper.ContactType;
 import helper.TiledMapHelper;
-import objects.Player;
+import objects.*;
+import scenes.ScoreBoard;
+
+import java.util.ArrayList;
 
 public class GameScreen extends ScreenAdapter {
 
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private World world;
+    private GameContactListener gameContactListener;
 
     //Game objects
     private Player player;
+    private ArrayList<MovingRectangle> movingRectangles;
+    private ArrayList<MoneyItems> moneyItems;
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TiledMapHelper tiledMapHelper;
     private Box2DDebugRenderer box2DDebugRenderer;
 
+    private ScoreBoard scoreBoard;
+
 
     public GameScreen(OrthographicCamera camera) {
+
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0,-25),false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
 
+        gameContactListener = new GameContactListener(this);
+        world.setContactListener(gameContactListener);
+
         this.camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth()/2,Boot.INSTANCE.getScreenHeight()/2, 0));
 
+        movingRectangles = new ArrayList<>();
+        moneyItems = new ArrayList<>();
         this.tiledMapHelper = new TiledMapHelper(this);
         this.orthogonalTiledMapRenderer = tiledMapHelper.setupMap();
 
+        scoreBoard = new ScoreBoard(batch);
     }
 
     private void updateCamera(){
@@ -55,9 +71,14 @@ public class GameScreen extends ScreenAdapter {
         camera.update();
     }
 
-    public void update(){
+    public void update(float dt){
         world.step(1/60f, 6, 2);
         player.update();
+        scoreBoard.update(dt, player.getScore(), player.getLives());
+        for (MovingRectangle enemy :
+                movingRectangles) {
+            enemy.update();
+        }
         updateCamera();
 
         batch.setProjectionMatrix(camera.combined);
@@ -70,16 +91,26 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta){
-        update();
+        update(delta);
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         orthogonalTiledMapRenderer.render();
         batch.begin();
         player.render(batch);
+        for (MovingRectangle movingRectangle :
+                movingRectangles) {
+            movingRectangle.render(batch);
+        }
+        for (MoneyItems moneyItem :
+                moneyItems) {
+            moneyItem.render(batch);
+        }
 
         batch.end();
         //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+        batch.setProjectionMatrix(scoreBoard.stage.getCamera().combined);
+        scoreBoard.stage.draw();
     }
 
     public World getWorld() {
@@ -88,5 +119,51 @@ public class GameScreen extends ScreenAdapter {
 
     public void setPlayer(Player player) {
         this.player = player;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void addMovingRectangle(MovingRectangle movingRectangle) {
+        if(movingRectangle != null) {
+            movingRectangles.add(movingRectangle);
+        }
+    }
+
+    public void addMoneyItem(MoneyItems moneyItem) {
+        moneyItems.add(moneyItem);
+    }
+
+    /**
+     * Finds moneyItem corresponding to fixture's coordinates
+     * @param x coordinate of fixture
+     * @param y coordinate of fixture
+     * @return corresponding money item
+     */
+    public MoneyItems getMatchingMoneyItem(float x, float y) {
+        for (MoneyItems moneyItem: moneyItems) {
+            if(x == moneyItem.getX() && y == moneyItem.getY()) {
+                return moneyItem;
+            }
+        }
+        Gdx.app.log("No matching money item found", "");
+        return null;
+    }
+    
+    /**
+     * Find which rectangle a player has collided with by finding rectangle with correct position
+     * @param x x-coordinate of fixture collided with
+     * @param y y-coordinate of fixture collided with
+     * @return movingRectangle collided with
+     */
+    public MovingRectangle getMatchingRectangle(float x, float y) {
+        for (MovingRectangle movingRectangle: movingRectangles) {
+            if(x*Const.PPM == movingRectangle.getX() + movingRectangle.getWidth()/2 && y*Const.PPM == movingRectangle.getY() + movingRectangle.getHeight() / 2) {
+                return movingRectangle;
+            }
+        }
+        Gdx.app.log("No matching platform found", "");
+        return null;
     }
 }
