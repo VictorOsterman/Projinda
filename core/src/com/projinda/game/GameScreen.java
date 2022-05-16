@@ -59,14 +59,37 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void updateCamera(){
-        if(player.getX() - Boot.INSTANCE.getScreenWidth() / 2 < 0){
-            camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth() / 2, player.getY(),0));
-        }else if (player.getX() + Boot.INSTANCE.getScreenWidth() / 2 > tiledMapHelper.getMapSize().x * tiledMapHelper.getTileSize().x ) {
-            camera.position.set(new Vector3(tiledMapHelper.getMapSize().x * tiledMapHelper.getTileSize().x - Boot.INSTANCE.getScreenWidth()/2, player.getY(),0));
+        if(player.getY() - tiledMapHelper.getTileSize().y*5 < 0){
+            if(player.getX() - Boot.INSTANCE.getScreenWidth() / 2 < 0){
+                camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth() / 2, tiledMapHelper.getTileSize().y*5,0));
+            }else if (player.getX() + Boot.INSTANCE.getScreenWidth() / 2 > tiledMapHelper.getMapSize().x * tiledMapHelper.getTileSize().x ) {
+                camera.position.set(new Vector3(tiledMapHelper.getMapSize().x * tiledMapHelper.getTileSize().x - Boot.INSTANCE.getScreenWidth()/2, tiledMapHelper.getTileSize().y*5,0));
 
+            }else{
+                camera.position.set(new Vector3(player.getX(),tiledMapHelper.getTileSize().y*5,0));
+            }
+        }else if(player.getY() + tiledMapHelper.getTileSize().y*5 > tiledMapHelper.getMapSize().y*tiledMapHelper.getTileSize().y){
+            float yPos = tiledMapHelper.getMapSize().y*tiledMapHelper.getTileSize().y - tiledMapHelper.getTileSize().y*5;
+
+            if(player.getX() - Boot.INSTANCE.getScreenWidth() / 2 < 0){
+                camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth() / 2, yPos,0));
+            }else if (player.getX() + Boot.INSTANCE.getScreenWidth() / 2 > tiledMapHelper.getMapSize().x * tiledMapHelper.getTileSize().x ) {
+                camera.position.set(new Vector3(tiledMapHelper.getMapSize().x * tiledMapHelper.getTileSize().x - Boot.INSTANCE.getScreenWidth()/2, yPos,0));
+
+            }else{
+                camera.position.set(new Vector3(player.getX(),yPos,0));
+            }
         }else{
-            camera.position.set(new Vector3(player.getX(),player.getY(),0));
+            if(player.getX() - Boot.INSTANCE.getScreenWidth() / 2 < 0){
+                camera.position.set(new Vector3(Boot.INSTANCE.getScreenWidth() / 2, player.getY(),0));
+            }else if (player.getX() + Boot.INSTANCE.getScreenWidth() / 2 > tiledMapHelper.getMapSize().x * tiledMapHelper.getTileSize().x ) {
+                camera.position.set(new Vector3(tiledMapHelper.getMapSize().x * tiledMapHelper.getTileSize().x - Boot.INSTANCE.getScreenWidth()/2, player.getY(),0));
+
+            }else{
+                camera.position.set(new Vector3(player.getX(),player.getY(),0));
+            }
         }
+
 
         camera.update();
     }
