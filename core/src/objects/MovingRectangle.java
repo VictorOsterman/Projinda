@@ -13,6 +13,8 @@ import helper.BodyHelper;
 import helper.Const;
 import helper.ContactType;
 
+import java.util.ArrayList;
+
 /**
  * Abstract class used for player and enemies
  */
@@ -31,6 +33,8 @@ public abstract class MovingRectangle {
     protected Texture texture;
 
     private boolean isDead;
+
+    protected ArrayList<Bullet> bullets;
 
     /**
      * Constructor for moving rectangle
@@ -63,6 +67,8 @@ public abstract class MovingRectangle {
 
         this.body = body;
         this.lives = 1;
+
+        bullets = new ArrayList<>();
     }
 
     public void addSensor() {

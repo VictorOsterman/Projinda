@@ -98,9 +98,9 @@ public class GameScreen extends ScreenAdapter {
         world.step(1/60f, 6, 2);
         player.update();
         scoreBoard.update(dt, player.getScore(), player.getLives());
-        for (MovingRectangle enemy :
+        for (MovingRectangle movingRectangle :
                 movingRectangles) {
-            enemy.update();
+            movingRectangle.update();
         }
         updateCamera();
 
