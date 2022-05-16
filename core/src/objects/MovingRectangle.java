@@ -34,8 +34,6 @@ public abstract class MovingRectangle {
 
     private boolean isDead;
 
-    protected ArrayList<Bullet> bullets;
-
     /**
      * Constructor for moving rectangle
      * @param width width of the players body
@@ -67,8 +65,6 @@ public abstract class MovingRectangle {
 
         this.body = body;
         this.lives = 1;
-
-        bullets = new ArrayList<>();
     }
 
     public void addSensor() {
@@ -106,15 +102,8 @@ public abstract class MovingRectangle {
         //directionX = 0;
 
         manageUserInput();
-        updateBullets();
     }
 
-    public void updateBullets() {
-        for (Bullet bullet :
-                bullets) {
-            bullet.update();
-        }
-    }
 
     public void manageUserInput() {
         //Reset
@@ -124,14 +113,6 @@ public abstract class MovingRectangle {
 
     public void render(SpriteBatch batch) {
         batch.draw(texture, x, y, width, height);
-        renderBullets(batch);
-    }
-
-    public void renderBullets(SpriteBatch batch) {
-        for (Bullet bullet :
-                bullets) {
-            bullet.render(batch);
-        }
     }
 
 
