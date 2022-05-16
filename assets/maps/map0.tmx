@@ -19,9 +19,6 @@
   <object id="5" x="768" y="320">
    <polygon points="0,0 0,64 128,64 128,0"/>
   </object>
-  <object id="6" x="833.165" y="258.916">
-   <polygon points="0,0 -1.16542,61.084 126.835,61.084 126.835,-2.91598"/>
-  </object>
   <object id="7" x="0" y="576" visible="0">
    <polygon points="0,0 0,64 1920,64 1920,0"/>
   </object>
