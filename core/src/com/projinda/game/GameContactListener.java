@@ -61,6 +61,10 @@ public class GameContactListener implements ContactListener {
                 // Get the matching enemy
                 Enemy enemy = (Enemy) gameScreen.getMatchingRectangle(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y);
 
+                // Fixes bug when player is below enemy outside camera's scope
+                if(enemy == null)
+                    return;
+
                 //If the player's bottom y is below enemy's bottom y (+30) and the player is not dashing downards, the player is killed by the enemy
                 if(gameScreen.getPlayer().getY() < enemy.getY() + 30 && gameScreen.getPlayer().getBody().getLinearVelocity().y > -100) {
                     gameScreen.getPlayer().setIsDead(true);
