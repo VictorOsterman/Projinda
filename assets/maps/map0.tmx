@@ -1,53 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="30" height="10" tilewidth="64" tileheight="64" infinite="0" nextlayerid="4" nextobjectid="58">
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="45" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="62">
  <tileset firstgid="1" source="tiles.tsx"/>
- <layer id="1" name="Tile Layer 1" width="30" height="10">
+ <layer id="1" name="Tile Layer 1" width="45" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFtAKpdLaPCQlTwxx6Anx2MjFQz2/E2kkNc7GZT8hOcTQ8WAHjAGEADG4BBg==
+   eJxjYBgFww2kDrQDyABMSHgUjIJRMAqGGmBiGC3HRgEEDLU0MOpe2oLB6t7RMot2gHEIYgC4awC5
   </data>
  </layer>
  <objectgroup id="3" name="Objects">
-  <object id="1" x="192" y="512">
+  <object id="1" x="192" y="1146.38">
    <polygon points="0,0 256,0 256,-64 0,-64"/>
   </object>
-  <object id="3" x="640" y="448">
+  <object id="3" x="640" y="1024">
    <polygon points="0,0 0,64 128,64 128,0"/>
   </object>
-  <object id="4" x="704" y="384">
+  <object id="4" x="704" y="960">
    <polygon points="0,0 0,64 128,64 128,0"/>
   </object>
-  <object id="5" x="768" y="320">
+  <object id="5" x="768" y="896">
    <polygon points="0,0 0,64 128,64 128,0"/>
   </object>
-  <object id="7" x="0" y="576" visible="0">
-   <polygon points="0,0 0,64 1920,64 1920,0"/>
-  </object>
-  <object id="9" name="player" x="850" y="0" width="62" height="62"/>
-  <object id="16" name="enemy" x="256.077" y="319.802" width="60.1841" height="60.1841"/>
-  <object id="17" name="enemy" x="1090.39" y="449.611" width="128" height="128"/>
-  <object id="16" x="1280" y="640">
-   <polygon points="0,0 640,0 640,-64 0,-64"/>
-  </object>
-  <object id="17" x="1472" y="384">
+  <object id="9" name="player" x="832" y="768" width="62" height="62"/>
+  <object id="16" name="enemy" x="256" y="960" width="60.1841" height="60.1841"/>
+  <object id="17" name="enemy" x="1024" y="1088" width="128" height="128"/>
+  <object id="17" x="1344" y="704">
    <polygon points="0,0 0,-64 -256,-64 -256,0"/>
   </object>
-  <object id="39" x="1599.01" y="189.993">
+  <object id="39" x="1728" y="192">
    <polygon points="0,0 1.18008,63.7243 191.173,63.7243 191.173,3.54024"/>
   </object>
-  <object id="42" name="safe" x="1728.82" y="129.809" width="61.3642" height="62.5443"/>
-  <object id="43" name="movingplatformside" x="800" y="128.629" width="191.173" height="62.5443"/>
-  <object id="44" name="movingplatformup" x="1400" y="3.54024" width="191.173" height="60.1841"/>
-  <object id="49" x="832" y="256">
+  <object id="42" name="safe" x="1728" y="128" width="61.3642" height="62.5443"/>
+  <object id="43" name="movingplatformside" x="384" y="704" width="191.173" height="62.5443"/>
+  <object id="44" name="movingplatformup" x="1472" y="576" width="191.173" height="60.1841"/>
+  <object id="49" x="832" y="832">
    <polygon points="0,0 128,0 128,64 0,64"/>
   </object>
-  <object id="50" x="1920" y="640">
-   <polygon points="0,0 0,-640 12.8942,-640 14.9527,-3.93578"/>
+  <object id="58" x="0" y="1280">
+   <polygon points="0,0 0,-1280 -9.98602,-1280 -8.33264,-2.60645"/>
   </object>
-  <object id="56" x="0" y="640">
-   <polygon points="0,0 0,-640 -11.8453,-640 -10.9992,-6.27464"/>
+  <object id="59" x="2880" y="0">
+   <polygon points="0,0 0,1280 23.5401,1279.64 15.8927,0"/>
   </object>
-  <object id="57" x="0" y="0">
-   <polygon points="0,0 1920,0 1919.79,-14.3836 -2.53829,-13.5375"/>
+  <object id="60" x="0" y="0">
+   <polygon points="0,0 2880,0 2882.22,-21.1461 -3.55661,-14.2264"/>
+  </object>
+  <object id="61" x="2880" y="1280">
+   <polygon points="0,0 0,-64 -2880,-64 -2880,0"/>
   </object>
  </objectgroup>
 </map>
