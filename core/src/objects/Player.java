@@ -14,6 +14,8 @@ import helper.Const;
 import helper.BodyHelper;
 import helper.ContactType;
 
+import java.util.ArrayList;
+
 /**
  * Player class, extends MovingRectangle class
  * Creates a player object and listens to user input.
@@ -32,6 +34,8 @@ public class Player extends MovingRectangle{
     private boolean onRectangle;
     private MovingRectangle movingRectangle;
     private int moving; //Used to make player stop when not moving, allows directionX to still be 1 or -1 in order to create bullets
+
+    private ArrayList<Bullet> bullets;
     public Player(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body, gameScreen);
         this.score = 0;
@@ -40,6 +44,8 @@ public class Player extends MovingRectangle{
         addSensor();
         this.lives = 3;
         moving = 0;
+
+        bullets = new ArrayList<>();
     }
 
     @Override
@@ -121,7 +127,18 @@ public class Player extends MovingRectangle{
 
         //Shoot bullet
         if(Gdx.input.isKeyJustPressed(Input.Keys.P)) {
-
+            //Create the bullets body
+            Body body = BodyHelper.createBody(
+                    x+width/2+directionX*(width/2),
+                    y+height/2,
+                    20,
+                    10,
+                    false,
+                    99999999,
+                    gameScreen.getWorld(),
+                    ContactType.PLAYERBULLET
+            );
+            bullets.add(new Bullet(body, gameScreen, directionX));
         }
     }
 
