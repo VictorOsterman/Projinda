@@ -106,6 +106,14 @@ public abstract class MovingRectangle {
         //directionX = 0;
 
         manageUserInput();
+        updateBullets();
+    }
+
+    public void updateBullets() {
+        for (Bullet bullet :
+                bullets) {
+            bullet.update();
+        }
     }
 
     public void manageUserInput() {
@@ -116,6 +124,14 @@ public abstract class MovingRectangle {
 
     public void render(SpriteBatch batch) {
         batch.draw(texture, x, y, width, height);
+        renderBullets(batch);
+    }
+
+    public void renderBullets(SpriteBatch batch) {
+        for (Bullet bullet :
+                bullets) {
+            bullet.render(batch);
+        }
     }
 
 
