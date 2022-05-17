@@ -149,6 +149,22 @@ public abstract class MovingRectangle {
         isDead = false;
     }
 
+    protected void generateCoin() {
+        //Create the bullets body
+        Body body = BodyHelper.createBody(
+                //x+width/2+directionX*(width/2),
+                x+width/2,
+                y+height/2,
+                64,
+                64,
+                false,
+                99999999,
+                gameScreen.getWorld(),
+                ContactType.COIN
+        );
+        gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
+    }
+
     public void setIsDead(boolean isDead) { this.isDead = isDead; }
 
     public Body getBody() {

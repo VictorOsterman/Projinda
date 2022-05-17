@@ -107,7 +107,7 @@ public class GameScreen extends ScreenAdapter {
         }
         for (int i = 0; i < moneyItems.size(); i++) {
             if(!moneyItems.get(i).getIsStatic())
-                moneyItems.get(i).update();
+                moneyItemscd .get(i).update();
         }
         updateCamera();
 

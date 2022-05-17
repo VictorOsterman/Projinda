@@ -56,9 +56,10 @@ public abstract class MoneyItems {
         if(this.body == null)
             return;
 
-        //If the player has died or fallen below y = -300
+        // If the coin is collected
         if(collected) {
             removeMoneyItem();
+            gameScreen.getWorld().destroyBody(this.body);
         }
 
         x = body.getPosition().x * Const.PPM - (width / 2);

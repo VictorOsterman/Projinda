@@ -4,10 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import helper.ContactType;
-import objects.Bullet;
-import objects.Enemy;
-import objects.MovingPlatform;
-import objects.Safe;
+import objects.*;
 
 /**
  * The game's contact listener
@@ -70,6 +67,12 @@ public class GameContactListener implements ContactListener {
                 if(gameScreen.getPlayer().getY() < enemy.getY() + 30 && gameScreen.getPlayer().getBody().getLinearVelocity().y > -100) {
                     gameScreen.getPlayer().setIsDead(true);
                 }
+            }
+            if(a.getUserData() == ContactType.COIN || b.getUserData() == ContactType.COIN) {
+                // Player is in contact with coin
+                Coin coin = ((Coin) gameScreen.getMatchingMoneyItem(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y));
+                if(coin != null)
+                    coin.collect();
             }
         }
 
