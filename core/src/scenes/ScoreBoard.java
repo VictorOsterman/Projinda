@@ -21,6 +21,8 @@ public class ScoreBoard {
     private Integer score;
     private Integer lives;
 
+    private boolean newSecond;
+
     Label countdownLabel;
     Label scoreLabel;
     Label timeLabel;
@@ -57,6 +59,8 @@ public class ScoreBoard {
         table.add(countdownLabel).expandX();
 
         stage.addActor(table);
+
+        newSecond = false;
     }
 
     public void update (float dt, int playerScore, int playerLives) {
@@ -66,6 +70,10 @@ public class ScoreBoard {
             worldTimer --;
             countdownLabel.setText(String.format("%03d", worldTimer));
             timeCount = 0;
+            newSecond = true;
+        }
+        else {
+            newSecond = false;
         }
 
         if(score != playerScore) {
@@ -83,4 +91,6 @@ public class ScoreBoard {
     public Integer getWorldTimer() {
         return worldTimer;
     }
+
+    public boolean isNewSecond() { return newSecond; }
 }
