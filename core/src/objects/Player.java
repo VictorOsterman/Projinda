@@ -71,13 +71,15 @@ public class Player extends MovingRectangle{
     public void update(){
         moving = 0;
         super.update();
-        float velocityX = directionX*speedLevel;
+        float velocityX = moving*directionX*speedLevel;
         // If the player is standing on a platform, the platform's velocity is the player's "base velocity"
         if(onRectangle) {
-            if(this.movingRectangle != null)
-                velocityX = directionX*speedLevel + movingRectangle.directionX* movingRectangle.speedLevel;
+            //Gdx.app.log("Player on rectangle", "update method in player");
+            if(this.movingRectangle != null) {
+                velocityX = moving * directionX * speedLevel + movingRectangle.directionX * movingRectangle.speedLevel;
+            }
         }
-        body.setLinearVelocity(moving*velocityX*speed, body.getLinearVelocity().y);
+        body.setLinearVelocity(velocityX*speed, body.getLinearVelocity().y);
     }
 
     /**
@@ -128,18 +130,20 @@ public class Player extends MovingRectangle{
 
         //Shoot bullet
         if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-            //Create the bullets body
-            Body body = BodyHelper.createBody(
-                    x+width/2+directionX*(width),
-                    y+height/2,
-                    20,
-                    10,
-                    false,
-                    0,
-                    gameScreen.getWorld(),
-                    ContactType.PLAYERBULLET
-            );
-            gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX));
+            if(!gameScreen.bulletInMotion()) {
+                //Create the bullets body
+                Body body = BodyHelper.createBody(
+                        x+width/2+directionX*(width),
+                        y+height/2,
+                        20,
+                        10,
+                        false,
+                        0,
+                        gameScreen.getWorld(),
+                        ContactType.PLAYERBULLET
+                );
+                gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX));
+            }
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.U)) {

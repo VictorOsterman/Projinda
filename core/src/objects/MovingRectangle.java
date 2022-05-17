@@ -33,6 +33,7 @@ public abstract class MovingRectangle {
     protected Texture texture;
 
     private boolean isDead;
+    protected String className;
 
     /**
      * Constructor for moving rectangle
@@ -65,6 +66,8 @@ public abstract class MovingRectangle {
 
         this.body = body;
         this.lives = 1;
+
+        this.className = "MovingRectangle";
     }
 
     public void addSensor() {
@@ -169,6 +172,10 @@ public abstract class MovingRectangle {
 
     public Body getBody() {
         return body;
+    }
+
+    public String getClassName() {
+        return className;
     }
 
     public void resetJumpCounter() {

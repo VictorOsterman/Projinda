@@ -114,7 +114,9 @@ public abstract class MoneyItems {
     }
 
     public void render(SpriteBatch batch) {
-        if(!collected)
+        if(isStatic)
+            batch.draw(texture, x * Const.PPM - width/2, y * Const.PPM - height/2, width, height);
+        if(!isStatic)
             batch.draw(texture, x, y, width, height);
     }
 }

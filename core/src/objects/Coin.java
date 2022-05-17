@@ -9,6 +9,16 @@ import helper.Const;
 
 import java.util.Random;
 
+/**
+ * Coin class
+ * Holds a dynamic coin
+ * When spawned it jumps up
+ * Holds a value that can be collected
+ * Collected when player touches the coin
+ *
+ * @author Erik Sidén
+ * @version 2022-05-17
+ */
 public class Coin extends MoneyItems {
     private boolean thrown;
     private Random rng;
