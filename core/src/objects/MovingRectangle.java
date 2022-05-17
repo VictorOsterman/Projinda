@@ -68,6 +68,8 @@ public abstract class MovingRectangle {
         this.lives = 1;
 
         this.className = "MovingRectangle";
+
+        this.body.setFixedRotation(true);   //Disables rotating on bodies
     }
 
     public void addSensor() {
