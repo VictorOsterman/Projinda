@@ -105,6 +105,10 @@ public class GameScreen extends ScreenAdapter {
         for (int i = 0; i < movingRectangles.size(); i++) {
             movingRectangles.get(i).update();
         }
+        for (int i = 0; i < moneyItems.size(); i++) {
+            if(!moneyItems.get(i).getIsStatic())
+                moneyItems.get(i).update();
+        }
         updateCamera();
 
         batch.setProjectionMatrix(camera.combined);

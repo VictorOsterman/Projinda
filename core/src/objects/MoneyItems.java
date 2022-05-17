@@ -20,6 +20,7 @@ public abstract class MoneyItems {
     protected float x, y;
     protected float width, height;
     protected Body body;
+    protected boolean isStatic;
 
     /**
      * Constructor of MoneyItems
@@ -40,6 +41,22 @@ public abstract class MoneyItems {
         collected = false;
 
         this.texture = new Texture("maps/safepicture.png");
+        this.isStatic = true;
+    }
+
+    public void update() {
+
+        //If the player has died or fallen below y = -300
+        if(collected) {
+            removeMoneyItem();
+        }
+
+        x = body.getPosition().x * Const.PPM - (width / 2);
+        y = body.getPosition().y * Const.PPM - (height / 2);
+
+        // Reset directionX, when user stops moving the player instantly stops
+        // Removing this will result in player "gliding"
+        //directionX = 0;
     }
 
     /**
@@ -79,6 +96,8 @@ public abstract class MoneyItems {
     public float getHeight() {
         return height;
     }
+
+    public boolean getIsStatic() { return isStatic; }
 
     public Body getBody() {
         return body;
