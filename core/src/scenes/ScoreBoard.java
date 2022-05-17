@@ -80,5 +80,7 @@ public class ScoreBoard {
 
     }
 
-
+    public Integer getWorldTimer() {
+        return worldTimer;
+    }
 }
