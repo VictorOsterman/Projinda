@@ -9,8 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import helper.BodyHelper;
 import helper.Const;
 import helper.ContactType;
 import helper.TiledMapHelper;
@@ -118,6 +120,9 @@ public class GameScreen extends ScreenAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
 
+        if(scoreBoard.isNewSecond() && scoreBoard.getWorldTimer() % 10 == 0) {
+            spawnEnemy();
+        }
     }
 
     @Override
@@ -230,5 +235,29 @@ public class GameScreen extends ScreenAdapter {
 
     public ScoreBoard getScoreBoard() {
         return scoreBoard;
+    }
+
+    public void spawnEnemy() {
+        // If 10 enemies already exist, do not spawn another
+        int enemyCounter = 0;
+        for (MovingRectangle movingRectangle :
+                movingRectangles) {
+            if (movingRectangle.getClassName().equals("Enemy"))
+                enemyCounter++;
+        }
+        if(enemyCounter >= 6)
+            return;
+        //Create a new body for the enemy
+        Body body = BodyHelper.createBody(
+                1000,
+                1000,
+                64,
+                64,
+                false,
+                99999999,
+                world,
+                ContactType.ENEMY
+        );
+        addMovingRectangle(new Enemy(64, 64, body, this));
     }
 }

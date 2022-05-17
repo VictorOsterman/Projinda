@@ -31,6 +31,7 @@ public class Enemy extends MovingRectangle{
         // I update: sätt velocity*velX och velocity*velY istället.cd
         this.texture = new Texture("cop.png");
         this.lives = 3;
+        this.className = "Enemy";
 
         addSensor();
     }
