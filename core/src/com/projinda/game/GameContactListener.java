@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import helper.ContactType;
+import objects.Bullet;
 import objects.Enemy;
 import objects.MovingPlatform;
 import objects.Safe;
@@ -70,6 +71,43 @@ public class GameContactListener implements ContactListener {
                     gameScreen.getPlayer().setIsDead(true);
                 }
             }
+        }
+
+        if(a.getUserData() == ContactType.PLAYERBULLET || b.getUserData() == ContactType.PLAYERBULLET) {
+
+            if(a.getUserData() == ContactType.PLAYER || b.getUserData() == ContactType.PLAYER) {
+                return; // Do nothing
+            }
+            Gdx.app.log("collision involving bullet", "");
+            Fixture notBullet = b;
+            Fixture bulletFix = a;
+            if(b.getUserData() == ContactType.PLAYERBULLET) {
+                notBullet = a;
+                bulletFix = b;
+            }
+
+            // If the bullet hit an enemy, the enemy's lives should be lowered
+            if(a.getUserData() == ContactType.ENEMY || b.getUserData() == ContactType.ENEMY) {
+                Enemy enemy = (Enemy) gameScreen.getMatchingRectangle(notBullet.getBody().getPosition().x, notBullet.getBody().getPosition().y);
+                // Fixes bug when player is below enemy outside camera's scope
+                if(enemy == null)
+                    return;
+                enemy.lowerLives();
+            }
+
+            // If the bullet hit the safe, the safe should crack
+            if(a.getUserData() == ContactType.SAFE || b.getUserData() == ContactType.SAFE) {
+                // Player is standing on safe, find safe and retrieve money.
+                ((Safe) gameScreen.getMatchingMoneyItem(notBullet.getBody().getPosition().x, notBullet.getBody().getPosition().y)).collect();
+            }
+
+            //After the bullet has hit anything it should be removed, do this by lowering its lives
+            Bullet bullet = (Bullet) gameScreen.getMatchingRectangle(bulletFix.getBody().getPosition().x, bulletFix.getBody().getPosition().y);
+            // Fixes bug
+            if(bullet == null)
+                return;
+            bullet.lowerLives();
+
         }
 
     }

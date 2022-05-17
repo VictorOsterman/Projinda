@@ -131,6 +131,7 @@ public abstract class MovingRectangle {
     public float getWidth() { return width; }
     public float getHeight() { return height; }
     public int getLives() { return lives; }
+    public void lowerLives() { lives--; }
 
     public void rectangleFallen() {
         if(lives <= 0) {

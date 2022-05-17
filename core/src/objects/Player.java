@@ -44,6 +44,7 @@ public class Player extends MovingRectangle{
         addSensor();
         this.lives = 3;
         moving = 0;
+        this.directionX = 1;
 
     }
 
@@ -73,7 +74,8 @@ public class Player extends MovingRectangle{
         float velocityX = directionX*speedLevel;
         // If the player is standing on a platform, the platform's velocity is the player's "base velocity"
         if(onRectangle) {
-            velocityX = directionX*speedLevel + movingRectangle.directionX* movingRectangle.speedLevel;
+            if(this.movingRectangle != null)
+                velocityX = directionX*speedLevel + movingRectangle.directionX* movingRectangle.speedLevel;
         }
         body.setLinearVelocity(moving*velocityX*speed, body.getLinearVelocity().y);
     }
@@ -125,7 +127,7 @@ public class Player extends MovingRectangle{
             directionX *= 8;
 
         //Shoot bullet
-        if(Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             //Create the bullets body
             Body body = BodyHelper.createBody(
                     x+width/2+directionX*(width/2),

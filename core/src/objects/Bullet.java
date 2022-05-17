@@ -14,7 +14,7 @@ public class Bullet extends MovingRectangle{
      * @param body       body to be used by player
      * @param gameScreen
      */
-    protected boolean remove;
+    private boolean remove;
     private float lastX;
     public Bullet(Body body, GameScreen gameScreen, float directionX) {
         super(20, 10, body, gameScreen);
@@ -27,14 +27,18 @@ public class Bullet extends MovingRectangle{
 
     @Override
     public void update(){
+        if(lives <= 0 || lastX == x) {
+            gameScreen.removeMovingRectangle(this);
+            gameScreen.getWorld().destroyBody(this.body);
+            return;
+        }
+
         lastX = x;
         super.update();
-        if(lastX == x) {
-            remove = true;
-        }
-        Gdx.app.log(String.valueOf(remove), "");
         body.setLinearVelocity(directionX*speedLevel*speed, directionY*speedLevel*speed);
     }
 
-
+    public void setRemove(boolean remove) {
+        this.remove = remove;
+    }
 }
