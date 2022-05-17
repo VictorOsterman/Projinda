@@ -25,10 +25,16 @@ public class Enemy extends MovingRectangle{
         // Borde: låt moving rectangle ha en variabel velocity.
         // I update: sätt velocity*velX och velocity*velY istället.cd
         this.texture = new Texture("cop.png");
+        this.lives = 3;
     }
 
     @Override
     public void update() {
+        if(lives <= 0 ) {
+            gameScreen.removeMovingRectangle(this);
+            gameScreen.getWorld().destroyBody(this.body);
+            return;
+        }
         super.update();
         directionX = 0;
 

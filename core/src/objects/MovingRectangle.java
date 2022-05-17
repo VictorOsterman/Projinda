@@ -13,6 +13,8 @@ import helper.BodyHelper;
 import helper.Const;
 import helper.ContactType;
 
+import java.util.ArrayList;
+
 /**
  * Abstract class used for player and enemies
  */
@@ -102,6 +104,7 @@ public abstract class MovingRectangle {
         manageUserInput();
     }
 
+
     public void manageUserInput() {
         //Reset
         if(Gdx.input.isKeyPressed(Input.Keys.R))
@@ -128,6 +131,7 @@ public abstract class MovingRectangle {
     public float getWidth() { return width; }
     public float getHeight() { return height; }
     public int getLives() { return lives; }
+    public void lowerLives() { lives--; }
 
     public void rectangleFallen() {
         if(lives <= 0) {

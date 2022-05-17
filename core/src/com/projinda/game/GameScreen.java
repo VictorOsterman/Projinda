@@ -98,9 +98,12 @@ public class GameScreen extends ScreenAdapter {
         world.step(1/60f, 6, 2);
         player.update();
         scoreBoard.update(dt, player.getScore(), player.getLives());
-        for (MovingRectangle enemy :
+        /*for (MovingRectangle movingRectangle :
                 movingRectangles) {
-            enemy.update();
+            movingRectangle.update();
+        }*/
+        for (int i = 0; i < movingRectangles.size(); i++) {
+            movingRectangles.get(i).update();
         }
         updateCamera();
 
@@ -121,9 +124,12 @@ public class GameScreen extends ScreenAdapter {
         orthogonalTiledMapRenderer.render();
         batch.begin();
         player.render(batch);
-        for (MovingRectangle movingRectangle :
+        /*for (MovingRectangle movingRectangle :
                 movingRectangles) {
             movingRectangle.render(batch);
+        }*/
+        for (int i = 0; i < movingRectangles.size(); i++) {
+            movingRectangles.get(i).render(batch);
         }
         for (MoneyItems moneyItem :
                 moneyItems) {
@@ -181,12 +187,21 @@ public class GameScreen extends ScreenAdapter {
      * @return movingRectangle collided with
      */
     public MovingRectangle getMatchingRectangle(float x, float y) {
+        Gdx.app.log("---------------------", "");
+        Gdx.app.log(String.valueOf(x*Const.PPM), String.valueOf(y*Const.PPM));
         for (MovingRectangle movingRectangle: movingRectangles) {
+            Gdx.app.log(String.valueOf(movingRectangle.getX() + movingRectangle.getWidth()/2), String.valueOf(movingRectangle.getY() + movingRectangle.getHeight() / 2));
             if(x*Const.PPM == movingRectangle.getX() + movingRectangle.getWidth()/2 && y*Const.PPM == movingRectangle.getY() + movingRectangle.getHeight() / 2) {
+                Gdx.app.log("---------------------", "");
                 return movingRectangle;
             }
         }
-        Gdx.app.log("No matching platform found", "");
+        Gdx.app.log("No matching moving rectangle found", "");
+        Gdx.app.log("---------------------", "");
         return null;
+    }
+
+    public void removeMovingRectangle(MovingRectangle movingRectangle) {
+        movingRectangles.remove(movingRectangle);
     }
 }
