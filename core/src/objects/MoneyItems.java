@@ -80,6 +80,10 @@ public abstract class MoneyItems {
         return height;
     }
 
+    public Body getBody() {
+        return body;
+    }
+
     public void render(SpriteBatch batch) {
         batch.draw(texture, x * Const.PPM - width/2, y * Const.PPM - height/2, width, height);
     }
