@@ -135,11 +135,26 @@ public class Player extends MovingRectangle{
                     20,
                     10,
                     false,
-                    99999999,
+                    0,
                     gameScreen.getWorld(),
                     ContactType.PLAYERBULLET
             );
             gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX));
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.U)) {
+            //Create the bullets body
+            Body body = BodyHelper.createBody(
+                    x+width/2+directionX*(width/2),
+                    y+height/2,
+                    64,
+                    64,
+                    false,
+                    99999999,
+                    gameScreen.getWorld(),
+                    ContactType.COIN
+            );
+            gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
         }
     }
 
