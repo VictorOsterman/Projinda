@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="45" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="62">
- <tileset firstgid="1" source="tiles.tsx"/>
+<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="45" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="6" nextobjectid="62">
+ <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64" tilecount="100" columns="10">
+  <image source="tiles.png" width="640" height="640"/>
+ </tileset>
+ <tileset firstgid="101" source="background.tsx"/>
+ <layer id="5" name="background" width="45" height="20">
+  <data encoding="base64" compression="zlib">
+   eJyt1WV3VFcAhtHMDR5I8IS6K05btO6K0xat4R68LVIvrhGkLa4BUkfquIaEOlLHNSSpAzt/4U7Wmv3xzL1r1nPm7RwTE9OFrnSjOz3oSS9604e+9KM/p8nlDHnkU8Cf/MXf/MO//Mf/nOUcMREfAmIpRnFKUJJSlKYMcZSlHPEkUJ43fc1oxjCWcYxnAhOZxGSmMJVpVHauClVJJIlqXMCFXMTFXMKlXMblXMGVXMXVXMO1XMf13MCNVKcGNalFbepQl3os8w4ZLGcFK8nkXd7jfT7gQz7iY+o714CGNKIxTbiV27idO7iTu7ibe7iX+7ifB3iQh3iYR3iUx2hKM5rTgpa0ojVt2OkdsthFNjns5mu+4Vu+43t+4EfaOteO9nSgI514iqd5hmd5js50oSvd6E4PetKL3vShL/3oTzIDGMggBjOEoQyLhGtzuHMjGMkoXuJlXuFVXuN13ihsj9GMYSzjGM8EJjKJyUxhKtNIIZU00pnODGYyKxKuzdnMYS7zmM8CFrKIxSxhaWF7ZLCcFYW/e4g7n8wABjIoZJvrWM8GNrKJzWxhK9vYzo7C9shiF9mRcHc+hVTSSA/Z5gEOcojDHOEoxzjOCU5yqrA9cjlDXiTcnV/FatawNmSbpQP/n8RRlnLEk0B5KlCRSlSmClVJDMLd+T3sZR/7Y8K1Wd2za1CTWtSmDnWpx03czC3UpwENaRQUzR6FabOpZzejOS1oSSta04bHeYInaUs72tMhKJo9CtNmsmcPYCCDGMwQhjKM53mBFxnOCEYyKiiaPQrTZgqppJHOdGYwk1m8xdu8w2zmMJd5QdHsUZg2V7GaNazlEz7lMz7nC77kK9axng1sDIpmj8K0uYe97GM/P/Ezv/Arv/E7f3CAgxzicBDdHq0kM2SbZzlHTKx7TEAsxShOCUpSitKUIY6ysdHtUQ67I9G1OZ8FLGQRi1nCUpaRwXJWsJLMILo9yqcgEl2bm9jMFrayje3sYCdZ7CKbHHYH0e1REtWibPMIRznGcU5wklOcJpcz5JFPQRDdHjWmSZRtliOeBMpTgYpUojJVqEoiSVSLjW6POtKJ8yJQxcs=
+  </data>
+ </layer>
  <layer id="1" name="Tile Layer 1" width="45" height="20">
   <data encoding="base64" compression="zlib">
    eJxjYBgFww2kDrQDyABMSHgUjIJRMAqGGmBiGC3HRgEEDLU0MOpe2oLB6t7RMot2gHEIYgC4awC5
