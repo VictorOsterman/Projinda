@@ -59,6 +59,11 @@ public abstract class MoneyItems {
      */
     public void changeTexture() {}
 
+    public void removeMoneyItem() {
+        gameScreen.removeMoneyItem(this);
+        gameScreen.getWorld().destroyBody(this.body);
+        return;
+    }
     public float getX() {
         return x;
     }

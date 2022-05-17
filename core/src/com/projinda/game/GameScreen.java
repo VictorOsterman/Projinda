@@ -204,4 +204,8 @@ public class GameScreen extends ScreenAdapter {
     public void removeMovingRectangle(MovingRectangle movingRectangle) {
         movingRectangles.remove(movingRectangle);
     }
+
+    public void removeMoneyItem (MoneyItems moneyItem) {
+        moneyItems.remove(moneyItem);
+    }
 }
