@@ -95,15 +95,20 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void update(float dt){
+        //Gdx.app.log("Now updating ", "");
         world.step(1/60f, 6, 2);
+        //Gdx.app.log("world stepped ", "");
         player.update();
         scoreBoard.update(dt, player.getScore(), player.getLives());
-        /*for (MovingRectangle movingRectangle :
-                movingRectangles) {
-            movingRectangle.update();
-        }*/
+
         for (int i = 0; i < movingRectangles.size(); i++) {
             movingRectangles.get(i).update();
+        }
+
+
+        for (int i = 0; i < moneyItems.size(); i++) {
+            if(!moneyItems.get(i).getIsStatic())
+                moneyItems.get(i).update();
         }
         updateCamera();
 
@@ -131,13 +136,12 @@ public class GameScreen extends ScreenAdapter {
         for (int i = 0; i < movingRectangles.size(); i++) {
             movingRectangles.get(i).render(batch);
         }
-        for (MoneyItems moneyItem :
-                moneyItems) {
-            moneyItem.render(batch);
+        for (int i = 0; i < moneyItems.size(); i++) {
+            moneyItems.get(i).render(batch);
         }
 
         batch.end();
-        //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+        box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
         batch.setProjectionMatrix(scoreBoard.stage.getCamera().combined);
         scoreBoard.stage.draw();
     }
@@ -155,9 +159,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void addMovingRectangle(MovingRectangle movingRectangle) {
-        if(movingRectangle != null) {
-            movingRectangles.add(movingRectangle);
-        }
+        movingRectangles.add(movingRectangle);
     }
 
     public void addMoneyItem(MoneyItems moneyItem) {
@@ -171,12 +173,16 @@ public class GameScreen extends ScreenAdapter {
      * @return corresponding money item
      */
     public MoneyItems getMatchingMoneyItem(float x, float y) {
+        //Gdx.app.log(String.valueOf(x), String.valueOf(y));
         for (MoneyItems moneyItem: moneyItems) {
-            if(x == moneyItem.getX() && y == moneyItem.getY()) {
+            //Gdx.app.log(String.valueOf(moneyItem.getX()), String.valueOf(moneyItem.getY()));
+            if (x * Const.PPM == moneyItem.getX() + moneyItem.getWidth() / 2 && y * Const.PPM == moneyItem.getY() + moneyItem.getHeight() / 2) {
                 return moneyItem;
             }
+            else if(x == moneyItem.getX() && y == moneyItem.getY())
+                return moneyItem;
         }
-        Gdx.app.log("No matching money item found", "");
+        //Gdx.app.log("No matching money item found", "");
         return null;
     }
     
@@ -187,21 +193,38 @@ public class GameScreen extends ScreenAdapter {
      * @return movingRectangle collided with
      */
     public MovingRectangle getMatchingRectangle(float x, float y) {
-        Gdx.app.log("---------------------", "");
-        Gdx.app.log(String.valueOf(x*Const.PPM), String.valueOf(y*Const.PPM));
+        //Gdx.app.log("---------------------", "");
+        //Gdx.app.log(String.valueOf(x*Const.PPM), String.valueOf(y*Const.PPM));
         for (MovingRectangle movingRectangle: movingRectangles) {
-            Gdx.app.log(String.valueOf(movingRectangle.getX() + movingRectangle.getWidth()/2), String.valueOf(movingRectangle.getY() + movingRectangle.getHeight() / 2));
+            //Gdx.app.log(String.valueOf(movingRectangle.getX() + movingRectangle.getWidth()/2), String.valueOf(movingRectangle.getY() + movingRectangle.getHeight() / 2));
             if(x*Const.PPM == movingRectangle.getX() + movingRectangle.getWidth()/2 && y*Const.PPM == movingRectangle.getY() + movingRectangle.getHeight() / 2) {
-                Gdx.app.log("---------------------", "");
+                //Gdx.app.log("---------------------", "");
                 return movingRectangle;
             }
         }
-        Gdx.app.log("No matching moving rectangle found", "");
-        Gdx.app.log("---------------------", "");
+        //Gdx.app.log("No matching moving rectangle found", "");
+        //Gdx.app.log("---------------------", "");
         return null;
     }
 
     public void removeMovingRectangle(MovingRectangle movingRectangle) {
         movingRectangles.remove(movingRectangle);
+    }
+
+    public void removeMoneyItem (MoneyItems moneyItem) {
+        moneyItems.remove(moneyItem);
+    }
+
+    public boolean bulletInMotion () {
+        for (MovingRectangle movingRectangle :
+                movingRectangles) {
+            if (movingRectangle.getClassName().equals("Bullet"))
+                return true;
+        }
+        return false;
+    }
+
+    public TiledMapHelper getTiledMapHelper() {
+        return tiledMapHelper;
     }
 }

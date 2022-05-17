@@ -4,10 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import helper.ContactType;
-import objects.Bullet;
-import objects.Enemy;
-import objects.MovingPlatform;
-import objects.Safe;
+import objects.*;
 
 /**
  * The game's contact listener
@@ -20,8 +17,11 @@ public class GameContactListener implements ContactListener {
 
     @Override
     public void beginContact(Contact contact) {
+        //Gdx.app.log("Contact begun", "");
+
         Fixture a = contact.getFixtureA();
         Fixture b = contact.getFixtureB();
+
 
 
         //If any of the involved objects is the player's sensor, the player is standing
@@ -51,6 +51,9 @@ public class GameContactListener implements ContactListener {
         }
 
         if(a.getUserData() == ContactType.PLAYER || b.getUserData() == ContactType.PLAYER) {
+            if(a.getUserData() == ContactType.PLAYERBULLET || b.getUserData() == ContactType.PLAYERBULLET) {
+                return;
+            }
             Fixture notPlayer = b;
             if(b.getUserData() == ContactType.PLAYER) {
                 notPlayer = a;
@@ -71,14 +74,21 @@ public class GameContactListener implements ContactListener {
                     gameScreen.getPlayer().setIsDead(true);
                 }
             }
+            if(a.getUserData() == ContactType.COIN || b.getUserData() == ContactType.COIN) {
+                // Player is in contact with coin
+                Coin coin = ((Coin) gameScreen.getMatchingMoneyItem(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y));
+                if(coin != null) {
+                    coin.collect();
+                    Gdx.app.log(String.valueOf(coin.getValue()), "");
+                    Gdx.app.log("Collected coin", "");
+                }
+                else {
+                    Gdx.app.log("Coin is null", "");
+                }
+            }
         }
 
         if(a.getUserData() == ContactType.PLAYERBULLET || b.getUserData() == ContactType.PLAYERBULLET) {
-
-            if(a.getUserData() == ContactType.PLAYER || b.getUserData() == ContactType.PLAYER) {
-                return; // Do nothing
-            }
-            Gdx.app.log("collision involving bullet", "");
             Fixture notBullet = b;
             Fixture bulletFix = a;
             if(b.getUserData() == ContactType.PLAYERBULLET) {
@@ -109,7 +119,6 @@ public class GameContactListener implements ContactListener {
             bullet.lowerLives();
 
         }
-
     }
 
     @Override
@@ -131,11 +140,11 @@ public class GameContactListener implements ContactListener {
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-
+        Fixture a = contact.getFixtureA();
+        Fixture b = contact.getFixtureB();
     }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
-
     }
 }

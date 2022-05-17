@@ -33,6 +33,7 @@ public abstract class MovingRectangle {
     protected Texture texture;
 
     private boolean isDead;
+    protected String className;
 
     /**
      * Constructor for moving rectangle
@@ -65,6 +66,8 @@ public abstract class MovingRectangle {
 
         this.body = body;
         this.lives = 1;
+
+        this.className = "MovingRectangle";
     }
 
     public void addSensor() {
@@ -149,10 +152,30 @@ public abstract class MovingRectangle {
         isDead = false;
     }
 
+    protected void generateCoin() {
+        //Create the bullets body
+        Body body = BodyHelper.createBody(
+                //x+width/2+directionX*(width/2),
+                x+width/2,
+                y+height/2,
+                64,
+                64,
+                false,
+                99999999,
+                gameScreen.getWorld(),
+                ContactType.COIN
+        );
+        gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
+    }
+
     public void setIsDead(boolean isDead) { this.isDead = isDead; }
 
     public Body getBody() {
         return body;
+    }
+
+    public String getClassName() {
+        return className;
     }
 
     public void resetJumpCounter() {

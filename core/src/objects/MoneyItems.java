@@ -1,11 +1,15 @@
 package objects;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.projinda.game.GameScreen;
 import helper.Const;
+
+import java.util.Random;
 
 /**
  * Abstract class for items regarding money
@@ -20,6 +24,10 @@ public abstract class MoneyItems {
     protected float x, y;
     protected float width, height;
     protected Body body;
+    protected boolean isStatic;
+
+    //For non-static moneyItems:
+    protected float directionX, speed;
 
     /**
      * Constructor of MoneyItems
@@ -34,12 +42,27 @@ public abstract class MoneyItems {
         this.width = width;
         this.height = height;
         this.gameScreen = gameScreen;
+        this.body = body;
 
         //Assign value its value in subclass
         value = 0;
         collected = false;
 
         this.texture = new Texture("maps/safepicture.png");
+        this.isStatic = true;
+    }
+
+    public void update() {
+        if(collected)
+            return;
+
+        x = body.getPosition().x * Const.PPM - (width / 2);
+        y = body.getPosition().y * Const.PPM - (height / 2);
+
+        // Reset directionX, when user stops moving the player instantly stops
+        // Removing this will result in player "gliding"
+        //directionX = 0;
+
     }
 
     /**
@@ -59,6 +82,11 @@ public abstract class MoneyItems {
      */
     public void changeTexture() {}
 
+    public void removeMoneyItem() {
+        gameScreen.removeMoneyItem(this);
+        gameScreen.getWorld().destroyBody(this.body);
+        return;
+    }
     public float getX() {
         return x;
     }
@@ -75,7 +103,20 @@ public abstract class MoneyItems {
         return height;
     }
 
+    public int getValue() {
+        return value;
+    }
+
+    public boolean getIsStatic() { return isStatic; }
+
+    public Body getBody() {
+        return body;
+    }
+
     public void render(SpriteBatch batch) {
-        batch.draw(texture, x * Const.PPM - width/2, y * Const.PPM - height/2, width, height);
+        if(isStatic)
+            batch.draw(texture, x * Const.PPM - width/2, y * Const.PPM - height/2, width, height);
+        if(!isStatic)
+            batch.draw(texture, x, y, width, height);
     }
 }
