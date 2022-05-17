@@ -53,14 +53,8 @@ public abstract class MoneyItems {
     }
 
     public void update() {
-        if(this.body == null)
+        if(collected)
             return;
-
-        // If the coin is collected
-        if(collected) {
-            removeMoneyItem();
-            gameScreen.getWorld().destroyBody(this.body);
-        }
 
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
@@ -109,6 +103,10 @@ public abstract class MoneyItems {
         return height;
     }
 
+    public int getValue() {
+        return value;
+    }
+
     public boolean getIsStatic() { return isStatic; }
 
     public Body getBody() {
@@ -116,9 +114,7 @@ public abstract class MoneyItems {
     }
 
     public void render(SpriteBatch batch) {
-        if(isStatic)
-            batch.draw(texture, x * Const.PPM - width/2, y * Const.PPM - height/2, width, height);
-        if(!isStatic)
+        if(!collected)
             batch.draw(texture, x, y, width, height);
     }
 }

@@ -130,7 +130,7 @@ public class Player extends MovingRectangle{
         if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             //Create the bullets body
             Body body = BodyHelper.createBody(
-                    x+width/2+directionX*(width/2),
+                    x+width/2+directionX*(width),
                     y+height/2,
                     20,
                     10,
@@ -159,7 +159,7 @@ public class Player extends MovingRectangle{
     }
 
     public int getScore() { return score; }
-    public void increaseScore(int newScore) { score = newScore; }
+    public void increaseScore(int newScore) { score += newScore; }
 
     public void setOnRectangle(MovingRectangle movingRectangle) {
         this.movingRectangle = movingRectangle;

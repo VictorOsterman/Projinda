@@ -42,6 +42,12 @@ public class Coin extends MoneyItems {
 
     @Override
     public void update() {
+        // If the coin is collected
+        if(collected) {
+            removeMoneyItem();
+            gameScreen.getWorld().destroyBody(this.body);
+            return;
+        }
         super.update();
         if(!thrown) {
             body.setLinearVelocity(body.getLinearVelocity().x, 10);

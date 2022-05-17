@@ -95,20 +95,29 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void update(float dt){
+        Gdx.app.log("Now updating ", "");
+        Gdx.app.log(String.valueOf(movingRectangles.size()), "size of moving rectangles");
         world.step(1/60f, 6, 2);
+        Gdx.app.log("world stepped ", "");
         player.update();
+        Gdx.app.log("player updated ", "");
         scoreBoard.update(dt, player.getScore(), player.getLives());
-        /*for (MovingRectangle movingRectangle :
-                movingRectangles) {
-            movingRectangle.update();
-        }*/
+        Gdx.app.log("scoreboard updated ", "");
+
+        Gdx.app.log("Now updating moving rectangles", "");
         for (int i = 0; i < movingRectangles.size(); i++) {
+            Gdx.app.log("update", "");
             movingRectangles.get(i).update();
         }
+        Gdx.app.log("Done with moving rectangles", "");
+
+
+        Gdx.app.log("Now updating money items", "");
         for (int i = 0; i < moneyItems.size(); i++) {
             if(!moneyItems.get(i).getIsStatic())
-                moneyItemscd .get(i).update();
+                moneyItems.get(i).update();
         }
+        Gdx.app.log("Done with money items" , "");
         updateCamera();
 
         batch.setProjectionMatrix(camera.combined);
@@ -117,6 +126,7 @@ public class GameScreen extends ScreenAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
 
+        Gdx.app.log("Update finished", "");
     }
 
     @Override
@@ -132,18 +142,27 @@ public class GameScreen extends ScreenAdapter {
                 movingRectangles) {
             movingRectangle.render(batch);
         }*/
+        Gdx.app.log("Now rendering moving rectangles",String.valueOf(movingRectangles.size()));
         for (int i = 0; i < movingRectangles.size(); i++) {
+            Gdx.app.log(String.valueOf(movingRectangles.get(i)), String.valueOf(i));
             movingRectangles.get(i).render(batch);
+            Gdx.app.log("rendered moving rectangle", "");
         }
-        for (MoneyItems moneyItem :
-                moneyItems) {
-            moneyItem.render(batch);
+        Gdx.app.log("Now rendering moneyitems, amount: ", String.valueOf(moneyItems.size()));
+        for (int i = 0; i < moneyItems.size(); i++) {
+            Gdx.app.log(String.valueOf(moneyItems.get(i)), String.valueOf(i));
+            moneyItems.get(i).render(batch);
         }
+        Gdx.app.log("Now rendered moneyitems", "");
 
         batch.end();
-        //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+        Gdx.app.log("batch ended", "");
+        box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+        Gdx.app.log("box2ddebugrendered", "");
         batch.setProjectionMatrix(scoreBoard.stage.getCamera().combined);
+        Gdx.app.log("set projection matrix ", "");
         scoreBoard.stage.draw();
+        Gdx.app.log("Drawn stage", "");
     }
 
     public World getWorld() {
@@ -159,9 +178,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void addMovingRectangle(MovingRectangle movingRectangle) {
-        if(movingRectangle != null) {
-            movingRectangles.add(movingRectangle);
-        }
+        movingRectangles.add(movingRectangle);
     }
 
     public void addMoneyItem(MoneyItems moneyItem) {
@@ -175,10 +192,14 @@ public class GameScreen extends ScreenAdapter {
      * @return corresponding money item
      */
     public MoneyItems getMatchingMoneyItem(float x, float y) {
+        Gdx.app.log(String.valueOf(x), String.valueOf(y));
         for (MoneyItems moneyItem: moneyItems) {
-            if(x == moneyItem.getX() && y == moneyItem.getY()) {
+            Gdx.app.log(String.valueOf(moneyItem.getX()), String.valueOf(moneyItem.getY()));
+            if (x * Const.PPM == moneyItem.getX() + moneyItem.getWidth() / 2 && y * Const.PPM == moneyItem.getY() + moneyItem.getHeight() / 2) {
                 return moneyItem;
             }
+            else if(x == moneyItem.getX() && y == moneyItem.getY())
+                return moneyItem;
         }
         Gdx.app.log("No matching money item found", "");
         return null;
