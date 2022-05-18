@@ -18,7 +18,11 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 
 /**
- * Abstract class used for player and enemies
+ * Abstract class used for moving rectangles such as player, enemy, bullet
+ * Has support for animations, these must be implemented in subclasses.
+ *
+ * @author Erik Sidén
+ * @version 2022-05-18
  */
 public abstract class MovingRectangle extends Sprite {
 
@@ -60,18 +64,15 @@ public abstract class MovingRectangle extends Sprite {
     protected float elapsedTime;
 
     /**
-     * Constructor for moving rectangle
+     * Constructs the basics for the moving rectangle
+     *
      * @param width width of the players body
      * @param height height of the players body
      * @param body body to be used by player
      */
     public MovingRectangle(float width, float height, Body body, GameScreen gameScreen) {
-        //super(gameScreen.getAtlas().findRegion("badlogic"));
-
         this.gameScreen = gameScreen;
 
-        //this.startX = body.getPosition().x;
-        //this.startY = body.getPosition().y;
         this.startX = body.getPosition().x * Const.PPM - (width / 2);
         this.startY = body.getPosition().y * Const.PPM - (height / 2);
 
@@ -84,7 +85,6 @@ public abstract class MovingRectangle extends Sprite {
         this.speedLevel = 1;
         this.startSpeedLevel = speedLevel;
 
-        //this.texture = new Texture("badlogic.jpg");
         this.width = width;
         this.height = height;
 
@@ -96,36 +96,8 @@ public abstract class MovingRectangle extends Sprite {
 
         this.hasAnimations = false;
 
-
-        /*
-        this.texture = new Texture("temp/playermovements.png");
-
-        TextureRegion[][] tmpFrames = TextureRegion.split(texture, 64, 64);
-        animationFrames = new TextureRegion[7];
-        int index = 0;
-        for(int i = 0; i < 7; i++) {
-            animationFrames[1] = tmpFrames[0][i];
-        }
-
-        animation = new Animation<TextureRegion>(0.1f, animationFrames);
-        */
-
-        //TextureAtlas charset = new TextureAtlas(Gdx.files.internal("Tjuv.pack"));
-        /*
-        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("Tjuv.pack"));
-        animation = new Animation<TextureRegion>(0.1f, charset.findRegion("playermovements"));
-        animation.setFrameDuration(0.1f);
-        elapsedTime = 0f;
-         */
-
-        //TextureRegion[][] tmpFrames = TextureRegion.split
-
-        stateTimer = 0;
-        runningRight = true;
-
-        //this.texture = rectStand.getTexture();
-
-
+        this.stateTimer = 0;
+        this.runningRight = true;
 
         this.lives = 1;
 
@@ -135,12 +107,16 @@ public abstract class MovingRectangle extends Sprite {
 
         this.destroyed = false;
         this.setToDestroy = false;
-        this.texture = new Texture("white.png");
+        this.texture = new Texture("white.png");    // Add other texture in subclasses
     }
 
+    /**
+     * Renders the moving rectangle
+     * If the rectangle uses animations the correct frame is drawn
+     * @param batch
+     */
     public void render(SpriteBatch batch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
-
         if(hasAnimations) {
             batch.draw(currentFrame, x, y, width, height);
         }else {
@@ -148,8 +124,15 @@ public abstract class MovingRectangle extends Sprite {
         }
     }
 
+    /**
+     * Updates the moving rectangle's position
+     * Checks for user input
+     * If the rectangle uses animations the frame is updated
+     *
+     * @param dt
+     */
     public void update(float dt) {
-        //If the player has died or fallen below y = -300
+        //If the rectangle has died or fallen below y = -300 it is dead
         if(isDead || y < -300) {
             handleDeath();
         }
@@ -157,15 +140,18 @@ public abstract class MovingRectangle extends Sprite {
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
 
-        // Reset directionX, when user stops moving the player instantly stops
-        // Removing this will result in player "gliding"
-        //directionX = 0;
-
         manageUserInput();
         if(hasAnimations)
             currentFrame = getFrame(dt);
     }
 
+    /**
+     * Returns the next frame for the animation
+     * Checks current state with getState method
+     * Depending on the state the method gets the correct frame
+     * @param dt
+     * @return next frame to be rendered for moving rectangle
+     */
     public TextureRegion getFrame(float dt) {
         currentState = getState();
 
@@ -188,7 +174,7 @@ public abstract class MovingRectangle extends Sprite {
                 region = shooting;
                 break;
         }
-        // region.isFlipX() returns true if flipped over
+        // region.isFlipX() returns true if the region is flipped over
         if((body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
             region.flip(true, false);
             runningRight = false;
@@ -202,6 +188,11 @@ public abstract class MovingRectangle extends Sprite {
         return region;
     }
 
+    /**
+     * Checks and returns which state the moving rectangle is in
+     *
+     * @return current state
+     */
     public State getState() {
         if(body.getLinearVelocity().y > 0 && !onRectangle)
             return State.JUMP;
@@ -217,6 +208,9 @@ public abstract class MovingRectangle extends Sprite {
             return State.SHOOT;
     }
 
+    /**
+     * Creates a sensor and adds it to the body
+     */
     public void addSensor() {
         // Skapar sensor med följande form
         PolygonShape shape = new PolygonShape();
@@ -237,18 +231,11 @@ public abstract class MovingRectangle extends Sprite {
         this.body.setTransform(startX / Const.PPM, startY / Const.PPM, 0);
     }
 
-
-
-
     public void manageUserInput() {
         //Reset
         if(Gdx.input.isKeyPressed(Input.Keys.R))
             reset();
     }
-
-
-
-
 
     public float getX() {
         return x;
@@ -277,6 +264,10 @@ public abstract class MovingRectangle extends Sprite {
         isDead = false;
     }
 
+    /**
+     * Generates a coin in the moving rectangle's position
+     * Used when enemies die
+     */
     protected void generateCoin() {
         //Create the bullets body
         Body body = BodyHelper.createBody(
@@ -311,6 +302,10 @@ public abstract class MovingRectangle extends Sprite {
         lowerLives();
     }
 
+    /**
+     * Fully removes a moving rectangle
+     * Removes it from GameScreen and cleans up the body
+     */
     public void removeMovingRectangle() {
         gameScreen.removeMovingRectangle(this);
         gameScreen.getWorld().destroyBody(this.body);
