@@ -26,8 +26,6 @@ import java.util.Random;
 
 public class GameScreen extends ScreenAdapter {
 
-    private TextureAtlas atlas;
-
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private World world;
@@ -47,7 +45,6 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(OrthographicCamera camera) {
 
-        atlas = new TextureAtlas("Tjuv.pack");
 
         this.camera = camera;
         this.batch = new SpriteBatch();
@@ -292,9 +289,5 @@ public class GameScreen extends ScreenAdapter {
                 ContactType.ENEMY
         );
         addMovingRectangle(new Enemy(64, 64, body, this));
-    }
-
-    public TextureAtlas getAtlas() {
-        return atlas;
     }
 }

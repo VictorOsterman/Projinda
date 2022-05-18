@@ -2,8 +2,11 @@ package objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 import com.projinda.game.Boot;
 import com.projinda.game.GameScreen;
 
@@ -35,6 +38,40 @@ public class Enemy extends MovingRectangle{
         this.className = "Enemy";
 
         addSensor();
+        addAnimations();
+    }
+
+    public void addAnimations() {
+
+        Texture animations = new Texture("cop.png");
+        currentState = State.STAND;
+        previousState = State.STAND;
+
+        Array<TextureRegion> frames = new Array<>();
+        shooting = new TextureRegion(animations, 2*64, 0, 64, 64);
+        //shooting = new TextureRegion(charset.findRegion("playermovements"), 0, 0, 64, 64);
+
+        for(int i = 0; i < 2; i++) {
+            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
+        }
+        walking = new Animation<TextureRegion>(0.15f, frames);
+        running = new Animation<TextureRegion>(0.1f, frames);
+        frames.clear();
+
+        for(int i = 3; i < 5; i++) {
+            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
+        }
+        jumping = new Animation<TextureRegion>(0.15f, frames);
+        frames.clear();
+
+        for(int i = 5; i < 7; i++) {
+            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
+        }
+        falling = new Animation<TextureRegion>(0.15f, frames);
+        frames.clear();
+
+        currentFrame = shooting;
+        this.hasAnimations = true;
     }
 
     @Override

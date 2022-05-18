@@ -27,14 +27,17 @@ public abstract class MovingRectangle extends Sprite {
     public State previousState;
 
     protected TextureRegion currentFrame;
-    private TextureRegion shooting;
-    private Animation<TextureRegion> walking;
-    private Animation<TextureRegion> running;
-    private TextureRegion jumping;
-    private TextureRegion falling;
+    protected TextureRegion shooting;
+    protected Animation<TextureRegion> walking;
+    protected Animation<TextureRegion> running;
+    protected Animation<TextureRegion> jumping;
+    protected Animation<TextureRegion> falling;
+
+    protected boolean hasAnimations;
 
     private float stateTimer;
     private boolean runningRight;
+    protected boolean onRectangle;
 
 
 
@@ -48,17 +51,12 @@ public abstract class MovingRectangle extends Sprite {
     protected int jumpCounter;
     protected int lives;
 
-
-
     private boolean isDead;
     protected String className;
     protected boolean destroyed;
     protected boolean setToDestroy;
 
     protected Texture texture;
-    protected TextureRegion[] animationFrames;
-    protected TextureRegion rectStand;
-    protected Animation<TextureRegion> animation;
     protected float elapsedTime;
 
     /**
@@ -92,8 +90,11 @@ public abstract class MovingRectangle extends Sprite {
 
         this.jumpCounter = 0;
         this.isDead = false;
+        this.onRectangle = false;
 
         this.body = body;
+
+        this.hasAnimations = false;
 
 
         /*
@@ -109,7 +110,7 @@ public abstract class MovingRectangle extends Sprite {
         animation = new Animation<TextureRegion>(0.1f, animationFrames);
         */
 
-        TextureAtlas charset = new TextureAtlas(Gdx.files.internal("Tjuv.pack"));
+        //TextureAtlas charset = new TextureAtlas(Gdx.files.internal("Tjuv.pack"));
         /*
         TextureAtlas charset = new TextureAtlas(Gdx.files.internal("Tjuv.pack"));
         animation = new Animation<TextureRegion>(0.1f, charset.findRegion("playermovements"));
@@ -119,30 +120,8 @@ public abstract class MovingRectangle extends Sprite {
 
         //TextureRegion[][] tmpFrames = TextureRegion.split
 
-
-        currentState = State.STAND;
-        previousState = State.STAND;
         stateTimer = 0;
         runningRight = true;
-
-        Array<TextureRegion> frames = new Array<>();
-        for(int i = 0; i < 4; i++) {
-            frames.add(new TextureRegion(charset.findRegion("playermovements"), i*64, 0, 64, 64));
-        }
-        walking = new Animation<TextureRegion>(0.15f, frames);
-
-        frames.clear();
-
-        for(int i = 5; i < 7; i++) {
-            frames.add(new TextureRegion(charset.findRegion("playermovements"), i*64, 0, 64, 64));
-        }
-        running = new Animation<TextureRegion>(0.15f, frames);
-
-        shooting = new TextureRegion(charset.findRegion("playermovements"), 4*64, 0, 64, 64);
-        jumping = new TextureRegion(charset.findRegion("playermovements"), 7*64, 0, 64, 64);
-        falling = new TextureRegion(charset.findRegion("playermovements"), 8*64, 0, 64, 64);
-
-        currentFrame = shooting;
 
         //this.texture = rectStand.getTexture();
 
@@ -156,13 +135,14 @@ public abstract class MovingRectangle extends Sprite {
 
         this.destroyed = false;
         this.setToDestroy = false;
+        this.texture = new Texture("white.png");
     }
 
     public void render(SpriteBatch batch) {
         elapsedTime += Gdx.graphics.getDeltaTime();
 
-        if(className.equals("Player")) {
-            batch.draw(currentFrame, x, y);
+        if(hasAnimations) {
+            batch.draw(currentFrame, x, y, width, height);
         }else {
             batch.draw(texture, x, y, width, height);
         }
@@ -182,7 +162,8 @@ public abstract class MovingRectangle extends Sprite {
         //directionX = 0;
 
         manageUserInput();
-        currentFrame = getFrame(dt);
+        if(hasAnimations)
+            currentFrame = getFrame(dt);
     }
 
     public TextureRegion getFrame(float dt) {
@@ -191,13 +172,13 @@ public abstract class MovingRectangle extends Sprite {
         TextureRegion region;
         switch (currentState) {
             case JUMP:
-                region = jumping;
+                region = jumping.getKeyFrame(stateTimer, true);
                 break;
             case RUN:
                 region = running.getKeyFrame(stateTimer, true);
                 break;
             case FALL:
-                region = falling;
+                region = falling.getKeyFrame(stateTimer, true);
                 break;
             case WALK:
                 region = walking.getKeyFrame(stateTimer, true);
@@ -222,11 +203,11 @@ public abstract class MovingRectangle extends Sprite {
     }
 
     public State getState() {
-        if(body.getLinearVelocity().y > 0)
+        if(body.getLinearVelocity().y > 0 && !onRectangle)
             return State.JUMP;
-        else if(body.getLinearVelocity().y < 0)
+        else if(body.getLinearVelocity().y < -0.01f)
             return State.FALL;
-        else if(body.getLinearVelocity().x != 0) {
+        else if(body.getLinearVelocity().x < -0.1 || body.getLinearVelocity().x > 0.1) {
             if(speedLevel == startSpeedLevel)
                 return State.WALK;
             else

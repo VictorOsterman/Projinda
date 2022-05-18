@@ -36,7 +36,6 @@ public class Player extends MovingRectangle{
 
 
     private int score;
-    private boolean onRectangle;
     private MovingRectangle movingRectangle;
     private int moving; //Used to make player stop when not moving, allows directionX to still be 1 or -1 in order to create bullets
 
@@ -45,51 +44,52 @@ public class Player extends MovingRectangle{
         super(width, height, body, gameScreen);
 
         this.score = 0;
-        this.onRectangle = false;
         //this.texture = new Texture("player.png");
         addSensor();
         this.lives = 3;
         moving = 0;
         this.directionX = 1;
 
-
         className = "Player";
+        addAnimations();
+    }
 
-        /*
-        Texture texture = new Texture("player.png");
+    public void addAnimations() {
 
-        Array<TextureRegion> frames = new Array<TextureRegion>();
-        this.texture = texture;
-        for(int i = 1; i < 3; i++) {
-            frames.add(new TextureRegion(super.getTexture(), i * 64, 0, 64, 64));
+        Texture animations = new Texture("playermovements.png");
+        currentState = State.STAND;
+        previousState = State.STAND;
+
+        Array<TextureRegion> frames = new Array<>();
+        shooting = new TextureRegion(animations, 0, 0, 64, 64);
+        //shooting = new TextureRegion(charset.findRegion("playermovements"), 0, 0, 64, 64);
+
+        for(int i = 1; i < 5; i++) {
+            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
         }
-        playerWalk = new Animation(0.1f, frames);
+        walking = new Animation<TextureRegion>(0.15f, frames);
         frames.clear();
 
-        for(int i = 4; i < 6; i++) {
-            frames.add(new TextureRegion(getTexture(), i*64, 0, 64, 64));
+        for(int i = 5; i < 9; i++) {
+            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
         }
-        playerRun = new Animation(0.1f, frames);
-
+        running = new Animation<TextureRegion>(0.15f, frames);
         frames.clear();
-        frames.add(new TextureRegion(getTexture(), 5*64, 0, 64, 64));
-        playerJump = new Animation(0.1f, frames);
 
-
-
+        for(int i = 9; i < 11; i++) {
+            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
+        }
+        jumping = new Animation<TextureRegion>(0.15f, frames);
         frames.clear();
-        frames.add(new TextureRegion(getTexture(), 6*64, 0, 64, 64));
-        playerFall = new Animation(0.1f, frames);
-        //this.texture = ((TextureRegion) playerJump.getKeyFrame(0)).getTexture();
-        //this.texture = playerAnimations;
 
-        playerShoot = new TextureRegion(super.getTexture(), 2 * 64, 0, 64, 64);
+        for(int i = 11; i < 13; i++) {
+            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
+        }
+        falling = new Animation<TextureRegion>(0.15f, frames);
+        frames.clear();
 
-        this.texture = playerShoot.getTexture();
-        //this.texture = new Texture("player.png");
-        //setRegion(playerShoot);
-
-         */
+        currentFrame = shooting;
+        this.hasAnimations = true;
     }
 
     @Override
