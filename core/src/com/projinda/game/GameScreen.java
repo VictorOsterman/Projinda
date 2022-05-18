@@ -6,6 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -44,6 +45,7 @@ public class GameScreen extends ScreenAdapter {
 
 
     public GameScreen(OrthographicCamera camera, Boot boot) {
+
 
         this.camera = camera;
         this.batch = new SpriteBatch();
@@ -104,7 +106,7 @@ public class GameScreen extends ScreenAdapter {
         //Gdx.app.log("Now updating ", "");
         world.step(1/60f, 6, 2);
         //Gdx.app.log("world stepped ", "");
-        player.update();
+        player.update(dt);
         scoreBoard.update(dt, player.getScore(), player.getLives());
 
         if(getScoreBoard().getWorldTimer() <= 0 || getScoreBoard().getLives() == 0){
@@ -113,7 +115,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         for (int i = 0; i < movingRectangles.size(); i++) {
-            movingRectangles.get(i).update();
+            movingRectangles.get(i).update(dt);
         }
 
 
