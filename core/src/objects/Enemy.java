@@ -38,7 +38,7 @@ public class Enemy extends MovingRectangle{
     }
 
     @Override
-    public void update() {
+    public void update(float dt) {
 
         if(lives <= 0 && !destroyed) {
             removeMovingRectangle();
@@ -46,7 +46,7 @@ public class Enemy extends MovingRectangle{
             return;
         }
         else if (!destroyed) {
-            super.update();
+            super.update(dt);
             moveEnemy();
             body.setLinearVelocity(directionX*speedLevel*speed, body.getLinearVelocity().y);
         }

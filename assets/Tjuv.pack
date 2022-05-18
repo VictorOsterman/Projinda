@@ -1,0 +1,54 @@
+
+Tjuv.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+goldcoin
+  rotate: false
+  xy: 1, 309
+  size: 640, 640
+  orig: 640, 640
+  offset: 0, 0
+  index: -1
+playermovements
+  rotate: false
+  xy: 1, 243
+  size: 640, 64
+  orig: 640, 64
+  offset: 0, 0
+  index: -1
+badlogic
+  rotate: false
+  xy: 643, 693
+  size: 256, 256
+  orig: 256, 256
+  offset: 0, 0
+  index: -1
+white
+  rotate: false
+  xy: 1, 67
+  size: 290, 174
+  orig: 290, 174
+  offset: 0, 0
+  index: -1
+steel
+  rotate: false
+  xy: 643, 627
+  size: 180, 64
+  orig: 180, 64
+  offset: 0, 0
+  index: -1
+cop
+  rotate: false
+  xy: 901, 885
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 1, 1
+  size: 64, 64
+  orig: 64, 64
+  offset: 0, 0
+  index: -1

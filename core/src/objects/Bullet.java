@@ -32,7 +32,7 @@ public class Bullet extends MovingRectangle{
     }
 
     @Override
-    public void update(){
+    public void update(float dt){
         if((lives <= 0 || lastX == x || outOfSight) && !destroyed) {
             removeMovingRectangle();
             return;
@@ -40,7 +40,7 @@ public class Bullet extends MovingRectangle{
 
         else if(!destroyed) {
             lastX = x;
-            super.update();
+            super.update(dt);
             body.setLinearVelocity(directionX*speedLevel*speed, directionY*speedLevel*speed);
             outOfSight = bulletOutOfSight();
         }

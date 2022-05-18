@@ -6,6 +6,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -25,6 +26,8 @@ import java.util.Random;
 
 public class GameScreen extends ScreenAdapter {
 
+    private TextureAtlas atlas;
+
     private OrthographicCamera camera;
     private SpriteBatch batch;
     private World world;
@@ -43,6 +46,8 @@ public class GameScreen extends ScreenAdapter {
 
 
     public GameScreen(OrthographicCamera camera) {
+
+        atlas = new TextureAtlas("Tjuv.pack");
 
         this.camera = camera;
         this.batch = new SpriteBatch();
@@ -102,11 +107,11 @@ public class GameScreen extends ScreenAdapter {
         //Gdx.app.log("Now updating ", "");
         world.step(1/60f, 6, 2);
         //Gdx.app.log("world stepped ", "");
-        player.update();
+        player.update(dt);
         scoreBoard.update(dt, player.getScore(), player.getLives());
 
         for (int i = 0; i < movingRectangles.size(); i++) {
-            movingRectangles.get(i).update();
+            movingRectangles.get(i).update(dt);
         }
 
 
@@ -287,5 +292,9 @@ public class GameScreen extends ScreenAdapter {
                 ContactType.ENEMY
         );
         addMovingRectangle(new Enemy(64, 64, body, this));
+    }
+
+    public TextureAtlas getAtlas() {
+        return atlas;
     }
 }
