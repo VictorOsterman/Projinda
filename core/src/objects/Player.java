@@ -130,8 +130,7 @@ public class Player extends MovingRectangle{
 
         //Shoot bullet
         if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-            if(true) {
-            //if(!gameScreen.bulletInMotion()) {
+            if(!gameScreen.bulletInMotion()) {
                 //Create the bullets body
                 Body body = BodyHelper.createBody(
                         x+width/2+directionX*(width),

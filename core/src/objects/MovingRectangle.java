@@ -185,4 +185,12 @@ public abstract class MovingRectangle {
     public void hitByBullet() {
         lowerLives();
     }
+
+    public void removeMovingRectangle() {
+        gameScreen.removeMovingRectangle(this);
+        gameScreen.getWorld().destroyBody(this.body);
+        body.setUserData(null);
+        body = null;
+        destroyed = true;
+    }
 }

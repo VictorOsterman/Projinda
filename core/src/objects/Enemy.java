@@ -40,12 +40,8 @@ public class Enemy extends MovingRectangle{
     public void update() {
 
         if(lives <= 0 && !destroyed) {
-            gameScreen.removeMovingRectangle(this);
-            gameScreen.getWorld().destroyBody(this.body);
-            body.setUserData(null);
-            body = null;
+            removeMovingRectangle();
             generateCoin();
-            destroyed = true;
             return;
         }
         else if (!destroyed) {

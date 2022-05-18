@@ -34,11 +34,7 @@ public class Bullet extends MovingRectangle{
     @Override
     public void update(){
         if((lives <= 0 || lastX == x || outOfSight) && !destroyed) {
-            gameScreen.removeMovingRectangle(this);
-            gameScreen.getWorld().destroyBody(this.body);
-            body.setUserData(null);
-            body = null;
-            destroyed = true;
+            removeMovingRectangle();
             return;
         }
 
