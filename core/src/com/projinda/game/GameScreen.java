@@ -134,7 +134,9 @@ public class GameScreen extends ScreenAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         orthogonalTiledMapRenderer.render();
+
         batch.begin();
+
         player.render(batch);
         /*for (MovingRectangle movingRectangle :
                 movingRectangles) {
@@ -148,7 +150,8 @@ public class GameScreen extends ScreenAdapter {
         }
 
         batch.end();
-        box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+
+        //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
         batch.setProjectionMatrix(scoreBoard.stage.getCamera().combined);
         scoreBoard.stage.draw();
     }
@@ -237,10 +240,6 @@ public class GameScreen extends ScreenAdapter {
 
     public ScoreBoard getScoreBoard() {
         return scoreBoard;
-    }
-
-    public SpriteBatch getBatch() {
-        return batch;
     }
 
     /**
