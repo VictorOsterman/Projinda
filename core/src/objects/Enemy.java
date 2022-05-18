@@ -41,6 +41,9 @@ public class Enemy extends MovingRectangle{
         addAnimations();
     }
 
+    /**
+     * Adds animations to the enemy
+     */
     public void addAnimations() {
 
         Texture animations = new Texture("cop.png");
