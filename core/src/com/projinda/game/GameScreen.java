@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import helper.BodyHelper;
 import helper.Const;
 import helper.ContactType;
@@ -20,6 +21,7 @@ import objects.*;
 import scenes.ScoreBoard;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -120,7 +122,7 @@ public class GameScreen extends ScreenAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
 
-        if(scoreBoard.isNewSecond() && scoreBoard.getWorldTimer() % 10 == 0) {
+        if(scoreBoard.isNewSecond() && scoreBoard.getWorldTimer() % 1 == 0) {
             spawnEnemy();
         }
     }
@@ -238,19 +240,32 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void spawnEnemy() {
-        // If 10 enemies already exist, do not spawn another
+        // If 6 enemies already exist, do not spawn another
         int enemyCounter = 0;
         for (MovingRectangle movingRectangle :
                 movingRectangles) {
             if (movingRectangle.getClassName().equals("Enemy"))
                 enemyCounter++;
         }
-        if(enemyCounter >= 6)
+        if(enemyCounter >= 10)
             return;
+
+        // Find coordinates for the enemy
+        int x = 0;
+        int y = 128;
+        Random rng = new Random();
+        // Player in the left third of game
+        if(player.getX() < (tiledMapHelper.getMapSize().x*tiledMapHelper.getTileSize().x)/3)
+            x = 2800;
+        else if(player.getX() > (tiledMapHelper.getMapSize().x*tiledMapHelper.getTileSize().x)*(2/3))
+            x = 100;
+        else
+            x = rng.nextInt(2) == 1 ? 100 : 2800;
+
         //Create a new body for the enemy
         Body body = BodyHelper.createBody(
-                1000,
-                1000,
+                x,
+                y,
                 64,
                 64,
                 false,
@@ -259,5 +274,6 @@ public class GameScreen extends ScreenAdapter {
                 ContactType.ENEMY
         );
         addMovingRectangle(new Enemy(64, 64, body, this));
+        Gdx.app.log(String.valueOf(x), String.valueOf(y));
     }
 }

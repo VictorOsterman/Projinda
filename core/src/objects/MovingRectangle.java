@@ -34,6 +34,8 @@ public abstract class MovingRectangle {
 
     private boolean isDead;
     protected String className;
+    protected boolean destroyed;
+    protected boolean setToDestroy;
 
     /**
      * Constructor for moving rectangle
@@ -70,6 +72,9 @@ public abstract class MovingRectangle {
         this.className = "MovingRectangle";
 
         this.body.setFixedRotation(true);   //Disables rotating on bodies
+
+        this.destroyed = false;
+        this.setToDestroy = false;
     }
 
     public void addSensor() {
@@ -93,7 +98,6 @@ public abstract class MovingRectangle {
     }
 
     public void update() {
-
         //If the player has died or fallen below y = -300
         if(isDead || y < -300) {
             handleDeath();
@@ -138,12 +142,6 @@ public abstract class MovingRectangle {
     public int getLives() { return lives; }
     public void lowerLives() { lives--; }
 
-    public void rectangleFallen() {
-        if(lives <= 0) {
-            handleDeath();
-        }
-    }
-
     /**
      * Object has "died"
      * Lower lives by one, reset position to start.
@@ -182,5 +180,9 @@ public abstract class MovingRectangle {
 
     public void resetJumpCounter() {
         this.jumpCounter = 0;
+    }
+
+    public void hitByBullet() {
+        lowerLives();
     }
 }

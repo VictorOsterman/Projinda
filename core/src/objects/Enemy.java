@@ -38,17 +38,22 @@ public class Enemy extends MovingRectangle{
 
     @Override
     public void update() {
-        if(lives <= 0 ) {
+
+        if(lives <= 0 && !destroyed) {
             gameScreen.removeMovingRectangle(this);
             gameScreen.getWorld().destroyBody(this.body);
+            body.setUserData(null);
+            body = null;
             generateCoin();
+            destroyed = true;
             return;
         }
-        super.update();
-
-        moveEnemy();
-
-        body.setLinearVelocity(directionX*speedLevel*speed, body.getLinearVelocity().y);
+        else if (!destroyed) {
+            Gdx.app.log(String.valueOf(lives), "");
+            super.update();
+            moveEnemy();
+            body.setLinearVelocity(directionX*speedLevel*speed, body.getLinearVelocity().y);
+        }
     }
 
     /**
@@ -109,4 +114,6 @@ public class Enemy extends MovingRectangle{
         }
 
     }
+
+
 }

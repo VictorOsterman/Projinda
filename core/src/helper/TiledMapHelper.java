@@ -1,5 +1,6 @@
 package helper;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -58,6 +59,7 @@ public class TiledMapHelper {
                 //Check if the map object is a player
                 if(rectangleName.equals("player")) {
                     //Create a body with position and size specified in tiled map
+                    Gdx.app.log(String.valueOf(rectangle.getX() + rectangle.getWidth() / 2), String.valueOf(rectangle.getY() + rectangle.getHeight() / 2));
                     Body body = BodyHelper.createBody(
                             rectangle.getX() + rectangle.getWidth() / 2,
                             rectangle.getY() + rectangle.getHeight() / 2,
@@ -72,6 +74,8 @@ public class TiledMapHelper {
                 }
                 //Check if the map object is an enemy
                 else if (rectangleName.equals("enemy")) {
+                    Gdx.app.log(String.valueOf(rectangle.getX() + rectangle.getWidth() / 2), String.valueOf(rectangle.getY() + rectangle.getHeight() / 2));
+
                     //Create a body with position and size specified in tiled map
                     Body body = BodyHelper.createBody(
                             rectangle.getX() + rectangle.getWidth() / 2,

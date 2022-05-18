@@ -46,26 +46,26 @@ public class Coin extends MoneyItems {
             this.directionX = -1;
         thrown = false;
 
-        body.setLinearVelocity(body.getLinearVelocity().x, 0);
-        body.applyLinearImpulse(new Vector2(0, 10+rng.nextInt(10)), body.getPosition(), true);
+        body.setLinearVelocity(body.getLinearVelocity().x, 10);
     }
 
     @Override
     public void update() {
         // If the coin is collected
-        if(collected) {
+        if(collected && !destroyed) {
             removeMoneyItem();
-            gameScreen.getWorld().destroyBody(this.body);
             return;
         }
-        super.update();
-        if(!thrown) {
-            body.setLinearVelocity(body.getLinearVelocity().x, 10);
-            thrown = true;
-        }
-        speed *= 0.99;
+        else if(!destroyed) {
+            super.update();
+            if(!thrown) {
+                //body.setLinearVelocity(body.getLinearVelocity().x, 10);
+                thrown = true;
+            }
+            speed *= 0.99;
 
-        body.setLinearVelocity(directionX*speed, body.getLinearVelocity().y);
+            body.setLinearVelocity(directionX*speed, body.getLinearVelocity().y);
+        }
     }
 
 }

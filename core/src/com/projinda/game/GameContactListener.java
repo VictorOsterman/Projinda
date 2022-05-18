@@ -102,7 +102,7 @@ public class GameContactListener implements ContactListener {
                 // Fixes bug when player is below enemy outside camera's scope
                 if(enemy == null)
                     return;
-                enemy.lowerLives();
+                enemy.hitByBullet();
             }
 
             // If the bullet hit the safe, the safe should crack
