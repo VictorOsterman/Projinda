@@ -33,16 +33,17 @@ public class Bullet extends MovingRectangle{
 
     @Override
     public void update(){
-        if(lives <= 0 || lastX == x || outOfSight) {
-            gameScreen.removeMovingRectangle(this);
-            gameScreen.getWorld().destroyBody(this.body);
+        if((lives <= 0 || lastX == x || outOfSight) && !destroyed) {
+            removeMovingRectangle();
             return;
         }
 
-        lastX = x;
-        super.update();
-        body.setLinearVelocity(directionX*speedLevel*speed, directionY*speedLevel*speed);
-        outOfSight = bulletOutOfSight();
+        else if(!destroyed) {
+            lastX = x;
+            super.update();
+            body.setLinearVelocity(directionX*speedLevel*speed, directionY*speedLevel*speed);
+            outOfSight = bulletOutOfSight();
+        }
     }
 
     public void setRemove(boolean remove) {

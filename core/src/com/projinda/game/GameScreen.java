@@ -9,8 +9,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+import helper.BodyHelper;
 import helper.Const;
 import helper.ContactType;
 import helper.TiledMapHelper;
@@ -18,6 +21,7 @@ import objects.*;
 import scenes.ScoreBoard;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameScreen extends ScreenAdapter {
 
@@ -118,6 +122,9 @@ public class GameScreen extends ScreenAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
 
+        if(scoreBoard.isNewSecond() && scoreBoard.getWorldTimer() % 10 == 0) {
+            spawnEnemy();
+        }
     }
 
     @Override
@@ -230,5 +237,55 @@ public class GameScreen extends ScreenAdapter {
 
     public ScoreBoard getScoreBoard() {
         return scoreBoard;
+    }
+
+    /**
+     * Spawns an enemy to the game
+     * If the player is on the left third, the enemy is placed on the right third and vice versa
+     * If the player is in the middle, the enemy is randomly placed either on the left or right side
+     */
+    public void spawnEnemy() {
+        // If max amount of enemies already exist, do not spawn another
+        int enemyCounter = 0;
+        for (MovingRectangle movingRectangle :
+                movingRectangles) {
+            if (movingRectangle.getClassName().equals("Enemy"))
+                enemyCounter++;
+        }
+        if(enemyCounter >= 10)
+            return;
+
+        // Find coordinates for the new enemy to be spawned at
+        int x = 0;
+        int y = 128;
+        Random rng = new Random();
+
+        // Player in the left third of game
+        if(player.getX() < (tiledMapHelper.getMapSize().x*tiledMapHelper.getTileSize().x)/3) {
+            x = 2800;
+        }
+
+        // Player in the right third of game
+        else if(player.getX() > (2*(tiledMapHelper.getMapSize().x*tiledMapHelper.getTileSize().x/3))) {
+            x = 100;
+        }
+
+        // Player in the middle
+        else {
+            x = rng.nextInt(2) == 1 ? 100 : 2800;
+        }
+
+        //Create a new body for the enemy
+        Body body = BodyHelper.createBody(
+                x,
+                y,
+                64,
+                64,
+                false,
+                99999999,
+                world,
+                ContactType.ENEMY
+        );
+        addMovingRectangle(new Enemy(64, 64, body, this));
     }
 }

@@ -25,6 +25,7 @@ public abstract class MoneyItems {
     protected float width, height;
     protected Body body;
     protected boolean isStatic;
+    protected boolean destroyed;
 
     //For non-static moneyItems:
     protected float directionX, speed;
@@ -50,6 +51,7 @@ public abstract class MoneyItems {
 
         this.texture = new Texture("maps/safepicture.png");
         this.isStatic = true;
+        this.destroyed = false;
     }
 
     public void update() {
@@ -85,6 +87,9 @@ public abstract class MoneyItems {
     public void removeMoneyItem() {
         gameScreen.removeMoneyItem(this);
         gameScreen.getWorld().destroyBody(this.body);
+        body.setUserData(null);
+        body = null;
+        destroyed = true;
         return;
     }
     public float getX() {
