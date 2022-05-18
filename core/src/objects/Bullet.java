@@ -24,6 +24,7 @@ public class Bullet extends MovingRectangle{
         super(20, 10, body, gameScreen);
 
         this.texture = directionX == 1 ? new Texture("bulletr.png") : new Texture("bulletl.png");
+
         this.directionX = directionX;
         this.body.setGravityScale(0);    //Remove gravity from floating Bullet
         this.remove = false;
