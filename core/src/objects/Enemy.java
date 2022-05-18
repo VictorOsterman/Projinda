@@ -10,8 +10,14 @@ import com.projinda.game.GameScreen;
 import java.util.Random;
 
 /**
- * Enemy class
- * Chases after player
+ * Enemy class.
+ * Chases after player.
+ * When not close to player it wanders around.
+ * When it gets hit by bullets its lives gets lowered.
+ * When no lives are left the enemy dies and is removed from the game.
+ *
+ * @author Erik Sidén
+ * @version 2022-05-18
  */
 public class Enemy extends MovingRectangle{
     /**
@@ -24,11 +30,6 @@ public class Enemy extends MovingRectangle{
     public Enemy(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body, gameScreen);
         this.speedLevel = 0.5F;
-
-        //TANKE
-        // Dumt att ändra speed variabeln
-        // Borde: låt moving rectangle ha en variabel velocity.
-        // I update: sätt velocity*velX och velocity*velY istället.cd
         this.texture = new Texture("cop.png");
         this.lives = 3;
         this.className = "Enemy";
