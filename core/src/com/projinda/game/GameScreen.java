@@ -239,6 +239,10 @@ public class GameScreen extends ScreenAdapter {
         return scoreBoard;
     }
 
+    public SpriteBatch getBatch() {
+        return batch;
+    }
+
     /**
      * Spawns an enemy to the game
      * If the player is on the left third, the enemy is placed on the right third and vice versa
