@@ -29,6 +29,7 @@ public class GameOverScreen implements Screen {
 
     private Texture gameOverLabel;
     private BitmapFont scoreFont;
+    private Texture backgroundImage = new Texture("maps/background_game_over.png");
 
     public GameOverScreen(Boot boot, int score){
         batch = new SpriteBatch();
@@ -60,6 +61,7 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+        batch.draw(backgroundImage,0, 0, Boot.INSTANCE.getScreenWidth(),Boot.INSTANCE.getScreenHeight());
 
         batch.draw(gameOverLabel, GAME_OVER_X_POS, GAME_OVER_Y_POS, GAME_OVER_WIDTH, GAME_OVER_HEIGHT);
         GlyphLayout scoreLayout = new GlyphLayout(scoreFont,"Your Score: \n" + score, Color.WHITE,0, Align.left,false);

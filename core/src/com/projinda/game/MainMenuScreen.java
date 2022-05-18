@@ -22,6 +22,7 @@ public class MainMenuScreen implements Screen {
     private Texture playButtonInactive;
     private Texture exitButtonActive;
     private Texture exitButtonInactive;
+    private Texture backgroundImage = new Texture("maps/background_main.png");
 
     public MainMenuScreen(Boot boot){
 
@@ -55,6 +56,7 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
+        batch.draw(backgroundImage,0, 0, Boot.INSTANCE.getScreenWidth(),Boot.INSTANCE.getScreenHeight());
 
         if(Gdx.input.getX() >= PLAY_BUTTON_WIDTH_POS && Gdx.input.getX() <= PLAY_BUTTON_WIDTH_POS + ICON_WIDTH && Boot.INSTANCE.getScreenHeight() - Gdx.input.getY() >= PLAY_BUTTON_HEIGHT_POS && Boot.INSTANCE.getScreenHeight() - Gdx.input.getY() <= PLAY_BUTTON_HEIGHT_POS + ICON_HEIGHT){
             batch.draw(playButtonActive,PLAY_BUTTON_WIDTH_POS, PLAY_BUTTON_HEIGHT_POS, ICON_WIDTH,ICON_HEIGHT);
