@@ -128,8 +128,10 @@ public class GameScreen extends ScreenAdapter {
         batch.setProjectionMatrix(camera.combined);
         orthogonalTiledMapRenderer.setView(camera);
 
-        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
-            Gdx.app.exit();
+        if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)){
+            boot.setMainMenuScreen();
+            return;
+        }
 
         if(scoreBoard.isNewSecond() && scoreBoard.getWorldTimer() % 10 == 0) {
             spawnEnemy();
