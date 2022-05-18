@@ -44,7 +44,6 @@ public class Player extends MovingRectangle{
         super(width, height, body, gameScreen);
 
         this.score = 0;
-        //this.texture = new Texture("player.png");
         addSensor();
         this.lives = 3;
         moving = 0;
@@ -54,6 +53,9 @@ public class Player extends MovingRectangle{
         addAnimations();
     }
 
+    /**
+     * Adds animations to the player
+     */
     public void addAnimations() {
 
         Texture animations = new Texture("playermovements.png");
@@ -126,8 +128,6 @@ public class Player extends MovingRectangle{
         body.setLinearVelocity(velocityX*speed, body.getLinearVelocity().y);
         //setRegion(getFrame(dt));
     }
-
-
 
     /**
      * Listens to user input
@@ -213,6 +213,10 @@ public class Player extends MovingRectangle{
     public int getScore() { return score; }
     public void increaseScore(int newScore) { score += newScore; }
 
+    /**
+     * Set that the player is standing on a rectangle
+     * @param movingRectangle rectangle which the player is standing on
+     */
     public void setOnRectangle(MovingRectangle movingRectangle) {
         this.movingRectangle = movingRectangle;
         this.onRectangle = true;
