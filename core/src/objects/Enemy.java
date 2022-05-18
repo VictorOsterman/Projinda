@@ -46,7 +46,6 @@ public class Enemy extends MovingRectangle{
             return;
         }
         else if (!destroyed) {
-            Gdx.app.log(String.valueOf(lives), "");
             super.update();
             moveEnemy();
             body.setLinearVelocity(directionX*speedLevel*speed, body.getLinearVelocity().y);

@@ -122,7 +122,7 @@ public class GameScreen extends ScreenAdapter {
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
 
-        if(scoreBoard.isNewSecond() && scoreBoard.getWorldTimer() % 1 == 0) {
+        if(scoreBoard.isNewSecond() && scoreBoard.getWorldTimer() % 10 == 0) {
             spawnEnemy();
         }
     }
@@ -239,8 +239,13 @@ public class GameScreen extends ScreenAdapter {
         return scoreBoard;
     }
 
+    /**
+     * Spawns an enemy to the game
+     * If the player is on the left third, the enemy is placed on the right third and vice versa
+     * If the player is in the middle, the enemy is randomly placed either on the left or right side
+     */
     public void spawnEnemy() {
-        // If 6 enemies already exist, do not spawn another
+        // If max amount of enemies already exist, do not spawn another
         int enemyCounter = 0;
         for (MovingRectangle movingRectangle :
                 movingRectangles) {
@@ -250,17 +255,25 @@ public class GameScreen extends ScreenAdapter {
         if(enemyCounter >= 10)
             return;
 
-        // Find coordinates for the enemy
+        // Find coordinates for the new enemy to be spawned at
         int x = 0;
         int y = 128;
         Random rng = new Random();
+
         // Player in the left third of game
-        if(player.getX() < (tiledMapHelper.getMapSize().x*tiledMapHelper.getTileSize().x)/3)
+        if(player.getX() < (tiledMapHelper.getMapSize().x*tiledMapHelper.getTileSize().x)/3) {
             x = 2800;
-        else if(player.getX() > (tiledMapHelper.getMapSize().x*tiledMapHelper.getTileSize().x)*(2/3))
+        }
+
+        // Player in the right third of game
+        else if(player.getX() > (2*(tiledMapHelper.getMapSize().x*tiledMapHelper.getTileSize().x/3))) {
             x = 100;
-        else
+        }
+
+        // Player in the middle
+        else {
             x = rng.nextInt(2) == 1 ? 100 : 2800;
+        }
 
         //Create a new body for the enemy
         Body body = BodyHelper.createBody(
@@ -274,6 +287,5 @@ public class GameScreen extends ScreenAdapter {
                 ContactType.ENEMY
         );
         addMovingRectangle(new Enemy(64, 64, body, this));
-        Gdx.app.log(String.valueOf(x), String.valueOf(y));
     }
 }
