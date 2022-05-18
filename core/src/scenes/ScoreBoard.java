@@ -92,5 +92,13 @@ public class ScoreBoard {
         return worldTimer;
     }
 
+    public Integer getScore() {
+        return score;
+    }
+
+    public Integer getLives(){
+        return lives;
+    }
+
     public boolean isNewSecond() { return newSecond; }
 }
