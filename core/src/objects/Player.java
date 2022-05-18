@@ -153,11 +153,12 @@ public class Player extends MovingRectangle{
             }
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.U)) {
-            //Create the bullets body
+        // Hack for pro players, unlimited coins $$$
+        if(Gdx.input.isKeyPressed(Input.Keys.U)) {
+            //Create the coins body
             Body body = BodyHelper.createBody(
-                    x+width/2+directionX*(width/2),
-                    y+height/2,
+                    x+width/2,
+                    y-height/2,
                     64,
                     64,
                     false,
