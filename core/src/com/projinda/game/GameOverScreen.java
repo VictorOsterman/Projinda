@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 
 public class GameOverScreen implements Screen {
@@ -42,6 +41,7 @@ public class GameOverScreen implements Screen {
         if (score > highScore){
             preferences.putInteger("highscore", score);
             preferences.flush();
+            this.highScore = preferences.getInteger("highscore",0);
         }
 
         gameOverLabel = new Texture("game_over.png");
