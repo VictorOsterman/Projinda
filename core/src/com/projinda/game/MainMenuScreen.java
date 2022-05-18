@@ -60,6 +60,7 @@ public class MainMenuScreen implements Screen {
             batch.draw(playButtonActive,PLAY_BUTTON_WIDTH_POS, PLAY_BUTTON_HEIGHT_POS, ICON_WIDTH,ICON_HEIGHT);
             if(Gdx.input.isTouched()){
                 boot.setGameScreen();
+                return;
             }
         }else{
             batch.draw(playButtonInactive, PLAY_BUTTON_WIDTH_POS, PLAY_BUTTON_HEIGHT_POS, ICON_WIDTH, ICON_HEIGHT);

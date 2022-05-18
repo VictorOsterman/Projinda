@@ -27,6 +27,7 @@ public class GameScreen extends ScreenAdapter {
 
     private OrthographicCamera camera;
     private SpriteBatch batch;
+    private Boot boot;
     private World world;
     private GameContactListener gameContactListener;
 
@@ -42,12 +43,13 @@ public class GameScreen extends ScreenAdapter {
     private ScoreBoard scoreBoard;
 
 
-    public GameScreen(OrthographicCamera camera) {
+    public GameScreen(OrthographicCamera camera, Boot boot) {
 
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0,-25),false);
         this.box2DDebugRenderer = new Box2DDebugRenderer();
+        this.boot = boot;
 
         gameContactListener = new GameContactListener(this);
         world.setContactListener(gameContactListener);
@@ -104,6 +106,11 @@ public class GameScreen extends ScreenAdapter {
         //Gdx.app.log("world stepped ", "");
         player.update();
         scoreBoard.update(dt, player.getScore(), player.getLives());
+
+        if(getScoreBoard().getWorldTimer() <= 0 || getScoreBoard().getLives() == 0){
+            boot.setGameOverScreen(getScoreBoard().getScore());
+            return;
+        }
 
         for (int i = 0; i < movingRectangles.size(); i++) {
             movingRectangles.get(i).update();
