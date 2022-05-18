@@ -111,6 +111,47 @@ public abstract class MovingRectangle extends Sprite {
     }
 
     /**
+     * Adds animations to the moving rectangle
+     * Expects a row of seven animation squares in the following order:
+     * walk 1, walk 2, stand still, jump 1, jump 2, fall 1, fall 2
+     *
+     * @param filename file with the animations
+     * @param sf scaling factor, if sf = 1 the width and height of rectangle and animations are 64
+     */
+    public void addAnimations(String filename, int sf) {
+        Texture animations = new Texture(filename);
+
+        currentState = State.STAND;
+        previousState = State.STAND;
+
+        Array<TextureRegion> frames = new Array<>();
+        shooting = new TextureRegion(animations, 2*64*sf, 0, 64*sf, 64*sf);
+        //shooting = new TextureRegion(charset.findRegion("playermovements"), 0, 0, 64, 64);
+
+        for(int i = 0; i < 2; i++) {
+            frames.add(new TextureRegion(animations, i*64*sf, 0, 64*sf, 64*sf));
+        }
+        walking = new Animation<TextureRegion>(0.15f, frames);
+        running = new Animation<TextureRegion>(0.1f, frames);
+        frames.clear();
+
+        for(int i = 3; i < 5; i++) {
+            frames.add(new TextureRegion(animations, i*64*sf, 0, 64*sf, 64*sf));
+        }
+        jumping = new Animation<TextureRegion>(0.15f, frames);
+        frames.clear();
+
+        for(int i = 5; i < 7; i++) {
+            frames.add(new TextureRegion(animations, i*64*sf, 0, 64*sf, 64*sf));
+        }
+        falling = new Animation<TextureRegion>(0.15f, frames);
+        frames.clear();
+
+        currentFrame = shooting;
+        this.hasAnimations = true;
+    }
+
+    /**
      * Renders the moving rectangle
      * If the rectangle uses animations the correct frame is drawn
      * @param batch
