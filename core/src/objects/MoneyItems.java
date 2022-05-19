@@ -92,7 +92,13 @@ public abstract class MoneyItems {
         body.setUserData(null);
         body = null;
         destroyed = true;
-        return;
+    }
+
+    public void removeBody() {
+        gameScreen.getWorld().destroyBody(this.body);
+        body.setUserData(null);
+        body = null;
+        destroyed = true;
     }
     public float getX() {
         return x;
@@ -122,21 +128,8 @@ public abstract class MoneyItems {
 
     public void render(SpriteBatch batch, float dt) {
         if(isStatic) {
-            if (collected && !destroyed) {
-
-                if (removeCounter >= 5) {
-                    removeMoneyItem();
-                    return;
-                } else {
-                    removeCounter += dt;
-                }
-            }
-            if (!destroyed) {
-                batch.draw(texture, x * Const.PPM - width / 2, y * Const.PPM - height / 2, width, height);
-            }
+            batch.draw(texture, x * Const.PPM - width / 2, y * Const.PPM - height / 2, width, height);
         }
-
-
         else if(!isStatic) {
             batch.draw(texture, x, y, width, height);
         }
