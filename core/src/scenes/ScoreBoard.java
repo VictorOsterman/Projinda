@@ -31,7 +31,7 @@ public class ScoreBoard {
     Label playerLabel;
 
     public ScoreBoard(SpriteBatch sb) {
-        worldTimer = 300;
+        worldTimer = 5;
         timeCount = 0;
         score = 0;
         lives = 3;

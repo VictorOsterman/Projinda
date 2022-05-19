@@ -101,14 +101,15 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void update(float dt){
-        //Gdx.app.log("Now updating ", "");
         world.step(1/60f, 6, 2);
-        //Gdx.app.log("world stepped ", "");
         player.update();
         scoreBoard.update(dt, player.getScore(), player.getLives());
 
-        if(getScoreBoard().getWorldTimer() <= 0 || getScoreBoard().getLives() == 0){
-            boot.setGameOverScreen(getScoreBoard().getScore());
+        if(getScoreBoard().getWorldTimer() <= 0){
+            boot.setGameOverScreen(getScoreBoard().getScore(), false);
+            return;
+        }else if(getScoreBoard().getLives() == 0){
+            boot.setGameOverScreen(getScoreBoard().getScore(), true);
             return;
         }
 

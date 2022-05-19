@@ -25,15 +25,18 @@ public class GameOverScreen implements Screen {
     private SpriteBatch batch;
     private Boot boot;
     private int score, highScore;
+    private boolean died;
 
     private Texture gameOverLabel;
     private BitmapFont scoreFont;
-    private Texture backgroundImage = new Texture("maps/background_game_over.png");
+    private Texture backgroundImageDied = new Texture("maps/background_game_over_died.png");
+    private Texture backgroundImageTime = new Texture("maps/background_game_over_time.png");
 
-    public GameOverScreen(Boot boot, int score){
+    public GameOverScreen(Boot boot, int score, boolean died){
         batch = new SpriteBatch();
         this.boot = boot;
         this.score = score;
+        this.died = died;
 
         Preferences preferences = Gdx.app.getPreferences("game");
         this.highScore = preferences.getInteger("highscore",0);
@@ -61,7 +64,12 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        batch.draw(backgroundImage,0, 0, Boot.INSTANCE.getScreenWidth(),Boot.INSTANCE.getScreenHeight());
+
+        if(died){
+            batch.draw(backgroundImageDied,0, 0, Boot.INSTANCE.getScreenWidth(),Boot.INSTANCE.getScreenHeight());
+        }else{
+            batch.draw(backgroundImageTime,0, 0, Boot.INSTANCE.getScreenWidth(),Boot.INSTANCE.getScreenHeight());
+        }
 
         batch.draw(gameOverLabel, GAME_OVER_X_POS, GAME_OVER_Y_POS, GAME_OVER_WIDTH, GAME_OVER_HEIGHT);
         GlyphLayout scoreLayout = new GlyphLayout(scoreFont,"Your Score: \n" + score, Color.WHITE,0, Align.left,false);

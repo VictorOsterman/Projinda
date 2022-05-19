@@ -29,8 +29,8 @@ public class Boot extends Game {
         setScreen(new GameScreen(orthographicCamera, this));
     }
 
-    public void setGameOverScreen(int score){
-        setScreen(new GameOverScreen(this, score));
+    public void setGameOverScreen(int score, boolean died){
+        setScreen(new GameOverScreen(this, score, died));
     }
 
     public void setMainMenuScreen(){
