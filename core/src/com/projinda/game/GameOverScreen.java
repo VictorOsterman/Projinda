@@ -12,9 +12,12 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 
+/**
+ * The game's 'game over screen'
+ * Reached when the player either dies (no lives left) or wins (time runs out)
+ */
 public class GameOverScreen implements Screen {
 
-    //Game Over sprite
     public static final int PADDING = 15;
     public static final int GAME_OVER_WIDTH = 350;
     public static final int GAME_OVER_HEIGHT = 100;
@@ -32,6 +35,13 @@ public class GameOverScreen implements Screen {
     private Texture backgroundImageDied = new Texture("maps/background_game_over_died.png");
     private Texture backgroundImageTime = new Texture("maps/background_game_over_time.png");
 
+    /**
+     * GameOverScreen constructor, initials {@param boot}, {@param score}, {@param died}.
+     * It also checks if the current score beats the highscore, and if so, sets the new highscore to score
+     * @param boot used to get back to the either the main menu or the game itself.
+     * @param score the score used to set the current and check highscore.
+     * @param died if the player lost or won the game.
+     */
     public GameOverScreen(Boot boot, int score, boolean died){
         batch = new SpriteBatch();
         this.boot = boot;
@@ -113,7 +123,6 @@ public class GameOverScreen implements Screen {
 
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
-
 
 
         batch.end();

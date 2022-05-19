@@ -24,6 +24,9 @@ import scenes.ScoreBoard;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * The game's game logical machine.
+ */
 public class GameScreen extends ScreenAdapter {
 
     private OrthographicCamera camera;
@@ -39,18 +42,19 @@ public class GameScreen extends ScreenAdapter {
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TiledMapHelper tiledMapHelper;
-    private Box2DDebugRenderer box2DDebugRenderer;
-
     private ScoreBoard scoreBoard;
 
 
+    /**
+     * The game screen constructor, called when a new object of type {@code GameScreen} is needed
+     * @param camera an orthographic camera, used to follow the player
+     * @param boot being able to start new screen objects
+     */
     public GameScreen(OrthographicCamera camera, Boot boot) {
-
 
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0,-25),false);
-        this.box2DDebugRenderer = new Box2DDebugRenderer();
         this.boot = boot;
 
         gameContactListener = new GameContactListener(this);
@@ -66,6 +70,9 @@ public class GameScreen extends ScreenAdapter {
         scoreBoard = new ScoreBoard(batch);
     }
 
+    /**
+     * Called when wanting the camera to follow the players position.
+     */
     private void updateCamera(){
         if(player.getY() - tiledMapHelper.getTileSize().y*5 < 0){
             if(player.getX() - Boot.INSTANCE.getScreenWidth() / 2 < 0){
@@ -97,11 +104,13 @@ public class GameScreen extends ScreenAdapter {
                 camera.position.set(new Vector3(player.getX(),player.getY(),0));
             }
         }
-
-
         camera.update();
     }
 
+    /**
+     * Called when the screen should update into a new frame
+     * @param dt difference in time
+     */
     public void update(float dt){
         world.step(1/60f, 6, 2);
 
@@ -141,6 +150,11 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
+    /**
+     * Called when the screen should render itself.
+     *
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta){
         update(delta);
@@ -152,10 +166,7 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
 
         player.render(batch);
-        /*for (MovingRectangle movingRectangle :
-                movingRectangles) {
-            movingRectangle.render(batch);
-        }*/
+
         for (int i = 0; i < movingRectangles.size(); i++) {
             movingRectangles.get(i).render(batch);
         }
@@ -165,7 +176,6 @@ public class GameScreen extends ScreenAdapter {
 
         batch.end();
 
-        //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
         batch.setProjectionMatrix(scoreBoard.stage.getCamera().combined);
         scoreBoard.stage.draw();
     }
@@ -197,16 +207,13 @@ public class GameScreen extends ScreenAdapter {
      * @return corresponding money item
      */
     public MoneyItems getMatchingMoneyItem(float x, float y) {
-        //Gdx.app.log(String.valueOf(x), String.valueOf(y));
         for (MoneyItems moneyItem: moneyItems) {
-            //Gdx.app.log(String.valueOf(moneyItem.getX()), String.valueOf(moneyItem.getY()));
             if (x * Const.PPM == moneyItem.getX() + moneyItem.getWidth() / 2 && y * Const.PPM == moneyItem.getY() + moneyItem.getHeight() / 2) {
                 return moneyItem;
             }
             else if(x == moneyItem.getX() && y == moneyItem.getY())
                 return moneyItem;
         }
-        //Gdx.app.log("No matching money item found", "");
         return null;
     }
     
@@ -217,28 +224,36 @@ public class GameScreen extends ScreenAdapter {
      * @return movingRectangle collided with
      */
     public MovingRectangle getMatchingRectangle(float x, float y) {
-        //Gdx.app.log("---------------------", "");
-        //Gdx.app.log(String.valueOf(x*Const.PPM), String.valueOf(y*Const.PPM));
+
         for (MovingRectangle movingRectangle: movingRectangles) {
-            //Gdx.app.log(String.valueOf(movingRectangle.getX() + movingRectangle.getWidth()/2), String.valueOf(movingRectangle.getY() + movingRectangle.getHeight() / 2));
             if(x*Const.PPM == movingRectangle.getX() + movingRectangle.getWidth()/2 && y*Const.PPM == movingRectangle.getY() + movingRectangle.getHeight() / 2) {
-                //Gdx.app.log("---------------------", "");
                 return movingRectangle;
             }
         }
-        //Gdx.app.log("No matching moving rectangle found", "");
-        //Gdx.app.log("---------------------", "");
         return null;
     }
 
+    /**
+     * Remove a moving rectangle
+     * @param movingRectangle the rectangle to be removed
+     */
     public void removeMovingRectangle(MovingRectangle movingRectangle) {
         movingRectangles.remove(movingRectangle);
     }
 
+    /**
+     * Remove the item money
+     *
+     * @param moneyItem the item to be removed
+     */
     public void removeMoneyItem (MoneyItems moneyItem) {
         moneyItems.remove(moneyItem);
     }
 
+    /**
+     * Checks if the bullet is in motion
+     * @return true if it does, false otherwise
+     */
     public boolean bulletInMotion () {
         for (MovingRectangle movingRectangle :
                 movingRectangles) {
@@ -248,10 +263,18 @@ public class GameScreen extends ScreenAdapter {
         return false;
     }
 
+    /**
+     *
+     * @return a TiledMapHelper object
+     */
     public TiledMapHelper getTiledMapHelper() {
         return tiledMapHelper;
     }
 
+    /**
+     *
+     * @return a ScoreBoard object
+     */
     public ScoreBoard getScoreBoard() {
         return scoreBoard;
     }

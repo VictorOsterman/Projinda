@@ -22,6 +22,10 @@ import objects.Safe;
 
 import static helper.Const.PPM;
 
+/**
+ * TiledMapHelper helps the tiled map file to be placed on the game screen as well as making objects where there
+ * should be object
+ */
 public class TiledMapHelper {
 
     private TiledMap tiledMap;
@@ -33,6 +37,10 @@ public class TiledMapHelper {
         this.gameScreen = gameScreen;
     }
 
+    /**
+     * sets up the map
+     * @return orthogonalTiledMapRenderer object, containing the map
+     */
     public OrthogonalTiledMapRenderer setupMap(){
         tiledMap = new TmxMapLoader().load("maps/map0.tmx");
         parseObjects(tiledMap.getLayers().get("Objects").getObjects());
@@ -152,10 +160,20 @@ public class TiledMapHelper {
         return shape;
     }
 
+    /**
+     * x - width
+     * y - height
+     * @return A vector2 containing the tile size.
+     */
     public Vector2 getTileSize() {
         return tileSize;
     }
 
+    /**
+     * x - map width
+     * y- map height
+     * @return the map size
+     */
     public Vector2 getMapSize() {
         return mapSize;
     }
