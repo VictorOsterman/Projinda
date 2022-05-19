@@ -34,7 +34,6 @@ public class Safe extends MoneyItems {
         Random rng = new Random();
         // Random value from 100 to 200
         value = 100 + rng.nextInt(101);
-        Gdx.app.log("Created safe", "");
         respawned = false;
     }
 

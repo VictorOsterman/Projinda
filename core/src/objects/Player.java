@@ -124,8 +124,11 @@ public class Player extends MovingRectangle{
             jumpCounter ++;
         }
         //Dash down
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             body.applyForceToCenter(0, -1500, true);
+            downDash = true;
+        }
+
         //Run
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
             speedLevel *= 1.5;
