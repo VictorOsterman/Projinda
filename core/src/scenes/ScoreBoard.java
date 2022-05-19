@@ -40,6 +40,7 @@ public class ScoreBoard {
     Image image;
 
     public ScoreBoard(SpriteBatch sb) {
+
         this.sb = sb;
         worldTimer = 300;
         timeCount = 0;
