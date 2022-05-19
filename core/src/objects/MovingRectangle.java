@@ -57,8 +57,9 @@ public abstract class MovingRectangle extends Sprite {
     protected int jumpCounter;
     protected boolean onGround;
     protected int lives;
+    protected boolean immortal;
 
-    private boolean isDead;
+    protected boolean isDead;
     protected String className;
     protected boolean destroyed;
     protected boolean setToDestroy;
@@ -104,6 +105,7 @@ public abstract class MovingRectangle extends Sprite {
         this.runningRight = true;
 
         this.lives = 1;
+        this.immortal = false;
 
         this.className = "MovingRectangle";
 
@@ -369,4 +371,11 @@ public abstract class MovingRectangle extends Sprite {
     }
 
     public void setOnGround (boolean onGround) { this.onGround = onGround; }
+
+    public void hitByEnemy() {
+        if(immortal)
+            return;
+        lives--;
+        immortal = true;
+    }
 }

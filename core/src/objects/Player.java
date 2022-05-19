@@ -191,4 +191,10 @@ public class Player extends MovingRectangle{
         return onRectangle;
     }
 
+    @Override
+    public void handleDeath() {
+        lives--;
+        isDead = false;
+    }
+
 }

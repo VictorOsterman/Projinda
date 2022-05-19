@@ -71,7 +71,7 @@ public class GameContactListener implements ContactListener {
 
                 //If the player's bottom y is below enemy's bottom y (+30) and the player is not dashing downards, the player is killed by the enemy
                 if(gameScreen.getPlayer().getY() < enemy.getY() + 30 && gameScreen.getPlayer().getBody().getLinearVelocity().y > -100) {
-                    gameScreen.getPlayer().setIsDead(true);
+                    gameScreen.getPlayer().hitByEnemy();
                 }
             }
             if(a.getUserData() == ContactType.COIN || b.getUserData() == ContactType.COIN) {
