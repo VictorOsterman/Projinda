@@ -26,6 +26,7 @@ public abstract class MoneyItems {
     protected Body body;
     protected boolean isStatic;
     protected boolean destroyed;
+    protected float removeCounter;
 
     //For non-static moneyItems:
     protected float directionX, speed;
@@ -44,6 +45,7 @@ public abstract class MoneyItems {
         this.height = height;
         this.gameScreen = gameScreen;
         this.body = body;
+        this.removeCounter = 0;
 
         //Assign value its value in subclass
         value = 0;
@@ -52,6 +54,11 @@ public abstract class MoneyItems {
         this.texture = new Texture("maps/safepicture.png");
         this.isStatic = true;
         this.destroyed = false;
+
+        if(isStatic) {
+            Gdx.app.log("Created static object", ", at: ");
+            Gdx.app.log(String.valueOf(x*Const.PPM), String.valueOf(y*Const.PPM));
+        }
     }
 
     public void update() {
@@ -118,10 +125,25 @@ public abstract class MoneyItems {
         return body;
     }
 
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, float dt) {
         if(isStatic)
-            batch.draw(texture, x * Const.PPM - width/2, y * Const.PPM - height/2, width, height);
-        if(!isStatic)
+            if(collected && !destroyed) {
+                Gdx.app.log(String.valueOf(collected), String.valueOf(destroyed));
+                if(removeCounter >= 5) {
+                    removeMoneyItem();
+                    return;
+                }
+                else {
+                    removeCounter += dt;
+                }
+            }
+            if(!destroyed) {
+                batch.draw(texture, x * Const.PPM - width/2, y * Const.PPM - height/2, width, height);
+            }
+
+
+        else if(!isStatic) {
             batch.draw(texture, x, y, width, height);
+        }
     }
 }

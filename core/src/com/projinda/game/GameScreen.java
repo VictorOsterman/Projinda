@@ -120,8 +120,10 @@ public class GameScreen extends ScreenAdapter {
 
 
         for (int i = 0; i < moneyItems.size(); i++) {
-            if(!moneyItems.get(i).getIsStatic())
+            //if(true) {
+            if(!moneyItems.get(i).getIsStatic()) {
                 moneyItems.get(i).update();
+            }
         }
         updateCamera();
 
@@ -157,7 +159,7 @@ public class GameScreen extends ScreenAdapter {
             movingRectangles.get(i).render(batch);
         }
         for (int i = 0; i < moneyItems.size(); i++) {
-            moneyItems.get(i).render(batch);
+            moneyItems.get(i).render(batch, delta);
         }
 
         batch.end();
