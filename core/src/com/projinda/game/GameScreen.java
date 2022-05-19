@@ -326,7 +326,10 @@ public class GameScreen extends ScreenAdapter {
                 true,
                 0,
                 world,
-                ContactType.SAFE
+                ContactType.SAFE,
+                Const.SAFE_BIT,
+                (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.BULLET_BIT),
+                (short) 0
         );
         addMoneyItem(new Safe(64, 64, body, this));
     }
@@ -348,7 +351,10 @@ public class GameScreen extends ScreenAdapter {
                 false,
                 99999999,
                 world,
-                ContactType.ENEMY
+                ContactType.ENEMY,
+                Const.ENEMY_BIT,
+                (short) (Const.PLAYER_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT | Const.BULLET_BIT),
+                (short) -1
         );
         addMovingRectangle(new Enemy(width, height, body, this));
     }

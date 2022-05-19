@@ -374,7 +374,10 @@ public abstract class MovingRectangle extends Sprite {
                     false,
                     99999999,
                     gameScreen.getWorld(),
-                    ContactType.COIN
+                    ContactType.COIN,
+                    Const.COIN_BIT,
+                    (short) (Const.SAFE_BIT | Const.PLATFORM_BIT | Const.PLAYER_BIT),
+                    (short) -1
             );
             gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
         }

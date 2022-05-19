@@ -145,7 +145,10 @@ public class Player extends MovingRectangle{
                         false,
                         0,
                         gameScreen.getWorld(),
-                        ContactType.PLAYERBULLET
+                        ContactType.PLAYERBULLET,
+                        Const.BULLET_BIT,
+                        (short) (Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT),
+                        (short) 0
                 );
                 gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX));
             }
@@ -162,7 +165,10 @@ public class Player extends MovingRectangle{
                     false,
                     99999999,
                     gameScreen.getWorld(),
-                    ContactType.COIN
+                    ContactType.COIN,
+                    Const.COIN_BIT,
+                    (short) (Const.SAFE_BIT | Const.PLATFORM_BIT | Const.PLAYER_BIT),
+                    (short) -1
             );
             gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
         }
