@@ -50,6 +50,8 @@ public abstract class MovingRectangle extends Sprite {
 
     protected float startX, startY;
     protected float x, y, directionX, directionY, speedLevel, speed, startSpeedLevel;
+    protected int moving; //Used to make player stop when not moving, allows directionX to still be 1 or -1 in order to create bullets
+
     protected float width, height;
 
     protected int jumpCounter;
@@ -108,6 +110,7 @@ public abstract class MovingRectangle extends Sprite {
         this.destroyed = false;
         this.setToDestroy = false;
         this.texture = new Texture("white.png");    // Add other texture in subclasses
+        this.moving = 0;
     }
 
     /**
@@ -242,7 +245,8 @@ public abstract class MovingRectangle extends Sprite {
         else if(body.getLinearVelocity().x < -0.1 || body.getLinearVelocity().x > 0.1) {
             // Check if the rectangle is standing on another rectangle
             if(onRectangle) {
-
+                if(moving != 1)
+                    return State.SHOOT;
             }
             if(speedLevel == startSpeedLevel)
                 return State.WALK;
