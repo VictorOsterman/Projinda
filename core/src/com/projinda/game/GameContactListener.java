@@ -46,9 +46,11 @@ public class GameContactListener implements ContactListener {
                 gameScreen.getPlayer().setOnRectangle(movingPlatform);
             }
             else if(a.getUserData() == ContactType.ENEMY || b.getUserData() == ContactType.ENEMY) {
-                // If the player
+                // If the player is dashing down on the player, the player should lose lives
                 // Player is standing on platform, find platform and set player's platform to this platform
                 Enemy enemy = (Enemy) gameScreen.getMatchingRectangle(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y);
+                if(isDashing)
+                    enemy.lowerLives();
                 gameScreen.getPlayer().setOnRectangle(enemy);
             }
         }
