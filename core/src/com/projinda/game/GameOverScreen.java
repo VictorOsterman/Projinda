@@ -70,7 +70,9 @@ public class GameOverScreen implements Screen {
         scoreFont.draw(batch, highScoreLayout, Boot.INSTANCE.getScreenWidth()/2 - scoreLayout.width/2, Boot.INSTANCE.getScreenHeight() - GAME_OVER_HEIGHT - scoreLayout.height - PADDING * 3);
 
         GlyphLayout tryAgain = new GlyphLayout(scoreFont, "Try Again");
+        GlyphLayout tryAgainHover = new GlyphLayout(scoreFont, "Try Again", Color.YELLOW, tryAgain.width, Align.center,false);
         GlyphLayout returnToMenu = new GlyphLayout(scoreFont, "Return to main menu");
+        GlyphLayout returnToMenuHover = new GlyphLayout(scoreFont, "Return to main menu", Color.YELLOW, returnToMenu.width, Align.center,false);
         float tryAgainXPos = Boot.INSTANCE.getScreenWidth() / 2 - tryAgain.width/2 ;
         float tryAgainYPos = Boot.INSTANCE.getScreenHeight() / 2 - tryAgain.height/2;
         float returnToMenuXPos = Boot.INSTANCE.getScreenWidth() / 2 - returnToMenu.width/2;
@@ -78,23 +80,33 @@ public class GameOverScreen implements Screen {
 
         float mouseX = Gdx.input.getX(), mouseY = Boot.INSTANCE.getScreenHeight() - Gdx.input.getY();
 
-        if(Gdx.input.isTouched()){
+        scoreFont.draw(batch, tryAgain, tryAgainXPos, tryAgainYPos);
+        scoreFont.draw(batch, returnToMenu, returnToMenuXPos, returnToMenuYPos);
+
+
             //Try again
             if(mouseX >= tryAgainXPos && mouseX <= tryAgainXPos + tryAgain.width && mouseY >= tryAgainYPos - tryAgain.height && mouseY <= tryAgainYPos){
-                boot.setGameScreen();
-                return;
+                scoreFont.draw(batch, tryAgainHover, tryAgainXPos, tryAgainYPos);
+                if(Gdx.input.isTouched()){
+                    boot.setGameScreen();
+                    return;
+                }
+
             }
             //Go back to main menu
             if(mouseX >= returnToMenuXPos && mouseX <= returnToMenuXPos + returnToMenu.width && mouseY >= returnToMenuYPos - returnToMenu.height && mouseY <= returnToMenuYPos){
-                boot.setMainMenuScreen();
-                return;
+                scoreFont.draw(batch, returnToMenuHover, returnToMenuXPos, returnToMenuYPos);
+                if(Gdx.input.isTouched()) {
+                    boot.setMainMenuScreen();
+                    return;
+                }
+
             }
-        }
+
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
 
-        scoreFont.draw(batch, tryAgain, tryAgainXPos, tryAgainYPos);
-        scoreFont.draw(batch, returnToMenu, returnToMenuXPos, returnToMenuYPos);
+
 
         batch.end();
 
