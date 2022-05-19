@@ -259,6 +259,7 @@ public class GameScreen extends ScreenAdapter {
      * Spawns an enemy to the game
      * If the player is on the left third, the enemy is placed on the right third and vice versa
      * If the player is in the middle, the enemy is randomly placed either on the left or right side
+     * Has a 4/5 chance of spawning a small enemy, 1/5 chance of spawning a big enemy.
      */
     public void spawnEnemyRandomly() {
         // If max amount of enemies already exist, do not spawn another
@@ -298,6 +299,12 @@ public class GameScreen extends ScreenAdapter {
         spawnEnemy(x, y, width, height);
     }
 
+    /**
+     * Spawns a new safe with given coordinates
+     * Depending on where the safe is spawned it also spawns an enemy
+     * @param x x-coordinate of safe
+     * @param y y-coordinate of safe
+     */
     public void spawnSafe(float x, float y) {
         Gdx.app.log("----------------", "spawning safe");
         if(x > 2800 && y > 900) {
@@ -323,6 +330,13 @@ public class GameScreen extends ScreenAdapter {
         addMoneyItem(new Safe(64, 64, body, this));
     }
 
+    /**
+     * Spawns an enemy with given parameter
+     * @param x x-coordinate of enemy
+     * @param y y-coordinate of enemy
+     * @param width width of enemy
+     * @param height height of enemy
+     */
     public void spawnEnemy(float x, float y, float width, float height) {
         //Create a new body for the enemy
         Body body = BodyHelper.createBody(
