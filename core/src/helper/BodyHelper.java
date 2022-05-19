@@ -7,8 +7,24 @@ import com.badlogic.gdx.physics.box2d.*;
  */
 public class BodyHelper {
 
+  /**
+     * Creates bodies
+     * @param x the x position to place the the body
+     * @param y the y position to place the the body
+     * @param width the width of the body
+     * @param height the height of the body
+     * @param isStatic whether or not the body is static
+     * @param density the density of the body
+     * @param world the world object
+     * @param type which contact type
+     * @param cBits categoryBits of body
+     * @param mBits maskBits of bodies this body can collide with
+     * @param gIndex group index of this body
+     * @return a body
+     */
     public static Body createBody(float x, float y, float width, float height, boolean isStatic, float density,
                                   World world, ContactType type, short cBits, short mBits, short gIndex){
+
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = !isStatic ? BodyDef.BodyType.DynamicBody: BodyDef.BodyType.StaticBody;
         bodyDef.position.set(x/Const.PPM, y/Const.PPM);
@@ -30,7 +46,6 @@ public class BodyHelper {
 
         shape.dispose();
         return body;
-
 
     }
 }
