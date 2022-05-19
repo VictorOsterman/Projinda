@@ -37,7 +37,6 @@ public class Player extends MovingRectangle{
 
     private int score;
     private MovingRectangle movingRectangle;
-    private int moving; //Used to make player stop when not moving, allows directionX to still be 1 or -1 in order to create bullets
 
 
     public Player(float width, float height, Body body, GameScreen gameScreen) {
@@ -46,7 +45,7 @@ public class Player extends MovingRectangle{
         this.score = 0;
         addSensor();
         this.lives = 3;
-        moving = 0;
+        this.moving = 0;
         this.directionX = 1;
 
         className = "Player";
