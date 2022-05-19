@@ -47,6 +47,8 @@ public class Player extends MovingRectangle{
         this.lives = 3;
         this.moving = 0;
         this.directionX = 1;
+        this.speedLevel = 0.5f;
+        this.startSpeedLevel = speedLevel;
 
         className = "Player";
         addAnimations("Player.png", 1);
@@ -101,11 +103,8 @@ public class Player extends MovingRectangle{
      */
     @Override
     public void manageUserInput() {
-        speedLevel = 1;
+        speedLevel = startSpeedLevel;
         super.manageUserInput();
-        //Temporary reset button
-        if(Gdx.input.isKeyJustPressed(Input.Keys.G))
-            reset();
         //Walk right
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             directionX = 1;
@@ -121,7 +120,7 @@ public class Player extends MovingRectangle{
         //Jump up
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCounter < 2) {
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
-            body.applyLinearImpulse(new Vector2(0, 15), body.getPosition(), true);
+            body.applyLinearImpulse(new Vector2(0, 13), body.getPosition(), true);
             jumpCounter ++;
         }
         //Dash down
@@ -130,12 +129,9 @@ public class Player extends MovingRectangle{
         //Run
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
             speedLevel *= 1.5;
-        //Dash to side
-        if(Gdx.input.isKeyJustPressed(Input.Keys.D))
-            speedLevel *= 8;
 
         //Shoot bullet
-        if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             if(!gameScreen.bulletInMotion()) {
                 //Create the bullets body
                 Body body = BodyHelper.createBody(
@@ -187,6 +183,12 @@ public class Player extends MovingRectangle{
 
     public boolean isOnRectangle() {
         return onRectangle;
+    }
+
+    @Override
+    public void handleDeath() {
+        lives--;
+        isDead = false;
     }
 
 }
