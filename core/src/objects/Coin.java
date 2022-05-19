@@ -38,15 +38,16 @@ public class Coin extends MoneyItems {
         this.isStatic = false;
 
 
-        this.speed = 10;
+
         rng = new Random();
         if(rng.nextInt(2) == 0)
             this.directionX = 1;
         else
             this.directionX = -1;
         thrown = false;
+        this.speed = 5 + rng.nextInt(5);
 
-        body.setLinearVelocity(body.getLinearVelocity().x, 10);
+        body.setLinearVelocity(body.getLinearVelocity().x, 10+rng.nextInt(5));
     }
 
     @Override
