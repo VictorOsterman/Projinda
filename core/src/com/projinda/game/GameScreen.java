@@ -3,6 +3,7 @@ package com.projinda.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -44,6 +45,8 @@ public class GameScreen extends ScreenAdapter {
     private TiledMapHelper tiledMapHelper;
     private ScoreBoard scoreBoard;
 
+    private Music music;
+
 
     /**
      * The game screen constructor, called when a new object of type {@code GameScreen} is needed
@@ -56,6 +59,11 @@ public class GameScreen extends ScreenAdapter {
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0,-25),false);
         this.boot = boot;
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        music.setLooping(true);
+        music.setVolume(0.3f);
+        music.play();
 
         gameContactListener = new GameContactListener(this);
         world.setContactListener(gameContactListener);

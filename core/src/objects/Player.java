@@ -2,6 +2,7 @@ package objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -37,6 +38,7 @@ public class Player extends MovingRectangle{
 
     private int score;
     private MovingRectangle movingRectangle;
+    private Sound shotSound;
 
 
     public Player(float width, float height, Body body, GameScreen gameScreen) {
@@ -49,6 +51,8 @@ public class Player extends MovingRectangle{
         this.directionX = 1;
         this.speedLevel = 0.5f;
         this.startSpeedLevel = speedLevel;
+
+        shotSound = Gdx.audio.newSound(Gdx.files.internal("shot.mp3"));
 
         className = "Player";
         addAnimations("Player.png", 1);
@@ -151,6 +155,7 @@ public class Player extends MovingRectangle{
                         (short) 0
                 );
                 gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX));
+                shotSound.play();
             }
         }
 
