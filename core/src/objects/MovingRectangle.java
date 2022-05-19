@@ -237,7 +237,7 @@ public abstract class MovingRectangle extends Sprite {
     public State getState() {
         if(body.getLinearVelocity().y > 0 && !onRectangle)
             return State.JUMP;
-        else if(body.getLinearVelocity().y < -0.01f)
+        else if(body.getLinearVelocity().y < -0.01f && !onRectangle)
             return State.FALL;
         else if(body.getLinearVelocity().x < -0.1 || body.getLinearVelocity().x > 0.1) {
             if(speedLevel == startSpeedLevel)
