@@ -309,7 +309,6 @@ public class GameScreen extends ScreenAdapter {
      * @param y y-coordinate of safe
      */
     public void spawnSafe(float x, float y) {
-        Gdx.app.log("----------------", "spawning safe");
         if(x > 2800 && y > 900) {
             // Spawn big enemy
             spawnEnemy(x, y + 64, 128, 128);
@@ -318,7 +317,6 @@ public class GameScreen extends ScreenAdapter {
             // Spawn small enemy
             spawnEnemy(x, y + 64, 64, 64);
         }
-        Gdx.app.log(String.valueOf(x), String.valueOf(y));
         //Create a body with correct posistion and size
         Body body = BodyHelper.createBody(
                 x,
