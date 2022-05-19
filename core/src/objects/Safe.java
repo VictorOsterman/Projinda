@@ -14,10 +14,12 @@ import java.util.Random;
  * Class for the safe item
  * Extends moneyItems
  * Changes appearance after being cracked
+ *
+ * @author Erik Sidén
+ * @version 2022-05-19
  */
 public class Safe extends MoneyItems {
 
-    private float respawnCounter;
     private boolean respawned;
 
     /**
@@ -33,7 +35,6 @@ public class Safe extends MoneyItems {
         // Random value from 100 to 200
         value = 100 + rng.nextInt(101);
         Gdx.app.log("Created safe", "");
-        respawnCounter = 0;
         respawned = false;
     }
 
@@ -45,6 +46,13 @@ public class Safe extends MoneyItems {
         texture = new Texture("maps/crackedsafe.png");
     }
 
+    /**
+     * Render the safe if it is not destroyed.
+     * After it has been collected, the body is removed from the world and the safe stops drawing.
+     * It continues to render and after a certain amount of time a new safe spawns and this safe is removed.
+     * @param batch
+     * @param dt
+     */
     @Override
     public void render(SpriteBatch batch, float dt) {
         if (collected && (!destroyed || !respawned)) {
@@ -53,7 +61,8 @@ public class Safe extends MoneyItems {
                 removeBody();
                 return;
             }
-            if(!respawned && removeCounter >= 6) {
+            // After a certain amount of time, respawn the safe
+            if(!respawned && removeCounter >= 20) {
                 // If the player is far enough away spawn a new safe
                 Player player = gameScreen.getPlayer();
                 int hsw = Boot.INSTANCE.getScreenWidth() / 2;
