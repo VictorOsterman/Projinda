@@ -59,9 +59,10 @@ public class Enemy extends MovingRectangle{
             return;
         }
         else if (!destroyed) {
+            moving = 0;
             super.update(dt);
             moveEnemy();
-            body.setLinearVelocity(directionX*speedLevel*speed, body.getLinearVelocity().y);
+            body.setLinearVelocity(moving*directionX*speedLevel*speed, body.getLinearVelocity().y);
         }
     }
 
@@ -75,10 +76,12 @@ public class Enemy extends MovingRectangle{
         //Check if player is too far away in x-coordinates
         if(player.getX() < x - Boot.INSTANCE.getScreenWidth() / 2 || player.getX() > x + Boot.INSTANCE.getScreenWidth() / 2) {
             wanderAround();
+            moving = 1;
         }
         //Check if player is too far away in y-coordinates
         else if(player.getY() < y - Boot.INSTANCE.getScreenHeight() / 2 || player.getY() > y + Boot.INSTANCE.getScreenHeight() / 2) {
             wanderAround();
+            moving = 1;
         }
         else {
             moveAccordingToPlayer();
@@ -107,10 +110,14 @@ public class Enemy extends MovingRectangle{
         speedLevel = 0.5F;
         Player player = gameScreen.getPlayer();
         // Change the direction to point to the player
-        if(player.getX() > x + 3)
+        if(player.getX() > x + 3) {
             directionX = 1;
+            moving = 1;
+        }
+
         else if (player.getX() < x - 3) {
             directionX = -1;
+            moving = 1;
         }
 
         // Every other second
