@@ -27,6 +27,8 @@ public class MovingPlatform extends MovingRectangle{
      * @param body       body to be used by player
      * @param gameScreen
      */
+
+    private int range;
     public MovingPlatform(float width, float height, Body body, GameScreen gameScreen, int direction) {
         super(width, height, body, gameScreen);
         this.speedLevel = 0.3F;
@@ -42,6 +44,7 @@ public class MovingPlatform extends MovingRectangle{
 
         this.body.setGravityScale(0);    //Remove gravity from floating Platform
         this.texture = new Texture("steel.png");
+        this.range = 200;
     }
 
     @Override
@@ -55,14 +58,14 @@ public class MovingPlatform extends MovingRectangle{
      * Check if the platform has reached end of scope, if so - turn around
      */
     public void updatePlatformVelocity() {
-        if(x > startX + width) {
+        if(x > startX + range) {
             directionX = -1;
-        } else if(x < startX - width) {
+        } else if(x < startX - range) {
             directionX = 1;
         }
-        if(y > startY + width) {
+        if(y > startY + range) {
             directionY = -1;
-        } else if(y < startY - width) {
+        } else if(y < startY - range) {
             directionY = 1;
         }
     }

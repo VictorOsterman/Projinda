@@ -42,7 +42,7 @@ public class ScoreBoard {
     public ScoreBoard(SpriteBatch sb) {
 
         this.sb = sb;
-        worldTimer = 300;
+        worldTimer = 120;
         timeCount = 0;
         score = 0;
         lives = 3;
