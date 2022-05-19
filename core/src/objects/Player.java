@@ -147,7 +147,7 @@ public class Player extends MovingRectangle{
                         gameScreen.getWorld(),
                         ContactType.PLAYERBULLET,
                         Const.BULLET_BIT,
-                        (short) (Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT),
+                        (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT),
                         (short) 0
                 );
                 gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX));
