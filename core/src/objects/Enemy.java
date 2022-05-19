@@ -37,7 +37,7 @@ public class Enemy extends MovingRectangle{
         this.lives = 3;
         this.className = "Enemy";
 
-        addSensor();
+        addSensor("head");
         if(width > 100 && height > 100) {
             addAnimations("dinosaur.png", 2);
         }

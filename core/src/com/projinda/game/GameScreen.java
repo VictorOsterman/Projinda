@@ -164,7 +164,7 @@ public class GameScreen extends ScreenAdapter {
 
         batch.end();
 
-        //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+        box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
         batch.setProjectionMatrix(scoreBoard.stage.getCamera().combined);
         scoreBoard.stage.draw();
     }
