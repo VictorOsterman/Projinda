@@ -27,7 +27,7 @@ public class GameContactListener implements ContactListener {
         //If any of the involved objects is the player's sensor, the player is standing
         // on something and the jump counter should be reset
         if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
-            Gdx.app.log(String.valueOf(gameScreen.getPlayer().getDownDash()), "");
+            boolean isDashing = gameScreen.getPlayer().getDownDash();
             gameScreen.getPlayer().setOnGround(true);
 
             Fixture notPlayer = b;
@@ -36,8 +36,9 @@ public class GameContactListener implements ContactListener {
             }
 
             if(a.getUserData() == ContactType.SAFE || b.getUserData() == ContactType.SAFE) {
-                // Player is standing on safe, find safe and retrieve money.
-                ((Safe) gameScreen.getMatchingMoneyItem(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y)).collect();
+                // Player is standing on safe, find safe and retrieve money if the player is dashing
+                if(isDashing)
+                    ((Safe) gameScreen.getMatchingMoneyItem(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y)).collect();
             }
             else if(a.getUserData() == ContactType.MOVINGPLATFORM || b.getUserData() == ContactType.MOVINGPLATFORM) {
                 // Player is standing on platform, find platform and set player's platform to this platform
