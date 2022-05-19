@@ -2,6 +2,7 @@ package objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.projinda.game.Boot;
 import com.projinda.game.GameScreen;
@@ -21,7 +22,9 @@ public class Bullet extends MovingRectangle{
     private boolean outOfSight;
     public Bullet(Body body, GameScreen gameScreen, float directionX) {
         super(20, 10, body, gameScreen);
-        this.texture = new Texture("steel.png");
+
+        this.texture = directionX == 1 ? new Texture("bulletr.png") : new Texture("bulletl.png");
+
         this.directionX = directionX;
         this.body.setGravityScale(0);    //Remove gravity from floating Bullet
         this.remove = false;
@@ -32,7 +35,7 @@ public class Bullet extends MovingRectangle{
     }
 
     @Override
-    public void update(){
+    public void update(float dt){
         if((lives <= 0 || lastX == x || outOfSight) && !destroyed) {
             removeMovingRectangle();
             return;
@@ -40,7 +43,7 @@ public class Bullet extends MovingRectangle{
 
         else if(!destroyed) {
             lastX = x;
-            super.update();
+            super.update(dt);
             body.setLinearVelocity(directionX*speedLevel*speed, directionY*speedLevel*speed);
             outOfSight = bulletOutOfSight();
         }

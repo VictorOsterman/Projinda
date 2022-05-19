@@ -4,15 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.utils.Array;
 import com.projinda.game.Boot;
 import com.projinda.game.GameScreen;
 import helper.Const;
 import helper.BodyHelper;
 import helper.ContactType;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -30,22 +34,24 @@ public class Player extends MovingRectangle{
      * @param body body to be used by player
      */
 
+
     private int score;
-    private boolean onRectangle;
     private MovingRectangle movingRectangle;
-    private int moving; //Used to make player stop when not moving, allows directionX to still be 1 or -1 in order to create bullets
 
 
     public Player(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body, gameScreen);
+
         this.score = 0;
-        this.onRectangle = false;
-        this.texture = new Texture("player.png");
         addSensor();
         this.lives = 3;
-        moving = 0;
+        this.moving = 0;
         this.directionX = 1;
+        this.speedLevel = 0.5f;
+        this.startSpeedLevel = speedLevel;
 
+        className = "Player";
+        addAnimations("Player.png", 1);
     }
 
     @Override
@@ -68,9 +74,9 @@ public class Player extends MovingRectangle{
      * Listens to user input
      */
     @Override
-    public void update(){
+    public void update(float dt){
         moving = 0;
-        super.update();
+        super.update(dt);
         float velocityX = moving*directionX*speedLevel;
         // If the player is standing on a platform, the platform's velocity is the player's "base velocity"
         if(onRectangle) {
@@ -80,6 +86,7 @@ public class Player extends MovingRectangle{
             }
         }
         body.setLinearVelocity(velocityX*speed, body.getLinearVelocity().y);
+        //setRegion(getFrame(dt));
     }
 
     /**
@@ -96,10 +103,8 @@ public class Player extends MovingRectangle{
      */
     @Override
     public void manageUserInput() {
+        speedLevel = startSpeedLevel;
         super.manageUserInput();
-        //Temporary reset button
-        if(Gdx.input.isKeyJustPressed(Input.Keys.G))
-            reset();
         //Walk right
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             directionX = 1;
@@ -115,7 +120,7 @@ public class Player extends MovingRectangle{
         //Jump up
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCounter < 2) {
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
-            body.applyLinearImpulse(new Vector2(0, 15), body.getPosition(), true);
+            body.applyLinearImpulse(new Vector2(0, 13), body.getPosition(), true);
             jumpCounter ++;
         }
         //Dash down
@@ -123,13 +128,10 @@ public class Player extends MovingRectangle{
             body.applyForceToCenter(0, -1500, true);
         //Run
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
-            directionX *= 1.5;
-        //Dash to side
-        if(Gdx.input.isKeyJustPressed(Input.Keys.D))
-            directionX *= 8;
+            speedLevel *= 1.5;
 
         //Shoot bullet
-        if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             if(!gameScreen.bulletInMotion()) {
                 //Create the bullets body
                 Body body = BodyHelper.createBody(
@@ -146,11 +148,12 @@ public class Player extends MovingRectangle{
             }
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.U)) {
-            //Create the bullets body
+        // Hack for pro players, unlimited coins $$$
+        if(Gdx.input.isKeyPressed(Input.Keys.U)) {
+            //Create the coins body
             Body body = BodyHelper.createBody(
-                    x+width/2+directionX*(width/2),
-                    y+height/2,
+                    x+width/2,
+                    y-height/2,
                     64,
                     64,
                     false,
@@ -165,6 +168,10 @@ public class Player extends MovingRectangle{
     public int getScore() { return score; }
     public void increaseScore(int newScore) { score += newScore; }
 
+    /**
+     * Set that the player is standing on a rectangle
+     * @param movingRectangle rectangle which the player is standing on
+     */
     public void setOnRectangle(MovingRectangle movingRectangle) {
         this.movingRectangle = movingRectangle;
         this.onRectangle = true;
@@ -177,4 +184,11 @@ public class Player extends MovingRectangle{
     public boolean isOnRectangle() {
         return onRectangle;
     }
+
+    @Override
+    public void handleDeath() {
+        lives--;
+        isDead = false;
+    }
+
 }

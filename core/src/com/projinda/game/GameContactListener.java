@@ -27,7 +27,7 @@ public class GameContactListener implements ContactListener {
         //If any of the involved objects is the player's sensor, the player is standing
         // on something and the jump counter should be reset
         if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
-            gameScreen.getPlayer().resetJumpCounter();
+            gameScreen.getPlayer().setOnGround(true);
 
             Fixture notPlayer = b;
             if(b.getUserData() == ContactType.PLAYERSENSOR) {
@@ -71,7 +71,7 @@ public class GameContactListener implements ContactListener {
 
                 //If the player's bottom y is below enemy's bottom y (+30) and the player is not dashing downards, the player is killed by the enemy
                 if(gameScreen.getPlayer().getY() < enemy.getY() + 30 && gameScreen.getPlayer().getBody().getLinearVelocity().y > -100) {
-                    gameScreen.getPlayer().setIsDead(true);
+                    gameScreen.getPlayer().hitByEnemy();
                 }
             }
             if(a.getUserData() == ContactType.COIN || b.getUserData() == ContactType.COIN) {
@@ -127,7 +127,7 @@ public class GameContactListener implements ContactListener {
         Fixture b = contact.getFixtureB();
 
         if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
-            gameScreen.getPlayer().resetJumpCounter();
+            gameScreen.getPlayer().setOnGround(false);
             if(a.getUserData() == ContactType.MOVINGPLATFORM || b.getUserData() == ContactType.MOVINGPLATFORM) {
                 // Player is no longer standing on platform, set boolean onPlatform to false
                 gameScreen.getPlayer().setOnRectangle(false);

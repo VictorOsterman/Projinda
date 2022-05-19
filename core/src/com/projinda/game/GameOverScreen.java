@@ -48,7 +48,7 @@ public class GameOverScreen implements Screen {
         }
 
         gameOverLabel = new Texture("game_over.png");
-        scoreFont = new BitmapFont();
+        scoreFont = new BitmapFont(Gdx.files.internal("fonts/score.fnt"));
 
     }
 

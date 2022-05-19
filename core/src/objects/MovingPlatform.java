@@ -45,8 +45,8 @@ public class MovingPlatform extends MovingRectangle{
     }
 
     @Override
-    public void update(){
-        super.update();
+    public void update(float dt){
+        super.update(dt);
         updatePlatformVelocity();
         body.setLinearVelocity(directionX*speedLevel*speed, directionY*speedLevel*speed);
     }

@@ -2,8 +2,11 @@ package objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.utils.Array;
 import com.projinda.game.Boot;
 import com.projinda.game.GameScreen;
 
@@ -35,10 +38,19 @@ public class Enemy extends MovingRectangle{
         this.className = "Enemy";
 
         addSensor();
+        if(width > 100 && height > 100) {
+            addAnimations("dinosaur.png", 2);
+        }
+        else {
+            addAnimations("cop.png", 1);
+        }
+
     }
 
+
+
     @Override
-    public void update() {
+    public void update(float dt) {
 
         if(lives <= 0 && !destroyed) {
             removeMovingRectangle();
@@ -46,7 +58,7 @@ public class Enemy extends MovingRectangle{
             return;
         }
         else if (!destroyed) {
-            super.update();
+            super.update(dt);
             moveEnemy();
             body.setLinearVelocity(directionX*speedLevel*speed, body.getLinearVelocity().y);
         }
