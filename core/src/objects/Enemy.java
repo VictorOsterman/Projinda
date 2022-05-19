@@ -38,44 +38,16 @@ public class Enemy extends MovingRectangle{
         this.className = "Enemy";
 
         addSensor();
-        addAnimations();
+        if(width > 100 && height > 100) {
+            addAnimations("dinosaur.png", 2);
+        }
+        else {
+            addAnimations("cop.png", 1);
+        }
+
     }
 
-    /**
-     * Adds animations to the enemy
-     */
-    public void addAnimations() {
 
-        Texture animations = new Texture("cop.png");
-        currentState = State.STAND;
-        previousState = State.STAND;
-
-        Array<TextureRegion> frames = new Array<>();
-        shooting = new TextureRegion(animations, 2*64, 0, 64, 64);
-        //shooting = new TextureRegion(charset.findRegion("playermovements"), 0, 0, 64, 64);
-
-        for(int i = 0; i < 2; i++) {
-            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
-        }
-        walking = new Animation<TextureRegion>(0.15f, frames);
-        running = new Animation<TextureRegion>(0.1f, frames);
-        frames.clear();
-
-        for(int i = 3; i < 5; i++) {
-            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
-        }
-        jumping = new Animation<TextureRegion>(0.15f, frames);
-        frames.clear();
-
-        for(int i = 5; i < 7; i++) {
-            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
-        }
-        falling = new Animation<TextureRegion>(0.15f, frames);
-        frames.clear();
-
-        currentFrame = shooting;
-        this.hasAnimations = true;
-    }
 
     @Override
     public void update(float dt) {

@@ -50,48 +50,7 @@ public class Player extends MovingRectangle{
         this.directionX = 1;
 
         className = "Player";
-        addAnimations();
-    }
-
-    /**
-     * Adds animations to the player
-     */
-    public void addAnimations() {
-
-        Texture animations = new Texture("playermovements.png");
-        currentState = State.STAND;
-        previousState = State.STAND;
-
-        Array<TextureRegion> frames = new Array<>();
-        shooting = new TextureRegion(animations, 0, 0, 64, 64);
-        //shooting = new TextureRegion(charset.findRegion("playermovements"), 0, 0, 64, 64);
-
-        for(int i = 1; i < 5; i++) {
-            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
-        }
-        walking = new Animation<TextureRegion>(0.15f, frames);
-        frames.clear();
-
-        for(int i = 5; i < 9; i++) {
-            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
-        }
-        running = new Animation<TextureRegion>(0.15f, frames);
-        frames.clear();
-
-        for(int i = 9; i < 11; i++) {
-            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
-        }
-        jumping = new Animation<TextureRegion>(0.15f, frames);
-        frames.clear();
-
-        for(int i = 11; i < 13; i++) {
-            frames.add(new TextureRegion(animations, i*64, 0, 64, 64));
-        }
-        falling = new Animation<TextureRegion>(0.15f, frames);
-        frames.clear();
-
-        currentFrame = shooting;
-        this.hasAnimations = true;
+        addAnimations("Player.png", 1);
     }
 
     @Override
@@ -194,11 +153,12 @@ public class Player extends MovingRectangle{
             }
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.U)) {
-            //Create the bullets body
+        // Hack for pro players, unlimited coins $$$
+        if(Gdx.input.isKeyPressed(Input.Keys.U)) {
+            //Create the coins body
             Body body = BodyHelper.createBody(
-                    x+width/2+directionX*(width/2),
-                    y+height/2,
+                    x+width/2,
+                    y-height/2,
                     64,
                     64,
                     false,
