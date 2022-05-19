@@ -105,9 +105,6 @@ public class Player extends MovingRectangle{
     public void manageUserInput() {
         speedLevel = startSpeedLevel;
         super.manageUserInput();
-        //Temporary reset button
-        if(Gdx.input.isKeyJustPressed(Input.Keys.G))
-            reset();
         //Walk right
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             directionX = 1;
@@ -132,12 +129,9 @@ public class Player extends MovingRectangle{
         //Run
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
             speedLevel *= 1.5;
-        //Dash to side
-        if(Gdx.input.isKeyJustPressed(Input.Keys.D))
-            speedLevel *= 8;
 
         //Shoot bullet
-        if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             if(!gameScreen.bulletInMotion()) {
                 //Create the bullets body
                 Body body = BodyHelper.createBody(
