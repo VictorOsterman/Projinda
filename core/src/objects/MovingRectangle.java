@@ -292,15 +292,20 @@ public abstract class MovingRectangle extends Sprite {
     /**
      * Creates a sensor and adds it to the body
      */
-    public void addSensor() {
+    public void addSensor(String placement) {
         // Skapar sensor med följande form
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox((width / 2 - 2) / Const.PPM  , height / 16 / Const.PPM, new Vector2(0, -height/2 / Const.PPM), 0);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0;
         fixtureDef.isSensor = true;
+
+        if(placement.equals("foot")) {
+            shape.setAsBox((width / 2 - 2) / Const.PPM  , height / 16 / Const.PPM, new Vector2(0, -height/2 / Const.PPM), 0);
+        } else if (placement.equals("head")) {
+            shape.setAsBox((width / 2 - 2) / Const.PPM  , height / 16 / Const.PPM, new Vector2(0, (height/2) / Const.PPM), 0);
+        }
         this.body.createFixture(fixtureDef).setUserData(ContactType.SENSOR);
     }
 
@@ -350,19 +355,24 @@ public abstract class MovingRectangle extends Sprite {
      * Used when enemies die
      */
     protected void generateCoin() {
-        //Create the bullets body
-        Body body = BodyHelper.createBody(
-                //x+width/2+directionX*(width/2),
-                x+width/2,
-                y+height/2,
-                64,
-                64,
-                false,
-                99999999,
-                gameScreen.getWorld(),
-                ContactType.COIN
-        );
-        gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
+        // Generate two coins for a bigger movingRectangle
+        int numCoins = width > 100 ? 2 : 1;
+
+        for (int i = 0; i < numCoins; i++) {
+            //Create the bullets body
+            Body body = BodyHelper.createBody(
+                    //x+width/2+directionX*(width/2),
+                    x+width/2,
+                    y+height/2,
+                    64,
+                    64,
+                    false,
+                    99999999,
+                    gameScreen.getWorld(),
+                    ContactType.COIN
+            );
+            gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
+        }
     }
 
     public void setIsDead(boolean isDead) { this.isDead = isDead; }

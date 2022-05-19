@@ -123,8 +123,10 @@ public class GameScreen extends ScreenAdapter {
 
 
         for (int i = 0; i < moneyItems.size(); i++) {
-            if(!moneyItems.get(i).getIsStatic())
+            //if(true) {
+            if(!moneyItems.get(i).getIsStatic()) {
                 moneyItems.get(i).update();
+            }
         }
         updateCamera();
 
@@ -137,7 +139,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         if(scoreBoard.isNewSecond() && scoreBoard.getWorldTimer() % 10 == 0) {
-            spawnEnemy();
+            spawnEnemyRandomly();
         }
     }
 
@@ -160,12 +162,12 @@ public class GameScreen extends ScreenAdapter {
             movingRectangles.get(i).render(batch);
         }
         for (int i = 0; i < moneyItems.size(); i++) {
-            moneyItems.get(i).render(batch);
+            moneyItems.get(i).render(batch, delta);
         }
 
         batch.end();
 
-        //box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
+        box2DDebugRenderer.render(world, camera.combined.scl(Const.PPM));
         batch.setProjectionMatrix(scoreBoard.stage.getCamera().combined);
         scoreBoard.stage.draw();
     }
@@ -261,7 +263,7 @@ public class GameScreen extends ScreenAdapter {
      * If the player is on the left third, the enemy is placed on the right third and vice versa
      * If the player is in the middle, the enemy is randomly placed either on the left or right side
      */
-    public void spawnEnemy() {
+    public void spawnEnemyRandomly() {
         // If max amount of enemies already exist, do not spawn another
         int enemyCounter = 0;
         for (MovingRectangle movingRectangle :
@@ -292,17 +294,52 @@ public class GameScreen extends ScreenAdapter {
             x = rng.nextInt(2) == 1 ? 100 : 2800;
         }
 
-        //Create a new body for the enemy
+        // Gives a small chance of spawning a big enemy
+        int width = rng.nextInt(5) == 0 ? 128 : 64;
+        int height = width;
+
+        spawnEnemy(x, y, width, height);
+    }
+
+    public void spawnSafe(float x, float y) {
+        Gdx.app.log("----------------", "spawning safe");
+        if(x > 2800 && y > 900) {
+            // Spawn big enemy
+            spawnEnemy(x, y + 64, 128, 128);
+        }
+        else if(x < 40 && 1000 < y && y < 1100) {
+            // Spawn small enemy
+            spawnEnemy(x, y + 64, 64, 64);
+        }
+        Gdx.app.log(String.valueOf(x), String.valueOf(y));
+        //Create a body with correct posistion and size
         Body body = BodyHelper.createBody(
                 x,
                 y,
                 64,
                 64,
+                true,
+                0,
+                world,
+                ContactType.SAFE
+        );
+        addMoneyItem(new Safe(64, 64, body, this));
+    }
+
+    public void spawnEnemy(float x, float y, float width, float height) {
+        //Create a new body for the enemy
+        Body body = BodyHelper.createBody(
+                x,
+                y,
+                width,
+                height,
                 false,
                 99999999,
                 world,
                 ContactType.ENEMY
         );
-        addMovingRectangle(new Enemy(64, 64, body, this));
+        addMovingRectangle(new Enemy(width, height, body, this));
     }
+
+
 }

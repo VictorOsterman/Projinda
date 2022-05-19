@@ -79,8 +79,6 @@ public class GameContactListener implements ContactListener {
                 Coin coin = ((Coin) gameScreen.getMatchingMoneyItem(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y));
                 if(coin != null) {
                     coin.collect();
-                    Gdx.app.log(String.valueOf(coin.getValue()), "");
-                    Gdx.app.log("Collected coin", "");
                 }
                 else {
                     Gdx.app.log("Coin is null", "");

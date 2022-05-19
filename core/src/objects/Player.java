@@ -54,7 +54,7 @@ public class Player extends MovingRectangle{
         addAnimations("Player.png", 1);
     }
 
-    @Override
+
     public void addSensor() {
         // Skapar sensor med följande form
         PolygonShape shape = new PolygonShape();

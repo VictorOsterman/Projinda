@@ -45,7 +45,6 @@ public class MovingPlatform extends MovingRectangle{
         this.body.setGravityScale(0);    //Remove gravity from floating Platform
         this.texture = new Texture("steel.png");
         this.range = 200;
-        Gdx.app.log("platform width: ", String.valueOf(width));
     }
 
     @Override

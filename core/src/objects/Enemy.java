@@ -34,10 +34,11 @@ public class Enemy extends MovingRectangle{
         super(width, height, body, gameScreen);
         this.speedLevel = 0.5F;
         this.texture = new Texture("cop.png");
-        this.lives = 3;
+        this.lives = width < 100 ? 3 : 6;
         this.className = "Enemy";
 
-        addSensor();
+        addSensor("head");
+
         if(width > 100 && height > 100) {
             addAnimations("dinosaur.png", 2);
         }
