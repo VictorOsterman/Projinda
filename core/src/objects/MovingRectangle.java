@@ -240,6 +240,10 @@ public abstract class MovingRectangle extends Sprite {
         else if(body.getLinearVelocity().y < -0.01f && !onRectangle)
             return State.FALL;
         else if(body.getLinearVelocity().x < -0.1 || body.getLinearVelocity().x > 0.1) {
+            // Check if the rectangle is standing on another rectangle
+            if(onRectangle) {
+
+            }
             if(speedLevel == startSpeedLevel)
                 return State.WALK;
             else
