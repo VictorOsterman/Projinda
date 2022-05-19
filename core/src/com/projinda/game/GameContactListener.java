@@ -27,7 +27,7 @@ public class GameContactListener implements ContactListener {
         //If any of the involved objects is the player's sensor, the player is standing
         // on something and the jump counter should be reset
         if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
-            gameScreen.getPlayer().resetJumpCounter();
+            gameScreen.getPlayer().setOnGround(true);
 
             Fixture notPlayer = b;
             if(b.getUserData() == ContactType.PLAYERSENSOR) {
@@ -127,7 +127,7 @@ public class GameContactListener implements ContactListener {
         Fixture b = contact.getFixtureB();
 
         if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
-            gameScreen.getPlayer().resetJumpCounter();
+            gameScreen.getPlayer().setOnGround(false);
             if(a.getUserData() == ContactType.MOVINGPLATFORM || b.getUserData() == ContactType.MOVINGPLATFORM) {
                 // Player is no longer standing on platform, set boolean onPlatform to false
                 gameScreen.getPlayer().setOnRectangle(false);

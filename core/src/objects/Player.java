@@ -47,6 +47,8 @@ public class Player extends MovingRectangle{
         this.lives = 3;
         this.moving = 0;
         this.directionX = 1;
+        this.speedLevel = 0.5f;
+        this.startSpeedLevel = speedLevel;
 
         className = "Player";
         addAnimations("Player.png", 1);
@@ -101,7 +103,7 @@ public class Player extends MovingRectangle{
      */
     @Override
     public void manageUserInput() {
-        speedLevel = 1;
+        speedLevel = startSpeedLevel;
         super.manageUserInput();
         //Temporary reset button
         if(Gdx.input.isKeyJustPressed(Input.Keys.G))
@@ -121,7 +123,7 @@ public class Player extends MovingRectangle{
         //Jump up
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCounter < 2) {
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
-            body.applyLinearImpulse(new Vector2(0, 15), body.getPosition(), true);
+            body.applyLinearImpulse(new Vector2(0, 13), body.getPosition(), true);
             jumpCounter ++;
         }
         //Dash down

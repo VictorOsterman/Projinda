@@ -55,6 +55,7 @@ public abstract class MovingRectangle extends Sprite {
     protected float width, height;
 
     protected int jumpCounter;
+    protected boolean onGround;
     protected int lives;
 
     private boolean isDead;
@@ -91,6 +92,7 @@ public abstract class MovingRectangle extends Sprite {
         this.height = height;
 
         this.jumpCounter = 0;
+        this.onGround = true;
         this.isDead = false;
         this.onRectangle = false;
 
@@ -180,6 +182,9 @@ public abstract class MovingRectangle extends Sprite {
         if(isDead || y < -300) {
             handleDeath();
         }
+
+        if((body.getLinearVelocity().y == 0 && onGround) || onRectangle)
+            resetJumpCounter();
 
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
@@ -362,4 +367,6 @@ public abstract class MovingRectangle extends Sprite {
         body = null;
         destroyed = true;
     }
+
+    public void setOnGround (boolean onGround) { this.onGround = onGround; }
 }
