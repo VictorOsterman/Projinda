@@ -27,6 +27,7 @@ public class GameContactListener implements ContactListener {
         //If any of the involved objects is the player's sensor, the player is standing
         // on something and the jump counter should be reset
         if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
+            Gdx.app.log(String.valueOf(gameScreen.getPlayer().getDownDash()), "");
             gameScreen.getPlayer().setOnGround(true);
 
             Fixture notPlayer = b;

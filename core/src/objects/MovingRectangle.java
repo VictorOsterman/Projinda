@@ -42,6 +42,7 @@ public abstract class MovingRectangle extends Sprite {
     private float stateTimer;
     private boolean runningRight;
     protected boolean onRectangle;
+    protected boolean downDash;
 
 
 
@@ -94,6 +95,8 @@ public abstract class MovingRectangle extends Sprite {
 
         this.width = width;
         this.height = height;
+
+        this.downDash = false;
 
         this.jumpCounter = 0;
         this.onGround = true;
@@ -206,8 +209,10 @@ public abstract class MovingRectangle extends Sprite {
             handleDeath();
         }
 
-        if((body.getLinearVelocity().y == 0 && onGround) || onRectangle)
+        if((body.getLinearVelocity().y == 0 && onGround) || onRectangle) {
+            downDash = false;
             resetJumpCounter();
+        }
 
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
@@ -410,6 +415,8 @@ public abstract class MovingRectangle extends Sprite {
      * @param onGround boolean whether the rectangle is or is not on ground
      */
     public void setOnGround (boolean onGround) { this.onGround = onGround; }
+
+    public boolean getDownDash() { return downDash; }
 
     /**
      * When a moving rectangle is hit by an enemy and is supposed to take damage this method is called
