@@ -58,6 +58,9 @@ public abstract class MovingRectangle extends Sprite {
     protected boolean onGround;
     protected int lives;
     protected boolean immortal;
+    protected float immortalCounter;
+    protected boolean showTransparentImage;
+    protected int showTransparentCounter;
 
     protected boolean isDead;
     protected String className;
@@ -96,6 +99,8 @@ public abstract class MovingRectangle extends Sprite {
         this.onGround = true;
         this.isDead = false;
         this.onRectangle = false;
+        this.showTransparentImage = false;
+        this.showTransparentCounter = 0;
 
         this.body = body;
 
@@ -106,6 +111,7 @@ public abstract class MovingRectangle extends Sprite {
 
         this.lives = 1;
         this.immortal = false;
+        this.immortalCounter = 0;
 
         this.className = "MovingRectangle";
 
@@ -180,6 +186,21 @@ public abstract class MovingRectangle extends Sprite {
      * @param dt
      */
     public void update(float dt) {
+        // If the rectangle is immortal, increase the counter of how long the rectangle has been immortal
+        // With a lagom interval set that the rectangle should display a transparent image to show that it is immortal
+        if(immortal) {
+            immortalCounter += dt;
+            showTransparentCounter ++;
+            if(showTransparentCounter % 15 == 1)
+                showTransparentImage = !showTransparentImage;
+        }
+
+        // If the rectangle has been immortal long enough, set it to mortal again
+        if(immortalCounter >= 4) {
+            immortal = false;
+            showTransparentImage = false;
+            immortalCounter = 0;
+        }
         //If the rectangle has died or fallen below y = -300 it is dead
         if(isDead || y < -300) {
             handleDeath();
@@ -192,8 +213,12 @@ public abstract class MovingRectangle extends Sprite {
         y = body.getPosition().y * Const.PPM - (height / 2);
 
         manageUserInput();
-        if(hasAnimations)
+
+        if(hasAnimations && !showTransparentImage)
             currentFrame = getFrame(dt);
+        else if (showTransparentImage)
+            currentFrame = new TextureRegion(new Texture("pictures/transparent.png"), 0, 0, 64, 64);
+
     }
 
     /**
@@ -370,8 +395,16 @@ public abstract class MovingRectangle extends Sprite {
         destroyed = true;
     }
 
+    /**
+     * Set that the moving rectangle is either standing or not standing on ground
+     * @param onGround boolean whether the rectangle is or is not on ground
+     */
     public void setOnGround (boolean onGround) { this.onGround = onGround; }
 
+    /**
+     * When a moving rectangle is hit by an enemy and is supposed to take damage this method is called
+     * Lowers the moving rectangle's lives and sets it to immortal
+     */
     public void hitByEnemy() {
         if(immortal)
             return;
