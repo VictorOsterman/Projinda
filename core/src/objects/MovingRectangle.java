@@ -10,12 +10,8 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.utils.Array;
 import com.projinda.game.GameScreen;
-import helper.BodyHelper;
 import helper.Const;
 import helper.ContactType;
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 /**
  * Abstract class used for moving rectangles such as player, enemy, bullet
@@ -43,8 +39,6 @@ public abstract class MovingRectangle extends Sprite {
     private boolean runningRight;
     protected boolean onRectangle;
     protected boolean downDash;
-
-
 
     protected Body body;
     protected GameScreen gameScreen;
@@ -176,17 +170,19 @@ public abstract class MovingRectangle extends Sprite {
         elapsedTime += Gdx.graphics.getDeltaTime();
         if(hasAnimations) {
             batch.draw(currentFrame, x, y, width, height);
-        }else {
+        } else {
             batch.draw(texture, x, y, width, height);
         }
     }
 
     /**
+     * If the rectangle is immortal, make it appear as if the texture is flashing
+     *
      * Updates the moving rectangle's position
      * Checks for user input
      * If the rectangle uses animations the frame is updated
      *
-     * @param dt
+     * @param dt time since last update
      */
     public void update(float dt) {
         // If the rectangle is immortal, increase the counter of how long the rectangle has been immortal
@@ -230,7 +226,7 @@ public abstract class MovingRectangle extends Sprite {
      * Returns the next frame for the animation
      * Checks current state with getState method
      * Depending on the state the method gets the correct frame
-     * @param dt
+     * @param dt time since last update
      * @return next frame to be rendered for moving rectangle
      */
     public TextureRegion getFrame(float dt) {
@@ -296,6 +292,7 @@ public abstract class MovingRectangle extends Sprite {
 
     /**
      * Creates a sensor and adds it to the body
+     * @param placement placement of the sensor, can be "head" or "foot"
      */
     public void addSensor(String placement) {
         // Skapar sensor med följande form
@@ -315,13 +312,15 @@ public abstract class MovingRectangle extends Sprite {
     }
 
     /**
-     * Pause game for one second
      * Sets the players position to its start position
      */
     public void reset(){
         this.body.setTransform(startX / Const.PPM, startY / Const.PPM, 0);
     }
 
+    /**
+     * Check for user input and manage it correctly
+     */
     public void manageUserInput() {
         //Reset
         if(Gdx.input.isKeyPressed(Input.Keys.R))
@@ -335,10 +334,6 @@ public abstract class MovingRectangle extends Sprite {
     public float getY() {
         return y;
     }
-
-    public float getDirectionX() { return directionX; }
-
-    public float getSpeed() { return speed; }
 
     public float getWidth() { return width; }
     public float getHeight() { return height; }
@@ -367,8 +362,6 @@ public abstract class MovingRectangle extends Sprite {
             Coin.generateCoin(x, y, width, height, gameScreen);
         }
     }
-
-    public void setIsDead(boolean isDead) { this.isDead = isDead; }
 
     public Body getBody() {
         return body;
