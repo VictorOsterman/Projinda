@@ -46,6 +46,10 @@ There are two options regarding how to run the game, either run the program thro
   - Double click the marked run-command 
 
 
+## Music by:
 
-## Structure
-This project uses the java library LibGdx, and is completely written in java.
+Dragon Slayer by Makai Symphony | https://soundcloud.com/makai-symphony
+Music promoted by https://www.chosic.com/free-music/all/
+Creative Commons Attribution-ShareAlike 3.0 Unported
+https://creativecommons.org/licenses/by-sa/3.0/
+
