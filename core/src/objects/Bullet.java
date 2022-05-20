@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Contact;
 import com.projinda.game.Boot;
 import com.projinda.game.GameScreen;
 import helper.BodyHelper;
@@ -71,6 +72,21 @@ public class Bullet extends MovingRectangle{
     public String getShotBy() { return shotBy; }
 
     public static void shootBullet(float x, float y, float width, float height, GameScreen gameScreen, float directionX, String shotBy) {
+        ContactType ct;
+        short mBits;
+        short gIndex;
+        if(shotBy.equals("player")) {
+            ct = ContactType.PLAYERBULLET;
+            mBits = (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT);
+            gIndex = (short) 0;
+        }
+        else {
+            Gdx.app.log("Shot by enemy", "");
+            ct = ContactType.ENEMYBULLET;
+            mBits = (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT);
+            gIndex = (short) -1;
+        }
+
         //Create the bullets body
         Body body = BodyHelper.createBody(
                 x+width/2+directionX*(width),
@@ -80,10 +96,12 @@ public class Bullet extends MovingRectangle{
                 false,
                 0,
                 gameScreen.getWorld(),
-                ContactType.PLAYERBULLET,
+                ct,
                 Const.BULLET_BIT,
-                (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT),
-                (short) 0
+                mBits,
+                gIndex
+                //(short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT),
+                //(short) 0
         );
         gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX, shotBy));
     }
