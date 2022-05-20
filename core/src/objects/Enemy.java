@@ -23,6 +23,8 @@ import java.util.Random;
  * @version 2022-05-18
  */
 public class Enemy extends MovingRectangle{
+
+    private float timeSinceLastShot;
     /**
      * Constructor for moving rectangle
      *
@@ -46,6 +48,7 @@ public class Enemy extends MovingRectangle{
             addAnimations("cop.png", 1);
         }
 
+        timeSinceLastShot = 1;
     }
 
 
@@ -62,7 +65,7 @@ public class Enemy extends MovingRectangle{
             moving = 0;
             super.update(dt);
             moveEnemy();
-            shootBullet();
+            shootBullet(dt);
             body.setLinearVelocity(moving*directionX*speedLevel*speed, body.getLinearVelocity().y);
         }
     }
@@ -90,14 +93,18 @@ public class Enemy extends MovingRectangle{
     }
 
     /**
-     * Method used for an enemy to shoot a bullet.
+     * Method used for an enemy to shoot a bullet
+     * Don't shoot if the enemy just shot
      * Only used for small enemies
      * Only one enemy bullet in the air at a time
      * Only shoot if close to the player
      * Don't shoot if too far over or below the player
      * Don't shoot if too close to the player
      */
-    private void shootBullet() {
+    private void shootBullet(float dt) {
+        timeSinceLastShot += dt;
+        if(timeSinceLastShot < 1)
+            return;
         if(width > 100)
             return;
         if(gameScreen.bulletInMotion("enemy"))
@@ -110,6 +117,7 @@ public class Enemy extends MovingRectangle{
             return;
         Bullet.shootBullet(x, y, width, height, gameScreen, directionX, "enemy");
         gameScreen.playLaserSound();
+        timeSinceLastShot = 0;
     }
 
     /**
