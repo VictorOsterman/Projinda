@@ -56,7 +56,6 @@ public class Safe extends MoneyItems {
     public void render(SpriteBatch batch, float dt) {
         if(generateCoins) {
             for(int i=0; i<3; i++) {
-                Gdx.app.log(String.valueOf(x), String.valueOf(y));
                 Coin.generateCoin(x*Const.PPM, y*Const.PPM, width, height, gameScreen);
             }
             generateCoins = false;
