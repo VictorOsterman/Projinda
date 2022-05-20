@@ -35,6 +35,11 @@ public class Bullet extends MovingRectangle{
         this.speedLevel = 3;
         this.lastX = -1;
         this.outOfSight = false;
+
+        if(shotBy.equals("enemy")) {
+            this.speedLevel = 1.5f;
+            this.texture = new Texture("laser.png");
+        }
     }
 
     @Override
