@@ -12,5 +12,5 @@ public class Const {
     public static final short BULLET_BIT = 8;
     public static final short COIN_BIT = 16;
     public static final short SAFE_BIT = 32;
-    public static final short STATIC_BIT = 64;
+    public static final short ENEMYBULLET_BIT = 64;
 }
