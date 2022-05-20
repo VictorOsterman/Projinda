@@ -23,9 +23,6 @@ This is a semi open world 2D-platform game where you are playing as the thief wi
 ## How to run
 
 There are two options regarding how to run the game, either run the program through intellij or the executable file. 
-- clone the repo
-
-From here, you can choose two different paths: either run the program through intellij or the executable file.
 
 ### Executable file
 
