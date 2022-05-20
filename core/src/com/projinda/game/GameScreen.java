@@ -3,6 +3,7 @@ package com.projinda.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,6 +25,9 @@ import scenes.ScoreBoard;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * The game's game logical machine.
+ */
 public class GameScreen extends ScreenAdapter {
 
     private OrthographicCamera camera;
@@ -39,19 +43,27 @@ public class GameScreen extends ScreenAdapter {
 
     private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer;
     private TiledMapHelper tiledMapHelper;
-    private Box2DDebugRenderer box2DDebugRenderer;
-
     private ScoreBoard scoreBoard;
 
+    private Music music;
 
+
+    /**
+     * The game screen constructor, called when a new object of type {@code GameScreen} is needed
+     * @param camera an orthographic camera, used to follow the player
+     * @param boot being able to start new screen objects
+     */
     public GameScreen(OrthographicCamera camera, Boot boot) {
-
 
         this.camera = camera;
         this.batch = new SpriteBatch();
         this.world = new World(new Vector2(0,-25),false);
-        this.box2DDebugRenderer = new Box2DDebugRenderer();
         this.boot = boot;
+
+        music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
+        music.setLooping(true);
+        music.setVolume(0.3f);
+        music.play();
 
         gameContactListener = new GameContactListener(this);
         world.setContactListener(gameContactListener);
@@ -66,6 +78,9 @@ public class GameScreen extends ScreenAdapter {
         scoreBoard = new ScoreBoard(batch);
     }
 
+    /**
+     * Called when wanting the camera to follow the players position.
+     */
     private void updateCamera(){
         if(player.getY() - tiledMapHelper.getTileSize().y*5 < 0){
             if(player.getX() - Boot.INSTANCE.getScreenWidth() / 2 < 0){
@@ -97,20 +112,25 @@ public class GameScreen extends ScreenAdapter {
                 camera.position.set(new Vector3(player.getX(),player.getY(),0));
             }
         }
-
-
         camera.update();
     }
 
+    /**
+     * Called when the screen should update into a new frame
+     * @param dt difference in time
+     */
     public void update(float dt){
-        //Gdx.app.log("Now updating ", "");
         world.step(1/60f, 6, 2);
+
         //Gdx.app.log("world stepped ", "");
         player.update(dt);
         scoreBoard.update(dt, player.getScore(), player.getLives());
 
-        if(getScoreBoard().getWorldTimer() <= 0 || getScoreBoard().getLives() == 0){
-            boot.setGameOverScreen(getScoreBoard().getScore());
+        if(getScoreBoard().getWorldTimer() <= 0){
+            boot.setGameOverScreen(getScoreBoard().getScore(), false);
+            return;
+        }else if(getScoreBoard().getLives() == 0){
+            boot.setGameOverScreen(getScoreBoard().getScore(), true);
             return;
         }
 
@@ -120,8 +140,10 @@ public class GameScreen extends ScreenAdapter {
 
 
         for (int i = 0; i < moneyItems.size(); i++) {
-            if(!moneyItems.get(i).getIsStatic())
+            //if(true) {
+            if(!moneyItems.get(i).getIsStatic()) {
                 moneyItems.get(i).update();
+            }
         }
         updateCamera();
 
@@ -134,10 +156,15 @@ public class GameScreen extends ScreenAdapter {
         }
 
         if(scoreBoard.isNewSecond() && scoreBoard.getWorldTimer() % 10 == 0) {
-            spawnEnemy();
+            spawnEnemyRandomly();
         }
     }
 
+    /**
+     * Called when the screen should render itself.
+     *
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta){
         update(delta);
@@ -149,15 +176,12 @@ public class GameScreen extends ScreenAdapter {
         batch.begin();
 
         player.render(batch);
-        /*for (MovingRectangle movingRectangle :
-                movingRectangles) {
-            movingRectangle.render(batch);
-        }*/
+
         for (int i = 0; i < movingRectangles.size(); i++) {
             movingRectangles.get(i).render(batch);
         }
         for (int i = 0; i < moneyItems.size(); i++) {
-            moneyItems.get(i).render(batch);
+            moneyItems.get(i).render(batch, delta);
         }
 
         batch.end();
@@ -194,16 +218,13 @@ public class GameScreen extends ScreenAdapter {
      * @return corresponding money item
      */
     public MoneyItems getMatchingMoneyItem(float x, float y) {
-        //Gdx.app.log(String.valueOf(x), String.valueOf(y));
         for (MoneyItems moneyItem: moneyItems) {
-            //Gdx.app.log(String.valueOf(moneyItem.getX()), String.valueOf(moneyItem.getY()));
             if (x * Const.PPM == moneyItem.getX() + moneyItem.getWidth() / 2 && y * Const.PPM == moneyItem.getY() + moneyItem.getHeight() / 2) {
                 return moneyItem;
             }
             else if(x == moneyItem.getX() && y == moneyItem.getY())
                 return moneyItem;
         }
-        //Gdx.app.log("No matching money item found", "");
         return null;
     }
     
@@ -214,41 +235,60 @@ public class GameScreen extends ScreenAdapter {
      * @return movingRectangle collided with
      */
     public MovingRectangle getMatchingRectangle(float x, float y) {
-        //Gdx.app.log("---------------------", "");
-        //Gdx.app.log(String.valueOf(x*Const.PPM), String.valueOf(y*Const.PPM));
+
         for (MovingRectangle movingRectangle: movingRectangles) {
-            //Gdx.app.log(String.valueOf(movingRectangle.getX() + movingRectangle.getWidth()/2), String.valueOf(movingRectangle.getY() + movingRectangle.getHeight() / 2));
             if(x*Const.PPM == movingRectangle.getX() + movingRectangle.getWidth()/2 && y*Const.PPM == movingRectangle.getY() + movingRectangle.getHeight() / 2) {
-                //Gdx.app.log("---------------------", "");
                 return movingRectangle;
             }
         }
-        //Gdx.app.log("No matching moving rectangle found", "");
-        //Gdx.app.log("---------------------", "");
         return null;
     }
 
+    /**
+     * Remove a moving rectangle
+     * @param movingRectangle the rectangle to be removed
+     */
     public void removeMovingRectangle(MovingRectangle movingRectangle) {
         movingRectangles.remove(movingRectangle);
     }
 
+    /**
+     * Remove the item money
+     *
+     * @param moneyItem the item to be removed
+     */
     public void removeMoneyItem (MoneyItems moneyItem) {
         moneyItems.remove(moneyItem);
     }
 
-    public boolean bulletInMotion () {
+    /**
+     * Checks if the bullet is in motion
+     * @return true if it does, false otherwise
+     */
+    public boolean bulletInMotion (String owner) {
         for (MovingRectangle movingRectangle :
                 movingRectangles) {
-            if (movingRectangle.getClassName().equals("Bullet"))
-                return true;
+            if (movingRectangle.getClassName().equals("Bullet")) {
+                Bullet bullet = (Bullet) movingRectangle;
+                if(bullet.getShotBy().equals(owner))
+                    return true;
+            }
         }
         return false;
     }
 
+    /**
+     *
+     * @return a TiledMapHelper object
+     */
     public TiledMapHelper getTiledMapHelper() {
         return tiledMapHelper;
     }
 
+    /**
+     *
+     * @return a ScoreBoard object
+     */
     public ScoreBoard getScoreBoard() {
         return scoreBoard;
     }
@@ -257,8 +297,9 @@ public class GameScreen extends ScreenAdapter {
      * Spawns an enemy to the game
      * If the player is on the left third, the enemy is placed on the right third and vice versa
      * If the player is in the middle, the enemy is randomly placed either on the left or right side
+     * Has a 4/5 chance of spawning a small enemy, 1/5 chance of spawning a big enemy.
      */
-    public void spawnEnemy() {
+    public void spawnEnemyRandomly() {
         // If max amount of enemies already exist, do not spawn another
         int enemyCounter = 0;
         for (MovingRectangle movingRectangle :
@@ -289,17 +330,69 @@ public class GameScreen extends ScreenAdapter {
             x = rng.nextInt(2) == 1 ? 100 : 2800;
         }
 
-        //Create a new body for the enemy
+        // Gives a small chance of spawning a big enemy
+        int width = rng.nextInt(5) == 0 ? 128 : 64;
+        int height = width;
+
+        spawnEnemy(x, y, width, height);
+    }
+
+    /**
+     * Spawns a new safe with given coordinates
+     * Depending on where the safe is spawned it also spawns an enemy
+     * @param x x-coordinate of safe
+     * @param y y-coordinate of safe
+     */
+    public void spawnSafe(float x, float y) {
+        if(x > 2800 && y > 900) {
+            // Spawn big enemy
+            spawnEnemy(x, y + 64, 128, 128);
+        }
+        else if(x < 40 && 1000 < y && y < 1100) {
+            // Spawn small enemy
+            spawnEnemy(x, y + 64, 64, 64);
+        }
+        //Create a body with correct posistion and size
         Body body = BodyHelper.createBody(
                 x,
                 y,
                 64,
                 64,
+                true,
+                0,
+                world,
+                ContactType.SAFE,
+                Const.SAFE_BIT,
+                (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.BULLET_BIT),
+                (short) 0
+        );
+        addMoneyItem(new Safe(64, 64, body, this));
+    }
+
+    /**
+     * Spawns an enemy with given parameter
+     * @param x x-coordinate of enemy
+     * @param y y-coordinate of enemy
+     * @param width width of enemy
+     * @param height height of enemy
+     */
+    public void spawnEnemy(float x, float y, float width, float height) {
+        //Create a new body for the enemy
+        Body body = BodyHelper.createBody(
+                x,
+                y,
+                width,
+                height,
                 false,
                 99999999,
                 world,
-                ContactType.ENEMY
+                ContactType.ENEMY,
+                Const.ENEMY_BIT,
+                (short) (Const.PLAYER_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT | Const.BULLET_BIT),
+                (short) -1
         );
-        addMovingRectangle(new Enemy(64, 64, body, this));
+        addMovingRectangle(new Enemy(width, height, body, this));
     }
+
+
 }

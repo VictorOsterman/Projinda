@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * the game's main menu
+ */
 public class MainMenuScreen implements Screen {
 
     public static final int ICON_WIDTH = 150;
@@ -24,8 +27,11 @@ public class MainMenuScreen implements Screen {
     private Texture exitButtonInactive;
     private Texture backgroundImage = new Texture("maps/background_main.png");
 
+    /**
+     * The class constructor
+     * @param boot able to send the player back to main menu or the game screen
+     */
     public MainMenuScreen(Boot boot){
-
 
         this.batch = new SpriteBatch();
         this.boot = boot;
@@ -34,13 +40,6 @@ public class MainMenuScreen implements Screen {
         this.playButtonInactive = new Texture("play_button_inactive.png");
         this.exitButtonActive = new Texture("exit_button_active.png");
         this.exitButtonInactive = new Texture("exit_button_inactive.png");
-
-    }
-    /**
-     * Called when this screen becomes the current screen for a {@link Game}.
-     */
-    @Override
-    public void show() {
 
     }
 
@@ -91,44 +90,17 @@ public class MainMenuScreen implements Screen {
         batch.end();
     }
 
-    /**
-     * @param width
-     * @param height
-     * @see ApplicationListener#resize(int, int)
-     */
     @Override
-    public void resize(int width, int height) {
-
-    }
-
-    /**
-     * @see ApplicationListener#pause()
-     */
+    public void resize(int width, int height) {}
     @Override
-    public void pause() {
-
-    }
-
-    /**
-     * @see ApplicationListener#resume()
-     */
+    public void pause() {}
     @Override
-    public void resume() {
-
-    }
-
-    /**
-     * Called when this screen is no longer the current screen for a {@link Game}.
-     */
+    public void resume() {}
     @Override
-    public void hide() {
-
-    }
-
-    /**
-     * Called when this screen should release all resources.
-     */
+    public void hide() {}
     @Override
-    public void dispose() {
-    }
+    public void dispose() {}
+    @Override
+    public void show() {}
+
 }

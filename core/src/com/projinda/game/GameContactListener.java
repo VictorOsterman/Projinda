@@ -27,7 +27,8 @@ public class GameContactListener implements ContactListener {
         //If any of the involved objects is the player's sensor, the player is standing
         // on something and the jump counter should be reset
         if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
-            gameScreen.getPlayer().resetJumpCounter();
+            boolean isDashing = gameScreen.getPlayer().getDownDash();
+            gameScreen.getPlayer().setOnGround(true);
 
             Fixture notPlayer = b;
             if(b.getUserData() == ContactType.PLAYERSENSOR) {
@@ -35,8 +36,9 @@ public class GameContactListener implements ContactListener {
             }
 
             if(a.getUserData() == ContactType.SAFE || b.getUserData() == ContactType.SAFE) {
-                // Player is standing on safe, find safe and retrieve money.
-                ((Safe) gameScreen.getMatchingMoneyItem(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y)).collect();
+                // Player is standing on safe, find safe and retrieve money if the player is dashing
+                if(isDashing)
+                    ((Safe) gameScreen.getMatchingMoneyItem(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y)).collect();
             }
             else if(a.getUserData() == ContactType.MOVINGPLATFORM || b.getUserData() == ContactType.MOVINGPLATFORM) {
                 // Player is standing on platform, find platform and set player's platform to this platform
@@ -44,8 +46,11 @@ public class GameContactListener implements ContactListener {
                 gameScreen.getPlayer().setOnRectangle(movingPlatform);
             }
             else if(a.getUserData() == ContactType.ENEMY || b.getUserData() == ContactType.ENEMY) {
+                // If the player is dashing down on the player, the player should lose lives
                 // Player is standing on platform, find platform and set player's platform to this platform
                 Enemy enemy = (Enemy) gameScreen.getMatchingRectangle(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y);
+                if(isDashing)
+                    enemy.lowerLives();
                 gameScreen.getPlayer().setOnRectangle(enemy);
             }
         }
@@ -58,6 +63,17 @@ public class GameContactListener implements ContactListener {
             if(b.getUserData() == ContactType.PLAYER) {
                 notPlayer = a;
             }
+
+            if(a.getUserData() == ContactType.ENEMYBULLET || b.getUserData() == ContactType.ENEMYBULLET) {
+                // Player hit by enemy bullet
+                gameScreen.getPlayer().hitByEnemy();
+                Bullet bullet = (Bullet) gameScreen.getMatchingRectangle(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y);
+                if(bullet == null)
+                    return;
+                bullet.lowerLives();
+            }
+
+
             if(a.getUserData() == ContactType.ENEMY || b.getUserData() == ContactType.ENEMY) {
                 // Player is in contact with enemy.
                 // If the player is not standing on the enemy it should die.
@@ -71,7 +87,7 @@ public class GameContactListener implements ContactListener {
 
                 //If the player's bottom y is below enemy's bottom y (+30) and the player is not dashing downards, the player is killed by the enemy
                 if(gameScreen.getPlayer().getY() < enemy.getY() + 30 && gameScreen.getPlayer().getBody().getLinearVelocity().y > -100) {
-                    gameScreen.getPlayer().setIsDead(true);
+                    gameScreen.getPlayer().hitByEnemy();
                 }
             }
             if(a.getUserData() == ContactType.COIN || b.getUserData() == ContactType.COIN) {
@@ -79,8 +95,6 @@ public class GameContactListener implements ContactListener {
                 Coin coin = ((Coin) gameScreen.getMatchingMoneyItem(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y));
                 if(coin != null) {
                     coin.collect();
-                    Gdx.app.log(String.valueOf(coin.getValue()), "");
-                    Gdx.app.log("Collected coin", "");
                 }
                 else {
                     Gdx.app.log("Coin is null", "");
@@ -127,7 +141,7 @@ public class GameContactListener implements ContactListener {
         Fixture b = contact.getFixtureB();
 
         if(a.getUserData() == ContactType.PLAYERSENSOR || b.getUserData() == ContactType.PLAYERSENSOR) {
-            gameScreen.getPlayer().resetJumpCounter();
+            gameScreen.getPlayer().setOnGround(false);
             if(a.getUserData() == ContactType.MOVINGPLATFORM || b.getUserData() == ContactType.MOVINGPLATFORM) {
                 // Player is no longer standing on platform, set boolean onPlatform to false
                 gameScreen.getPlayer().setOnRectangle(false);

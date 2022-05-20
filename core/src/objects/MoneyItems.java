@@ -19,6 +19,7 @@ import java.util.Random;
 public abstract class MoneyItems {
     protected int value;
     protected boolean collected;
+    protected boolean generateCoins;
     protected GameScreen gameScreen;
     protected Texture texture;
     protected float x, y;
@@ -26,6 +27,7 @@ public abstract class MoneyItems {
     protected Body body;
     protected boolean isStatic;
     protected boolean destroyed;
+    protected float removeCounter;
 
     //For non-static moneyItems:
     protected float directionX, speed;
@@ -44,10 +46,12 @@ public abstract class MoneyItems {
         this.height = height;
         this.gameScreen = gameScreen;
         this.body = body;
+        this.removeCounter = 0;
 
         //Assign value its value in subclass
         value = 0;
         collected = false;
+        generateCoins = false;
 
         this.texture = new Texture("maps/safepicture.png");
         this.isStatic = true;
@@ -76,6 +80,7 @@ public abstract class MoneyItems {
         if(collected) return;
         gameScreen.getPlayer().increaseScore(value);
         collected = true;
+        generateCoins = true;
         changeTexture();
     }
 
@@ -90,7 +95,13 @@ public abstract class MoneyItems {
         body.setUserData(null);
         body = null;
         destroyed = true;
-        return;
+    }
+
+    public void removeBody() {
+        gameScreen.getWorld().destroyBody(this.body);
+        body.setUserData(null);
+        body = null;
+        destroyed = true;
     }
     public float getX() {
         return x;
@@ -118,10 +129,12 @@ public abstract class MoneyItems {
         return body;
     }
 
-    public void render(SpriteBatch batch) {
-        if(isStatic)
-            batch.draw(texture, x * Const.PPM - width/2, y * Const.PPM - height/2, width, height);
-        if(!isStatic)
+    public void render(SpriteBatch batch, float dt) {
+        if(isStatic) {
+            batch.draw(texture, x * Const.PPM - width / 2, y * Const.PPM - height / 2, width, height);
+        }
+        else if(!isStatic) {
             batch.draw(texture, x, y, width, height);
+        }
     }
 }

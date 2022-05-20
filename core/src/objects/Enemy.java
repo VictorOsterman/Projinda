@@ -34,10 +34,11 @@ public class Enemy extends MovingRectangle{
         super(width, height, body, gameScreen);
         this.speedLevel = 0.5F;
         this.texture = new Texture("cop.png");
-        this.lives = 3;
+        this.lives = width < 100 ? 3 : 6;
         this.className = "Enemy";
 
-        addSensor();
+        addSensor("head");
+
         if(width > 100 && height > 100) {
             addAnimations("dinosaur.png", 2);
         }
@@ -58,9 +59,11 @@ public class Enemy extends MovingRectangle{
             return;
         }
         else if (!destroyed) {
+            moving = 0;
             super.update(dt);
             moveEnemy();
-            body.setLinearVelocity(directionX*speedLevel*speed, body.getLinearVelocity().y);
+            shootBullet();
+            body.setLinearVelocity(moving*directionX*speedLevel*speed, body.getLinearVelocity().y);
         }
     }
 
@@ -74,14 +77,38 @@ public class Enemy extends MovingRectangle{
         //Check if player is too far away in x-coordinates
         if(player.getX() < x - Boot.INSTANCE.getScreenWidth() / 2 || player.getX() > x + Boot.INSTANCE.getScreenWidth() / 2) {
             wanderAround();
+            moving = 1;
         }
         //Check if player is too far away in y-coordinates
         else if(player.getY() < y - Boot.INSTANCE.getScreenHeight() / 2 || player.getY() > y + Boot.INSTANCE.getScreenHeight() / 2) {
             wanderAround();
+            moving = 1;
         }
         else {
             moveAccordingToPlayer();
         }
+    }
+
+    /**
+     * Method used for an enemy to shoot a bullet.
+     * Only used for small enemies
+     * Only one enemy bullet in the air at a time
+     * Only shoot if close to the player
+     * Don't shoot if too far over or below the player
+     * Don't shoot if too close to the player
+     */
+    private void shootBullet() {
+        if(width > 100)
+            return;
+        if(gameScreen.bulletInMotion("enemy"))
+            return;
+        if(speedLevel < 0.5f)
+            return;
+        if(gameScreen.getPlayer().getY() > y + 64 || gameScreen.getPlayer().getY() < y - 64)
+            return;
+        if(gameScreen.getPlayer().getX() > x - 200 && gameScreen.getPlayer().getX() < x + 200)
+            return;
+        Bullet.shootBullet(x, y, width, height, gameScreen, directionX, "enemy");
     }
 
     /**
@@ -106,10 +133,14 @@ public class Enemy extends MovingRectangle{
         speedLevel = 0.5F;
         Player player = gameScreen.getPlayer();
         // Change the direction to point to the player
-        if(player.getX() > x + 3)
+        if(player.getX() > x + 3) {
             directionX = 1;
+            moving = 1;
+        }
+
         else if (player.getX() < x - 3) {
             directionX = -1;
+            moving = 1;
         }
 
         // Every other second

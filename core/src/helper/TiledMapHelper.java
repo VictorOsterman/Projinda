@@ -10,10 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.Shape;
+import com.badlogic.gdx.physics.box2d.*;
 import com.projinda.game.GameScreen;
 import objects.Enemy;
 import objects.MovingPlatform;
@@ -22,6 +19,10 @@ import objects.Safe;
 
 import static helper.Const.PPM;
 
+/**
+ * TiledMapHelper helps the tiled map file to be placed on the game screen as well as making objects where there
+ * should be object
+ */
 public class TiledMapHelper {
 
     private TiledMap tiledMap;
@@ -33,6 +34,10 @@ public class TiledMapHelper {
         this.gameScreen = gameScreen;
     }
 
+    /**
+     * sets up the map
+     * @return orthogonalTiledMapRenderer object, containing the map
+     */
     public OrthogonalTiledMapRenderer setupMap(){
         tiledMap = new TmxMapLoader().load("maps/map0.tmx");
         parseObjects(tiledMap.getLayers().get("Objects").getObjects());
@@ -59,23 +64,23 @@ public class TiledMapHelper {
                 //Check if the map object is a player
                 if(rectangleName.equals("player")) {
                     //Create a body with position and size specified in tiled map
-                    Gdx.app.log(String.valueOf(rectangle.getX() + rectangle.getWidth() / 2), String.valueOf(rectangle.getY() + rectangle.getHeight() / 2));
                     Body body = BodyHelper.createBody(
                             rectangle.getX() + rectangle.getWidth() / 2,
                             rectangle.getY() + rectangle.getHeight() / 2,
                             rectangle.getWidth(),
                             rectangle.getHeight(),
                             false,
-                            0,
+                            (float) 0,
                             gameScreen.getWorld(),
-                            ContactType.PLAYER
+                            ContactType.PLAYER,
+                            Const.PLAYER_BIT,
+                            (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.COIN_BIT | Const.SAFE_BIT | Const.BULLET_BIT),
+                            (short) 1
                     );
                     gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
                 }
                 //Check if the map object is an enemy
                 else if (rectangleName.equals("enemy")) {
-                    Gdx.app.log(String.valueOf(rectangle.getX() + rectangle.getWidth() / 2), String.valueOf(rectangle.getY() + rectangle.getHeight() / 2));
-
                     //Create a body with position and size specified in tiled map
                     Body body = BodyHelper.createBody(
                             rectangle.getX() + rectangle.getWidth() / 2,
@@ -85,7 +90,10 @@ public class TiledMapHelper {
                             false,
                             99999999,
                             gameScreen.getWorld(),
-                            ContactType.ENEMY
+                            ContactType.ENEMY,
+                            Const.ENEMY_BIT,
+                            (short) (Const.PLAYER_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT | Const.BULLET_BIT),
+                            (short) -1
                     );
                     gameScreen.addMovingRectangle(new Enemy(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
                 }
@@ -100,7 +108,10 @@ public class TiledMapHelper {
                             true,
                             0,
                             gameScreen.getWorld(),
-                            ContactType.SAFE
+                            ContactType.SAFE,
+                            Const.SAFE_BIT,
+                            (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.BULLET_BIT | Const.COIN_BIT),
+                            (short) 0
                     );
                     gameScreen.addMoneyItem(new Safe(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
                 }
@@ -120,7 +131,10 @@ public class TiledMapHelper {
                             false,
                             99999999,   // Makes the platform "immovable" in collisions
                             gameScreen.getWorld(),
-                            ContactType.MOVINGPLATFORM
+                            ContactType.MOVINGPLATFORM,
+                            Const.PLATFORM_BIT,
+                            (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.BULLET_BIT | Const.COIN_BIT),
+                            (short) 0
                     );
                     gameScreen.addMovingRectangle(new MovingPlatform(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen, direction));
                 }
@@ -135,6 +149,7 @@ public class TiledMapHelper {
         Shape shape = createPolygonShape(mapObject);
         body.createFixture(shape, 1000);
         shape.dispose();
+
 
     }
 
@@ -152,10 +167,20 @@ public class TiledMapHelper {
         return shape;
     }
 
+    /**
+     * x - width
+     * y - height
+     * @return A vector2 containing the tile size.
+     */
     public Vector2 getTileSize() {
         return tileSize;
     }
 
+    /**
+     * x - map width
+     * y- map height
+     * @return the map size
+     */
     public Vector2 getMapSize() {
         return mapSize;
     }

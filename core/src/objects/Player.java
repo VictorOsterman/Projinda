@@ -2,6 +2,7 @@ package objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -37,7 +38,7 @@ public class Player extends MovingRectangle{
 
     private int score;
     private MovingRectangle movingRectangle;
-    private int moving; //Used to make player stop when not moving, allows directionX to still be 1 or -1 in order to create bullets
+    private Sound shotSound;
 
 
     public Player(float width, float height, Body body, GameScreen gameScreen) {
@@ -46,14 +47,18 @@ public class Player extends MovingRectangle{
         this.score = 0;
         addSensor();
         this.lives = 3;
-        moving = 0;
+        this.moving = 0;
         this.directionX = 1;
+        this.speedLevel = 0.5f;
+        this.startSpeedLevel = speedLevel;
+
+        shotSound = Gdx.audio.newSound(Gdx.files.internal("shot.mp3"));
 
         className = "Player";
-        addAnimations("Player.png", 1);
+        addAnimations("player.png", 1);
     }
 
-    @Override
+
     public void addSensor() {
         // Skapar sensor med följande form
         PolygonShape shape = new PolygonShape();
@@ -102,11 +107,8 @@ public class Player extends MovingRectangle{
      */
     @Override
     public void manageUserInput() {
-        speedLevel = 1;
+        speedLevel = startSpeedLevel;
         super.manageUserInput();
-        //Temporary reset button
-        if(Gdx.input.isKeyJustPressed(Input.Keys.G))
-            reset();
         //Walk right
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             directionX = 1;
@@ -122,51 +124,30 @@ public class Player extends MovingRectangle{
         //Jump up
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCounter < 2) {
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
-            body.applyLinearImpulse(new Vector2(0, 15), body.getPosition(), true);
+            body.applyLinearImpulse(new Vector2(0, 13), body.getPosition(), true);
             jumpCounter ++;
         }
         //Dash down
-        if(Gdx.input.isKeyPressed(Input.Keys.DOWN))
+        if(Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             body.applyForceToCenter(0, -1500, true);
+            downDash = true;
+        }
+
         //Run
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE))
             speedLevel *= 1.5;
-        //Dash to side
-        if(Gdx.input.isKeyJustPressed(Input.Keys.D))
-            speedLevel *= 8;
 
         //Shoot bullet
-        if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-            if(!gameScreen.bulletInMotion()) {
-                //Create the bullets body
-                Body body = BodyHelper.createBody(
-                        x+width/2+directionX*(width),
-                        y+height/2,
-                        20,
-                        10,
-                        false,
-                        0,
-                        gameScreen.getWorld(),
-                        ContactType.PLAYERBULLET
-                );
-                gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX));
+        if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+            if(!gameScreen.bulletInMotion("player")) {
+                Bullet.shootBullet(x, y, width, height, gameScreen, directionX, "player");
+                shotSound.play();
             }
         }
 
         // Hack for pro players, unlimited coins $$$
         if(Gdx.input.isKeyPressed(Input.Keys.U)) {
-            //Create the coins body
-            Body body = BodyHelper.createBody(
-                    x+width/2,
-                    y-height/2,
-                    64,
-                    64,
-                    false,
-                    99999999,
-                    gameScreen.getWorld(),
-                    ContactType.COIN
-            );
-            gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
+            Coin.generateCoin(x, y-height, width, height, gameScreen);
         }
     }
 
@@ -188,6 +169,12 @@ public class Player extends MovingRectangle{
 
     public boolean isOnRectangle() {
         return onRectangle;
+    }
+
+    @Override
+    public void handleDeath() {
+        lives--;
+        isDead = false;
     }
 
 }

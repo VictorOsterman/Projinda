@@ -42,6 +42,7 @@ public abstract class MovingRectangle extends Sprite {
     private float stateTimer;
     private boolean runningRight;
     protected boolean onRectangle;
+    protected boolean downDash;
 
 
 
@@ -50,12 +51,19 @@ public abstract class MovingRectangle extends Sprite {
 
     protected float startX, startY;
     protected float x, y, directionX, directionY, speedLevel, speed, startSpeedLevel;
+    protected int moving; //Used to make player stop when not moving, allows directionX to still be 1 or -1 in order to create bullets
+
     protected float width, height;
 
     protected int jumpCounter;
+    protected boolean onGround;
     protected int lives;
+    protected boolean immortal;
+    protected float immortalCounter;
+    protected boolean showTransparentImage;
+    protected int showTransparentCounter;
 
-    private boolean isDead;
+    protected boolean isDead;
     protected String className;
     protected boolean destroyed;
     protected boolean setToDestroy;
@@ -88,9 +96,14 @@ public abstract class MovingRectangle extends Sprite {
         this.width = width;
         this.height = height;
 
+        this.downDash = false;
+
         this.jumpCounter = 0;
+        this.onGround = true;
         this.isDead = false;
         this.onRectangle = false;
+        this.showTransparentImage = false;
+        this.showTransparentCounter = 0;
 
         this.body = body;
 
@@ -100,6 +113,8 @@ public abstract class MovingRectangle extends Sprite {
         this.runningRight = true;
 
         this.lives = 1;
+        this.immortal = false;
+        this.immortalCounter = 0;
 
         this.className = "MovingRectangle";
 
@@ -108,6 +123,7 @@ public abstract class MovingRectangle extends Sprite {
         this.destroyed = false;
         this.setToDestroy = false;
         this.texture = new Texture("white.png");    // Add other texture in subclasses
+        this.moving = 0;
     }
 
     /**
@@ -173,17 +189,41 @@ public abstract class MovingRectangle extends Sprite {
      * @param dt
      */
     public void update(float dt) {
+        // If the rectangle is immortal, increase the counter of how long the rectangle has been immortal
+        // With a lagom interval set that the rectangle should display a transparent image to show that it is immortal
+        if(immortal) {
+            immortalCounter += dt;
+            showTransparentCounter ++;
+            if(showTransparentCounter % 15 == 1)
+                showTransparentImage = !showTransparentImage;
+        }
+
+        // If the rectangle has been immortal long enough, set it to mortal again
+        if(immortalCounter >= 4) {
+            immortal = false;
+            showTransparentImage = false;
+            immortalCounter = 0;
+        }
         //If the rectangle has died or fallen below y = -300 it is dead
         if(isDead || y < -300) {
             handleDeath();
+        }
+
+        if((body.getLinearVelocity().y == 0 && onGround) || onRectangle) {
+            downDash = false;
+            resetJumpCounter();
         }
 
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
 
         manageUserInput();
-        if(hasAnimations)
+
+        if(hasAnimations && !showTransparentImage)
             currentFrame = getFrame(dt);
+        else if (showTransparentImage)
+            currentFrame = new TextureRegion(new Texture("pictures/transparent.png"), 0, 0, 64, 64);
+
     }
 
     /**
@@ -242,7 +282,8 @@ public abstract class MovingRectangle extends Sprite {
         else if(body.getLinearVelocity().x < -0.1 || body.getLinearVelocity().x > 0.1) {
             // Check if the rectangle is standing on another rectangle
             if(onRectangle) {
-
+                if(moving != 1)
+                    return State.SHOOT;
             }
             if(speedLevel == startSpeedLevel)
                 return State.WALK;
@@ -256,15 +297,20 @@ public abstract class MovingRectangle extends Sprite {
     /**
      * Creates a sensor and adds it to the body
      */
-    public void addSensor() {
+    public void addSensor(String placement) {
         // Skapar sensor med följande form
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox((width / 2 - 2) / Const.PPM  , height / 16 / Const.PPM, new Vector2(0, -height/2 / Const.PPM), 0);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0;
         fixtureDef.isSensor = true;
+
+        if(placement.equals("foot")) {
+            shape.setAsBox((width / 2 - 2) / Const.PPM  , height / 16 / Const.PPM, new Vector2(0, -height/2 / Const.PPM), 0);
+        } else if (placement.equals("head")) {
+            shape.setAsBox((width / 2 - 2) / Const.PPM  , height / 16 / Const.PPM, new Vector2(0, (height/2) / Const.PPM), 0);
+        }
         this.body.createFixture(fixtureDef).setUserData(ContactType.SENSOR);
     }
 
@@ -314,19 +360,12 @@ public abstract class MovingRectangle extends Sprite {
      * Used when enemies die
      */
     protected void generateCoin() {
-        //Create the bullets body
-        Body body = BodyHelper.createBody(
-                //x+width/2+directionX*(width/2),
-                x+width/2,
-                y+height/2,
-                64,
-                64,
-                false,
-                99999999,
-                gameScreen.getWorld(),
-                ContactType.COIN
-        );
-        gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
+        // Generate two coins for a bigger movingRectangle
+        int numCoins = width > 100 ? 2 : 1;
+
+        for (int i = 0; i < numCoins; i++) {
+            Coin.generateCoin(x, y, width, height, gameScreen);
+        }
     }
 
     public void setIsDead(boolean isDead) { this.isDead = isDead; }
@@ -357,5 +396,24 @@ public abstract class MovingRectangle extends Sprite {
         body.setUserData(null);
         body = null;
         destroyed = true;
+    }
+
+    /**
+     * Set that the moving rectangle is either standing or not standing on ground
+     * @param onGround boolean whether the rectangle is or is not on ground
+     */
+    public void setOnGround (boolean onGround) { this.onGround = onGround; }
+
+    public boolean getDownDash() { return downDash; }
+
+    /**
+     * When a moving rectangle is hit by an enemy and is supposed to take damage this method is called
+     * Lowers the moving rectangle's lives and sets it to immortal
+     */
+    public void hitByEnemy() {
+        if(immortal)
+            return;
+        lives--;
+        immortal = true;
     }
 }

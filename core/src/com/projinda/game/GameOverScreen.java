@@ -12,9 +12,12 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Align;
 
+/**
+ * The game's 'game over screen'
+ * Reached when the player either dies (no lives left) or wins (time runs out)
+ */
 public class GameOverScreen implements Screen {
 
-    //Game Over sprite
     public static final int PADDING = 15;
     public static final int GAME_OVER_WIDTH = 350;
     public static final int GAME_OVER_HEIGHT = 100;
@@ -25,15 +28,25 @@ public class GameOverScreen implements Screen {
     private SpriteBatch batch;
     private Boot boot;
     private int score, highScore;
+    private boolean died;
 
     private Texture gameOverLabel;
     private BitmapFont scoreFont;
-    private Texture backgroundImage = new Texture("maps/background_game_over.png");
+    private Texture backgroundImageDied = new Texture("maps/background_game_over_died.png");
+    private Texture backgroundImageTime = new Texture("maps/background_game_over_time.png");
 
-    public GameOverScreen(Boot boot, int score){
+    /**
+     * GameOverScreen constructor, initials {@param boot}, {@param score}, {@param died}.
+     * It also checks if the current score beats the highscore, and if so, sets the new highscore to score
+     * @param boot used to get back to the either the main menu or the game itself.
+     * @param score the score used to set the current and check highscore.
+     * @param died if the player lost or won the game.
+     */
+    public GameOverScreen(Boot boot, int score, boolean died){
         batch = new SpriteBatch();
         this.boot = boot;
         this.score = score;
+        this.died = died;
 
         Preferences preferences = Gdx.app.getPreferences("game");
         this.highScore = preferences.getInteger("highscore",0);
@@ -61,7 +74,12 @@ public class GameOverScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         batch.begin();
-        batch.draw(backgroundImage,0, 0, Boot.INSTANCE.getScreenWidth(),Boot.INSTANCE.getScreenHeight());
+
+        if(died){
+            batch.draw(backgroundImageDied,0, 0, Boot.INSTANCE.getScreenWidth(),Boot.INSTANCE.getScreenHeight());
+        }else{
+            batch.draw(backgroundImageTime,0, 0, Boot.INSTANCE.getScreenWidth(),Boot.INSTANCE.getScreenHeight());
+        }
 
         batch.draw(gameOverLabel, GAME_OVER_X_POS, GAME_OVER_Y_POS, GAME_OVER_WIDTH, GAME_OVER_HEIGHT);
         GlyphLayout scoreLayout = new GlyphLayout(scoreFont,"Your Score: \n" + score, Color.WHITE,0, Align.left,false);
@@ -70,7 +88,9 @@ public class GameOverScreen implements Screen {
         scoreFont.draw(batch, highScoreLayout, Boot.INSTANCE.getScreenWidth()/2 - scoreLayout.width/2, Boot.INSTANCE.getScreenHeight() - GAME_OVER_HEIGHT - scoreLayout.height - PADDING * 3);
 
         GlyphLayout tryAgain = new GlyphLayout(scoreFont, "Try Again");
+        GlyphLayout tryAgainHover = new GlyphLayout(scoreFont, "Try Again", Color.YELLOW, tryAgain.width, Align.center,false);
         GlyphLayout returnToMenu = new GlyphLayout(scoreFont, "Return to main menu");
+        GlyphLayout returnToMenuHover = new GlyphLayout(scoreFont, "Return to main menu", Color.YELLOW, returnToMenu.width, Align.center,false);
         float tryAgainXPos = Boot.INSTANCE.getScreenWidth() / 2 - tryAgain.width/2 ;
         float tryAgainYPos = Boot.INSTANCE.getScreenHeight() / 2 - tryAgain.height/2;
         float returnToMenuXPos = Boot.INSTANCE.getScreenWidth() / 2 - returnToMenu.width/2;
@@ -78,33 +98,41 @@ public class GameOverScreen implements Screen {
 
         float mouseX = Gdx.input.getX(), mouseY = Boot.INSTANCE.getScreenHeight() - Gdx.input.getY();
 
-        if(Gdx.input.isTouched()){
+        scoreFont.draw(batch, tryAgain, tryAgainXPos, tryAgainYPos);
+        scoreFont.draw(batch, returnToMenu, returnToMenuXPos, returnToMenuYPos);
+
+
             //Try again
             if(mouseX >= tryAgainXPos && mouseX <= tryAgainXPos + tryAgain.width && mouseY >= tryAgainYPos - tryAgain.height && mouseY <= tryAgainYPos){
-                try {
+                scoreFont.draw(batch, tryAgainHover, tryAgainXPos, tryAgainYPos);
+                if(Gdx.input.isTouched()){
+                   try {
                     Thread.sleep(150);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                boot.setGameScreen();
-                return;
+                    boot.setGameScreen();
+                    return;
+                }
+
             }
             //Go back to main menu
             if(mouseX >= returnToMenuXPos && mouseX <= returnToMenuXPos + returnToMenu.width && mouseY >= returnToMenuYPos - returnToMenu.height && mouseY <= returnToMenuYPos){
-                try {
+                scoreFont.draw(batch, returnToMenuHover, returnToMenuXPos, returnToMenuYPos);
+                if(Gdx.input.isTouched()) {
+                   try {
                     Thread.sleep(150);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                boot.setMainMenuScreen();
-                return;
+                    boot.setMainMenuScreen();
+                    return;
+                }
             }
-        }
+
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
             Gdx.app.exit();
 
-        scoreFont.draw(batch, tryAgain, tryAgainXPos, tryAgainYPos);
-        scoreFont.draw(batch, returnToMenu, returnToMenuXPos, returnToMenuYPos);
 
         batch.end();
 

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="45" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="103">
+<map version="1.8" tiledversion="1.8.4" orientation="orthogonal" renderorder="right-down" width="45" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="104">
  <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64" tilecount="100" columns="10">
   <image source="tiles.png" width="640" height="640"/>
  </tileset>
  <tileset firstgid="101" source="background.tsx"/>
  <layer id="5" name="background" width="45" height="20">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <layer id="1" name="Tile Layer 1" width="45" height="20">
   <data encoding="base64" compression="zlib">
-   eJztzgENAAAIA6CXtX8FY3w6SEDCN9MOAAAAJyzh+ABm
+   eJxjYBgFpAAmKJ06oK7ADwi5DZcfeLGoxSZGS4DL7bjczISFj44HCgyFtIIOhqqbBzquR8EoGAWjYBSMglEwCoYqAABL/gL6
   </data>
  </layer>
  <objectgroup id="3" name="Objects">
@@ -38,22 +38,22 @@
   <object id="62" name="safe" x="2816" y="320" width="61.3642" height="62.5443"/>
   <object id="63" name="enemy" x="2496" y="256" width="128" height="128"/>
   <object id="64" name="player" x="2752" y="1152" width="62" height="62"/>
-  <object id="65" name="safe" x="0" y="128" width="61.3642" height="62.5443"/>
-  <object id="66" name="enemy" x="128" y="128" width="60.1841" height="60.1841"/>
+  <object id="65" name="safe" x="2.36016" y="192.904" width="61.3642" height="62.5443"/>
+  <object id="66" name="enemy" x="129.18" y="195.265" width="60.1841" height="60.1841"/>
   <object id="68" name="movingplatformside" x="576" y="960" width="191.173" height="62.5443"/>
   <object id="69" name="movingplatformup" x="356" y="390" width="22" height="18"/>
   <object id="70" name="movingplatformside" x="704" y="512" width="22" height="18"/>
-  <object id="71" x="0" y="256">
+  <object id="71" x="-1.18008" y="319.724">
    <polygon points="0,0 320,0 320,-64 0,-64"/>
   </object>
   <object id="72" x="256" y="64">
-   <polygon points="0,0 0,128 64,128 64,0"/>
+   <polygon points="0,0 0,191.724 64,191.724 64,0"/>
   </object>
-  <object id="73" x="2368" y="128">
+  <object id="73" x="2239.37" y="129.18">
    <polygon points="0,0 0,320 64,320 64,0"/>
   </object>
-  <object id="74" x="2432" y="384">
-   <polygon points="0,0 0,64 448,64 448,0"/>
+  <object id="74" x="2304.55" y="384">
+   <polygon points="0,0 0,64 575.449,64 575.449,0"/>
   </object>
   <object id="75" name="safe" x="2496" y="576" width="61.3642" height="62.5443"/>
   <object id="84" name="enemy" x="1472" y="1152" width="60.1841" height="60.1841"/>
@@ -74,12 +74,12 @@
    <polygon points="0,0 0,64 64,64 64,0"/>
   </object>
   <object id="97" x="1728" y="192">
-   <polygon points="0,0 0,64 192,64 192,0"/>
+   <polygon points="0,0 0,64 127.096,64 127.096,0"/>
   </object>
   <object id="98" x="1280" y="192">
    <polygon points="0,0 0,64 64,64 64,0"/>
   </object>
-  <object id="99" x="2112" y="64">
+  <object id="99" x="1983.37" y="65.1801">
    <polygon points="0,0 0,64 64,64 64,0"/>
   </object>
   <object id="100" x="1088" y="1024">
@@ -89,6 +89,9 @@
    <polygon points="0,0 0,64 64,64 64,0"/>
   </object>
   <object id="102" x="768" y="64">
+   <polygon points="0,0 0,64 64,64 64,0"/>
+  </object>
+  <object id="103" x="2623.32" y="188.813">
    <polygon points="0,0 0,64 64,64 64,0"/>
   </object>
  </objectgroup>
