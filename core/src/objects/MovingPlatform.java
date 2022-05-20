@@ -1,6 +1,5 @@
 package objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.projinda.game.GameScreen;
@@ -18,17 +17,17 @@ import com.projinda.game.GameScreen;
  */
 public class MovingPlatform extends MovingRectangle{
 
+    private int range;
 
     /**
-     * Constructor for moving rectangle
-     *
-     * @param width      width of the players body
-     * @param height     height of the players body
-     * @param body       body to be used by player
-     * @param gameScreen
+     * Construct the moving platform.
+     * Set the directionX and Y to correct values
+     * @param width of the platform
+     * @param height of the platform
+     * @param body of the platform
+     * @param gameScreen of the platform
+     * @param direction of the platform
      */
-
-    private int range;
     public MovingPlatform(float width, float height, Body body, GameScreen gameScreen, int direction) {
         super(width, height, body, gameScreen);
         this.speedLevel = 0.3F;
@@ -47,17 +46,22 @@ public class MovingPlatform extends MovingRectangle{
         this.range = 200;
     }
 
+    /**
+     * Uses the superclass' update method
+     * Update the platform's direction
+     * @param dt time since last update
+     */
     @Override
     public void update(float dt){
         super.update(dt);
-        updatePlatformVelocity();
+        updatePlatformDirection();
         body.setLinearVelocity(directionX*speedLevel*speed, directionY*speedLevel*speed);
     }
 
     /**
-     * Check if the platform has reached end of scope, if so - turn around
+     * Check if the platform has reached end of scope, if so -> turn around
      */
-    public void updatePlatformVelocity() {
+    public void updatePlatformDirection() {
         if(x > startX + range) {
             directionX = -1;
         } else if(x < startX - range) {
@@ -69,6 +73,4 @@ public class MovingPlatform extends MovingRectangle{
             directionY = 1;
         }
     }
-
-
 }
