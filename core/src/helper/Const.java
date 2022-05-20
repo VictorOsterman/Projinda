@@ -1,7 +1,9 @@
 package helper;
 
 /**
- * constant pixel per meter
+ * PPM - scaling factor pixels per meter
+ *
+ * Contains shorts used for collision filtering
  */
 public class Const {
     public static final float PPM = 32;
@@ -12,5 +14,4 @@ public class Const {
     public static final short BULLET_BIT = 8;
     public static final short COIN_BIT = 16;
     public static final short SAFE_BIT = 32;
-    public static final short ENEMYBULLET_BIT = 64;
 }
