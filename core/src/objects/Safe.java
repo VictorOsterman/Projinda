@@ -23,7 +23,6 @@ public class Safe extends MoneyItems {
 
     /**
      * Constructs the safe
-     * Assigns it a random value in the range 100-200
      * @param width width of the safe
      * @param height height of the safe
      * @param body body of the safe
@@ -32,8 +31,6 @@ public class Safe extends MoneyItems {
     public Safe(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body, gameScreen);
         Random rng = new Random();
-        // Random value from 100 to 200
-        value = 100 + rng.nextInt(101);
         respawned = false;
     }
 
