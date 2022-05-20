@@ -8,14 +8,12 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import helper.BodyHelper;
 import helper.Const;
 import helper.ContactType;
@@ -37,7 +35,7 @@ public class GameScreen extends ScreenAdapter {
     private World world;
     private GameContactListener gameContactListener;
 
-    //Game objects
+    // Game objects
     private Player player;
     private ArrayList<MovingRectangle> movingRectangles;
     private ArrayList<MoneyItems> moneyItems;
@@ -46,6 +44,7 @@ public class GameScreen extends ScreenAdapter {
     private TiledMapHelper tiledMapHelper;
     private ScoreBoard scoreBoard;
 
+    // Sound objects
     private Music music;
     private Sound shotSound;
     private Sound laserSound;
@@ -64,6 +63,7 @@ public class GameScreen extends ScreenAdapter {
         this.world = new World(new Vector2(0,-25),false);
         this.boot = boot;
 
+        // Construct all sounds
         music = Gdx.audio.newMusic(Gdx.files.internal("music.mp3"));
         music.setLooping(true);
         music.setVolume(0.3f);
@@ -260,8 +260,7 @@ public class GameScreen extends ScreenAdapter {
     }
 
     /**
-     * Remove the item money
-     *
+     * Remove a money item
      * @param moneyItem the item to be removed
      */
     public void removeMoneyItem (MoneyItems moneyItem) {
@@ -318,7 +317,7 @@ public class GameScreen extends ScreenAdapter {
             return;
 
         // Find coordinates for the new enemy to be spawned at
-        int x = 0;
+        int x;
         int y = 128;
         Random rng = new Random();
 
@@ -326,12 +325,10 @@ public class GameScreen extends ScreenAdapter {
         if(player.getX() < (tiledMapHelper.getMapSize().x*tiledMapHelper.getTileSize().x)/3) {
             x = 2800;
         }
-
         // Player in the right third of game
         else if(player.getX() > (2*(tiledMapHelper.getMapSize().x*tiledMapHelper.getTileSize().x/3))) {
             x = 100;
         }
-
         // Player in the middle
         else {
             x = rng.nextInt(2) == 1 ? 100 : 2800;
@@ -359,7 +356,7 @@ public class GameScreen extends ScreenAdapter {
             // Spawn small enemy
             spawnEnemy(x, y + 64, 64, 64);
         }
-        //Create a body with correct posistion and size
+        //Create a body with correct position and size
         Body body = BodyHelper.createBody(
                 x,
                 y,

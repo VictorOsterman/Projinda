@@ -1,21 +1,16 @@
 package objects;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.projinda.game.GameScreen;
 import helper.Const;
 
-import java.util.Random;
 
 /**
  * Abstract class for items regarding money
- * The items objectives are to hold a value, be picked up by the player, then either disappear or
- * change appearance
+ * The items objectives are to hold a value, be picked up by the player,
+ * then either disappear or change appearance
  */
 public abstract class MoneyItems {
     protected int value;
@@ -59,23 +54,23 @@ public abstract class MoneyItems {
         this.destroyed = false;
     }
 
+    /**
+     * Don't update if the money item already is collected
+     * Otherwise get the correct x and y positions.
+     */
     public void update() {
         if(collected)
             return;
 
         x = body.getPosition().x * Const.PPM - (width / 2);
         y = body.getPosition().y * Const.PPM - (height / 2);
-
-        // Reset directionX, when user stops moving the player instantly stops
-        // Removing this will result in player "gliding"
-        //directionX = 0;
-
     }
 
     /**
-     * Method where the player collects the items money
+     * Method where the player collects the item's money
      * If it already has been collected nothing happens.
      * After collecting the texture changes.
+     * Plays a sound from gameScreen.
      */
     public void collect() {
         if(collected) return;
@@ -91,6 +86,9 @@ public abstract class MoneyItems {
      */
     public void changeTexture() {}
 
+    /**
+     * Fully removes the money item from the game
+     */
     public void removeMoneyItem() {
         gameScreen.removeMoneyItem(this);
         gameScreen.getWorld().destroyBody(this.body);
@@ -99,6 +97,9 @@ public abstract class MoneyItems {
         destroyed = true;
     }
 
+    /**
+     * Fully removes the body from the game but keeps the item in the game screen's arraylist of money items
+     */
     public void removeBody() {
         gameScreen.getWorld().destroyBody(this.body);
         body.setUserData(null);
@@ -121,21 +122,21 @@ public abstract class MoneyItems {
         return height;
     }
 
-    public int getValue() {
-        return value;
-    }
-
     public boolean getIsStatic() { return isStatic; }
 
     public Body getBody() {
         return body;
     }
 
+    /**
+     * Static and non static money items are rendered differently
+     * @param batch Spritebatch in which to draw the item
+     */
     public void render(SpriteBatch batch, float dt) {
         if(isStatic) {
             batch.draw(texture, x * Const.PPM - width / 2, y * Const.PPM - height / 2, width, height);
         }
-        else if(!isStatic) {
+        else {
             batch.draw(texture, x, y, width, height);
         }
     }

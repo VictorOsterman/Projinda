@@ -1,6 +1,5 @@
 package objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -23,7 +22,8 @@ public class Safe extends MoneyItems {
     private boolean respawned;
 
     /**
-     * Constructor
+     * Constructs the safe
+     * Assigns it a random value in the range 100-200
      * @param width width of the safe
      * @param height height of the safe
      * @param body body of the safe
@@ -49,6 +49,8 @@ public class Safe extends MoneyItems {
      * Render the safe if it is not destroyed.
      * After it has been collected, the body is removed from the world and the safe stops drawing.
      * It continues to render and after a certain amount of time a new safe spawns and this safe is removed.
+     *
+     * If it collected it will generate coins
      * @param batch
      * @param dt
      */

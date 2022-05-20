@@ -1,8 +1,6 @@
 package objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.projinda.game.GameScreen;
 import helper.BodyHelper;
@@ -22,11 +20,12 @@ import java.util.Random;
  * @version 2022-05-17
  */
 public class Coin extends MoneyItems {
-    private boolean thrown;
-    private Random rng;
 
     /**
      * Constructor of MoneyItems
+     * Sets the value to a random number
+     * Sets the directionX to either 1 or -1
+     * "Jumps" up wih a random force
      *
      * @param width      width of the item
      * @param height     height of the item
@@ -39,17 +38,21 @@ public class Coin extends MoneyItems {
         this.isStatic = false;
 
 
-
-        rng = new Random();
+        Random rng = new Random();
         this.value = 20 + rng.nextInt(20);
         this.directionX = rng.nextInt(2) == 0 ? 1 : -1;
 
-        thrown = false;
         this.speed = 5 + rng.nextInt(5);
 
-        body.setLinearVelocity(body.getLinearVelocity().x, 10+rng.nextInt(5));
+        body.setLinearVelocity(body.getLinearVelocity().x, 10+ rng.nextInt(5));
     }
 
+    /**
+     * Update method of coin
+     * If it is collected but not destroyed the coin is destroyed.
+     *
+     * Otherwise its position is updated and its speed is lowered.
+     */
     @Override
     public void update() {
         // If the coin is collected
@@ -59,18 +62,14 @@ public class Coin extends MoneyItems {
         }
         else if(!destroyed) {
             super.update();
-            if(!thrown) {
-                //body.setLinearVelocity(body.getLinearVelocity().x, 10);
-                thrown = true;
-            }
             speed *= 0.99;
-
             body.setLinearVelocity(directionX*speed, body.getLinearVelocity().y);
         }
     }
 
     /**
      * Other objects call on this method to generate coins on top of themselves
+     *
      * @param x coordinate of calling object
      * @param y coordinate of calling object
      * @param width of the calling object

@@ -2,24 +2,13 @@ package objects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.utils.Array;
-import com.projinda.game.Boot;
 import com.projinda.game.GameScreen;
 import helper.Const;
-import helper.BodyHelper;
 import helper.ContactType;
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 /**
  * Player class, extends MovingRectangle class
@@ -27,19 +16,16 @@ import java.util.ArrayList;
  */
 public class Player extends MovingRectangle{
 
-
-    /**
-     * Constructor for player
-     * @param width width of the players body
-     * @param height height of the players body
-     * @param body body to be used by player
-     */
-
-
     private int score;
     private MovingRectangle movingRectangle;
 
-
+    /**
+     * Constructs the player
+     * @param width of the player
+     * @param height of the player
+     * @param body of the player
+     * @param gameScreen the player is added to
+     */
     public Player(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body, gameScreen);
 
@@ -56,6 +42,9 @@ public class Player extends MovingRectangle{
     }
 
 
+    /**
+     * Adds a foot sensor to the player
+     */
     public void addSensor() {
         // Skapar sensor med följande form
         PolygonShape shape = new PolygonShape();
@@ -87,11 +76,10 @@ public class Player extends MovingRectangle{
             }
         }
         body.setLinearVelocity(velocityX*speed, body.getLinearVelocity().y);
-        //setRegion(getFrame(dt));
     }
 
     /**
-     * Listens to user input
+     * Listens to user input and manages it
      *
      * KEY - ACTION
      * RIGHT - WALKS RIGHT
@@ -142,7 +130,7 @@ public class Player extends MovingRectangle{
             }
         }
 
-        // Hack for pro players, unlimited coins $$$
+        // Hack for pro players, unlimited $$$
         if(Gdx.input.isKeyPressed(Input.Keys.U)) {
             Coin.generateCoin(x, y-height, width, height, gameScreen);
         }
@@ -164,10 +152,9 @@ public class Player extends MovingRectangle{
         this.onRectangle = onRectangle;
     }
 
-    public boolean isOnRectangle() {
-        return onRectangle;
-    }
-
+    /**
+     * When the player gets killed its lives is lowered
+     */
     @Override
     public void handleDeath() {
         lives--;

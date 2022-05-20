@@ -1,12 +1,7 @@
 package objects;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.utils.Array;
 import com.projinda.game.Boot;
 import com.projinda.game.GameScreen;
 
@@ -20,7 +15,7 @@ import java.util.Random;
  * When no lives are left the enemy dies and is removed from the game.
  *
  * @author Erik Sidén
- * @version 2022-05-18
+ * @version 2022-05-20
  */
 public class Enemy extends MovingRectangle{
 
@@ -52,7 +47,13 @@ public class Enemy extends MovingRectangle{
     }
 
 
-
+    /**
+     * If the enemy is out of lives and not destroyed it is destroyed and coins are generated.
+     *
+     * Otherwise, its position is updated in regard to the player and it might shoot.
+     *
+     * @param dt time since last update
+     */
     @Override
     public void update(float dt) {
 
@@ -94,27 +95,27 @@ public class Enemy extends MovingRectangle{
 
     /**
      * Method used for an enemy to shoot a bullet
-     * Don't shoot if the enemy just shot
-     * Only used for small enemies
-     * Only one enemy bullet in the air at a time
-     * Only shoot if close to the player
-     * Don't shoot if too far over or below the player
-     * Don't shoot if too close to the player
+     * Don't shoot if:
+     *      Enemy just shot
+     *      Enemy is a big enemy
+     *      There already is an enemy bullet in the air
+     *      The player is too far away
+     *      The player is too close (smaller interval than above)
+     *      The enemy is too far above or below the player
+     *
+     * Otherwise, a bullet is shot and the correct sound is played.
      */
     private void shootBullet(float dt) {
         timeSinceLastShot += dt;
-        if(timeSinceLastShot < 1)
-            return;
-        if(width > 100)
+        if(timeSinceLastShot < 1 || width > 100 || speedLevel < 0.5f)
             return;
         if(gameScreen.bulletInMotion("enemy"))
-            return;
-        if(speedLevel < 0.5f)
             return;
         if(gameScreen.getPlayer().getY() > y + 64 || gameScreen.getPlayer().getY() < y - 64)
             return;
         if(gameScreen.getPlayer().getX() > x - 200 && gameScreen.getPlayer().getX() < x + 200)
             return;
+
         Bullet.shootBullet(x, y, width, height, gameScreen, directionX, "enemy");
         gameScreen.playLaserSound();
         timeSinceLastShot = 0;
@@ -136,7 +137,7 @@ public class Enemy extends MovingRectangle{
     /**
      * Chases the player
      * Gets the correct directionX
-     * If the player is higher up than the enemy the enemy jumps
+     * If the player is higher up than the enemy, the enemy jumps
      */
     private void moveAccordingToPlayer() {
         speedLevel = 0.5F;
