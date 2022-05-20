@@ -1,11 +1,7 @@
 package objects;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.Contact;
 import com.projinda.game.Boot;
 import com.projinda.game.GameScreen;
 import helper.BodyHelper;
@@ -23,10 +19,9 @@ import helper.ContactType;
  */
 public class Bullet extends MovingRectangle{
 
-    private boolean remove;
     private float lastX;
     private boolean outOfSight;
-    private String shotBy;
+    private final String shotBy;
 
     /**
      * Constructor for bullet
@@ -46,7 +41,6 @@ public class Bullet extends MovingRectangle{
 
         this.directionX = directionX;
         this.body.setGravityScale(0);    //Remove gravity from floating Bullet
-        this.remove = false;
         this.className = "Bullet";
         this.shotBy = shotBy;
         this.speedLevel = 3;
@@ -58,6 +52,20 @@ public class Bullet extends MovingRectangle{
         }
     }
 
+    /**
+     * Updates the bullets position
+     * The bullet is removed if:
+     *      The bullet has no lives (has hit something),
+     *      The bullets x position did not change during last update
+     *      The bullet is out of sight
+     *
+     *      and it is:
+     *      It is not already destroyed
+     *
+     * Otherwise it updates its position and checks if it is now out of sight
+     *
+     * @param dt time since last update
+     */
     @Override
     public void update(float dt){
         if((lives <= 0 || lastX == x || outOfSight) && !destroyed) {
@@ -73,9 +81,6 @@ public class Bullet extends MovingRectangle{
         }
     }
 
-    public void setRemove(boolean remove) {
-        this.remove = remove;
-    }
 
     /**
      * Check if the bullet is out of sight
@@ -83,8 +88,9 @@ public class Bullet extends MovingRectangle{
      * @return true if out of sight, false if not in sight
      */
     private boolean bulletOutOfSight() {
+        // If the bullet is outside of sight to the right or left of a normal camera (player not on the edge)
         if(x > gameScreen.getPlayer().getX() + (Boot.INSTANCE.getScreenWidth()/2) || x < gameScreen.getPlayer().getX() - (Boot.INSTANCE.getScreenWidth()/2)) {
-            // If the player is standing on the edge, the bullet is within sight longer
+            // If the player is standing on the edge, the camera is not centered around the player
             if(directionX > 0 && x <= Boot.INSTANCE.getScreenWidth()) {
                 return false;
             } else if (directionX < 0 && x >= gameScreen.getTiledMapHelper().getMapSize().x * gameScreen.getTiledMapHelper().getTileSize().x - Boot.INSTANCE.getScreenWidth()) {
