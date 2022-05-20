@@ -7,8 +7,6 @@ import com.projinda.game.Boot;
 import com.projinda.game.GameScreen;
 import helper.Const;
 
-import java.util.Random;
-
 /**
  * Class for the safe item
  * Extends moneyItems
@@ -30,7 +28,6 @@ public class Safe extends MoneyItems {
      */
     public Safe(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body, gameScreen);
-        Random rng = new Random();
         respawned = false;
     }
 
