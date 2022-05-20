@@ -36,16 +36,14 @@ public class Coin extends MoneyItems {
     public Coin(float width, float height, Body body, GameScreen gameScreen) {
         super(width, height, body, gameScreen);
         this.texture = new Texture("goldcoin.png");
-        this.value = 10;
         this.isStatic = false;
 
 
 
         rng = new Random();
-        if(rng.nextInt(2) == 0)
-            this.directionX = 1;
-        else
-            this.directionX = -1;
+        this.value = 20 + rng.nextInt(20);
+        this.directionX = rng.nextInt(2) == 0 ? 1 : -1;
+
         thrown = false;
         this.speed = 5 + rng.nextInt(5);
 
