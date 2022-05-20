@@ -54,6 +54,12 @@ public class Safe extends MoneyItems {
      */
     @Override
     public void render(SpriteBatch batch, float dt) {
+        if(generateCoins) {
+            for(int i=0; i<3; i++) {
+                Coin.generateCoin(x*Const.PPM, y*Const.PPM, width, height, gameScreen);
+            }
+            generateCoins = false;
+        }
         if (collected && (!destroyed || !respawned)) {
             if ((removeCounter >= 3) && !destroyed) {
                 // Remove the body but don't remove the safe from game screen

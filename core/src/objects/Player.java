@@ -55,7 +55,7 @@ public class Player extends MovingRectangle{
         shotSound = Gdx.audio.newSound(Gdx.files.internal("shot.mp3"));
 
         className = "Player";
-        addAnimations("Player.png", 1);
+        addAnimations("player.png", 1);
     }
 
 
@@ -140,42 +140,14 @@ public class Player extends MovingRectangle{
         //Shoot bullet
         if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             if(!gameScreen.bulletInMotion()) {
-                //Create the bullets body
-                Body body = BodyHelper.createBody(
-                        x+width/2+directionX*(width),
-                        y+height/2,
-                        20,
-                        10,
-                        false,
-                        0,
-                        gameScreen.getWorld(),
-                        ContactType.PLAYERBULLET,
-                        Const.BULLET_BIT,
-                        (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT),
-                        (short) 0
-                );
-                gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX));
+                Bullet.shootBullet(x, y, width, height, gameScreen, directionX);
                 shotSound.play();
             }
         }
 
         // Hack for pro players, unlimited coins $$$
         if(Gdx.input.isKeyPressed(Input.Keys.U)) {
-            //Create the coins body
-            Body body = BodyHelper.createBody(
-                    x+width/2,
-                    y-height/2,
-                    64,
-                    64,
-                    false,
-                    99999999,
-                    gameScreen.getWorld(),
-                    ContactType.COIN,
-                    Const.COIN_BIT,
-                    (short) (Const.SAFE_BIT | Const.PLATFORM_BIT | Const.PLAYER_BIT),
-                    (short) -1
-            );
-            gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
+            Coin.generateCoin(x, y-height, width, height, gameScreen);
         }
     }
 

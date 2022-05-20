@@ -19,6 +19,7 @@ import java.util.Random;
 public abstract class MoneyItems {
     protected int value;
     protected boolean collected;
+    protected boolean generateCoins;
     protected GameScreen gameScreen;
     protected Texture texture;
     protected float x, y;
@@ -50,6 +51,7 @@ public abstract class MoneyItems {
         //Assign value its value in subclass
         value = 0;
         collected = false;
+        generateCoins = false;
 
         this.texture = new Texture("maps/safepicture.png");
         this.isStatic = true;
@@ -78,6 +80,7 @@ public abstract class MoneyItems {
         if(collected) return;
         gameScreen.getPlayer().increaseScore(value);
         collected = true;
+        generateCoins = true;
         changeTexture();
     }
 
