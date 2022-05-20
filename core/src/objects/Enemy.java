@@ -95,6 +95,7 @@ public class Enemy extends MovingRectangle{
      * Only one enemy bullet in the air at a time
      * Only shoot if close to the player
      * Don't shoot if too far over or below the player
+     * Don't shoot if too close to the player
      */
     private void shootBullet() {
         if(width > 100)
@@ -104,6 +105,8 @@ public class Enemy extends MovingRectangle{
         if(speedLevel < 0.5f)
             return;
         if(gameScreen.getPlayer().getY() > y + 64 || gameScreen.getPlayer().getY() < y - 64)
+            return;
+        if(gameScreen.getPlayer().getX() > x - 200 && gameScreen.getPlayer().getX() < x + 200)
             return;
         Bullet.shootBullet(x, y, width, height, gameScreen, directionX, "enemy");
     }
