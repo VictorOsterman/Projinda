@@ -64,16 +64,6 @@ public class GameContactListener implements ContactListener {
                 notPlayer = a;
             }
 
-            if(a.getUserData() == ContactType.ENEMYBULLET || b.getUserData() == ContactType.ENEMYBULLET) {
-                // Player hit by enemy bullet
-                gameScreen.getPlayer().hitByEnemy();
-                Bullet bullet = (Bullet) gameScreen.getMatchingRectangle(notPlayer.getBody().getPosition().x, notPlayer.getBody().getPosition().y);
-                if(bullet == null)
-                    return;
-                bullet.lowerLives();
-            }
-
-
             if(a.getUserData() == ContactType.ENEMY || b.getUserData() == ContactType.ENEMY) {
                 // Player is in contact with enemy.
                 // If the player is not standing on the enemy it should die.
@@ -132,6 +122,20 @@ public class GameContactListener implements ContactListener {
                 return;
             bullet.lowerLives();
 
+        }
+
+        if(a.getUserData() == ContactType.ENEMYBULLET || b.getUserData() == ContactType.ENEMYBULLET) {
+            Fixture bulletFix = a.getUserData() == ContactType.ENEMYBULLET ? a : b;
+
+            if(a.getUserData() == ContactType.PLAYER || b.getUserData() == ContactType.PLAYER) {
+                // Player hit by enemy bullet
+                gameScreen.getPlayer().hitByEnemy();
+            }
+
+            Bullet bullet = (Bullet) gameScreen.getMatchingRectangle(bulletFix.getBody().getPosition().x, bulletFix.getBody().getPosition().y);
+            if(bullet == null)
+                return;
+            bullet.lowerLives();
         }
     }
 

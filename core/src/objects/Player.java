@@ -38,7 +38,6 @@ public class Player extends MovingRectangle{
 
     private int score;
     private MovingRectangle movingRectangle;
-    private Sound shotSound;
 
 
     public Player(float width, float height, Body body, GameScreen gameScreen) {
@@ -51,8 +50,6 @@ public class Player extends MovingRectangle{
         this.directionX = 1;
         this.speedLevel = 0.5f;
         this.startSpeedLevel = speedLevel;
-
-        shotSound = Gdx.audio.newSound(Gdx.files.internal("shot.mp3"));
 
         className = "Player";
         addAnimations("player.png", 1);
@@ -141,7 +138,7 @@ public class Player extends MovingRectangle{
         if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             if(!gameScreen.bulletInMotion("player")) {
                 Bullet.shootBullet(x, y, width, height, gameScreen, directionX, "player");
-                shotSound.play();
+                gameScreen.playShotSound();
             }
         }
 

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -46,6 +47,9 @@ public class GameScreen extends ScreenAdapter {
     private ScoreBoard scoreBoard;
 
     private Music music;
+    private Sound shotSound;
+    private Sound laserSound;
+    private Sound coinSound;
 
 
     /**
@@ -64,6 +68,9 @@ public class GameScreen extends ScreenAdapter {
         music.setLooping(true);
         music.setVolume(0.3f);
         music.play();
+        shotSound = Gdx.audio.newSound(Gdx.files.internal("shot.mp3"));
+        laserSound = Gdx.audio.newSound(Gdx.files.internal("laser.mp3"));
+        coinSound = Gdx.audio.newSound(Gdx.files.internal("coin.mp3"));
 
         gameContactListener = new GameContactListener(this);
         world.setContactListener(gameContactListener);
@@ -394,5 +401,8 @@ public class GameScreen extends ScreenAdapter {
         addMovingRectangle(new Enemy(width, height, body, this));
     }
 
+    public void playShotSound() { shotSound.play(); }
+    public void playLaserSound() { laserSound.play(); }
+    public void playCoinSound() { coinSound.play(); }
 
 }
