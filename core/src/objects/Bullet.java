@@ -65,4 +65,22 @@ public class Bullet extends MovingRectangle{
         }
         return false;
     }
+
+    public static void shootBullet(float x, float y, float width, float height, GameScreen gameScreen, float directionX) {
+        //Create the bullets body
+        Body body = BodyHelper.createBody(
+                x+width/2+directionX*(width),
+                y+height/2,
+                20,
+                10,
+                false,
+                0,
+                gameScreen.getWorld(),
+                ContactType.PLAYERBULLET,
+                Const.BULLET_BIT,
+                (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT),
+                (short) 0
+        );
+        gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX));
+    }
 }
