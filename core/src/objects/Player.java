@@ -161,21 +161,7 @@ public class Player extends MovingRectangle{
 
         // Hack for pro players, unlimited coins $$$
         if(Gdx.input.isKeyPressed(Input.Keys.U)) {
-            //Create the coins body
-            Body body = BodyHelper.createBody(
-                    x+width/2,
-                    y-height/2,
-                    64,
-                    64,
-                    false,
-                    99999999,
-                    gameScreen.getWorld(),
-                    ContactType.COIN,
-                    Const.COIN_BIT,
-                    (short) (Const.SAFE_BIT | Const.PLATFORM_BIT | Const.PLAYER_BIT),
-                    (short) -1
-            );
-            gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
+            Coin.generateCoin(x, y-height, width, height, gameScreen);
         }
     }
 
