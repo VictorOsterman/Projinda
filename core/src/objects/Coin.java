@@ -5,7 +5,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.projinda.game.GameScreen;
+import helper.BodyHelper;
 import helper.Const;
+import helper.ContactType;
 
 import java.util.Random;
 
@@ -67,6 +69,31 @@ public class Coin extends MoneyItems {
 
             body.setLinearVelocity(directionX*speed, body.getLinearVelocity().y);
         }
+    }
+
+    /**
+     * Other objects call on this method to generate coins on top of themselves
+     * @param x coordinate of calling object
+     * @param y coordinate of calling object
+     * @param width of the calling object
+     * @param height of the calling object
+     */
+    public static void generateCoin(float x, float y, float width, float height, GameScreen gameScreen) {
+        //Create the coins body
+        Body newBody = BodyHelper.createBody(
+                x+width/2,
+                y+height/2,
+                64,
+                64,
+                false,
+                99999999,
+                gameScreen.getWorld(),
+                ContactType.COIN,
+                Const.COIN_BIT,
+                (short) (Const.SAFE_BIT | Const.PLATFORM_BIT | Const.PLAYER_BIT),
+                (short) -1
+        );
+        gameScreen.addMoneyItem(new Coin(64, 64, newBody, gameScreen));
     }
 
 }
