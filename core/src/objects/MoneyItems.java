@@ -2,6 +2,7 @@ package objects;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -82,6 +83,7 @@ public abstract class MoneyItems {
         collected = true;
         generateCoins = true;
         changeTexture();
+        gameScreen.playCoinSound();
     }
 
     /**

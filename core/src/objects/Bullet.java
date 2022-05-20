@@ -1,6 +1,7 @@
 package objects;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -51,7 +52,6 @@ public class Bullet extends MovingRectangle{
         this.speedLevel = 3;
         this.lastX = -1;
         this.outOfSight = false;
-
         if(shotBy.equals("enemy")) {
             this.speedLevel = 1.5f;
             this.texture = new Texture("laser.png");

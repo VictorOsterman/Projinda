@@ -109,6 +109,7 @@ public class Enemy extends MovingRectangle{
         if(gameScreen.getPlayer().getX() > x - 200 && gameScreen.getPlayer().getX() < x + 200)
             return;
         Bullet.shootBullet(x, y, width, height, gameScreen, directionX, "enemy");
+        gameScreen.playLaserSound();
     }
 
     /**
