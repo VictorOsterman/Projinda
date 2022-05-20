@@ -11,14 +11,14 @@
  </layer>
  <layer id="1" name="Tile Layer 1" width="45" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFpAAmKJ06oK7ADwi5DZcfeLGoxSZGS4DL7bjczISFj44HCgyFtIIOhqqbBzquR8EoGAWjYBSMglEwCoYqAABL/gL6
+   eJxjYBj+IJWKZjHRwEx89pADCLkNlx94sajFJkYuSCNCDS63Y3MzSIwHizp0TAmgRD+90go1wVB1MzXiehSMglEwCkbBKCAHULPdQak7iAVpaJjWgF72jALyAAB9awZD
   </data>
  </layer>
  <objectgroup id="3" name="Objects">
-  <object id="1" x="192" y="1146.38">
+  <object id="1" x="192" y="1088">
    <polygon points="0,0 256,0 256,-64 0,-64"/>
   </object>
-  <object id="16" name="enemy" x="256" y="960" width="60.1841" height="60.1841"/>
+  <object id="16" name="enemy" x="257.18" y="961.18" width="60" height="60"/>
   <object id="17" x="1344" y="704">
    <polygon points="0,0 0,-64 -256,-64 -256,0"/>
   </object>
@@ -36,10 +36,10 @@
    <polygon points="0,0 0,-64 -2880,-64 -2880,0"/>
   </object>
   <object id="62" name="safe" x="2816" y="320" width="61.3642" height="62.5443"/>
-  <object id="63" name="enemy" x="2496" y="256" width="128" height="128"/>
+  <object id="63" name="enemy" x="2496" y="257.18" width="125" height="125"/>
   <object id="64" name="player" x="2752" y="1152" width="62" height="62"/>
   <object id="65" name="safe" x="2.36016" y="192.904" width="61.3642" height="62.5443"/>
-  <object id="66" name="enemy" x="129.18" y="195.265" width="60.1841" height="60.1841"/>
+  <object id="66" name="enemy" x="129.18" y="195.265" width="60" height="60"/>
   <object id="68" name="movingplatformside" x="576" y="960" width="191.173" height="62.5443"/>
   <object id="69" name="movingplatformup" x="356" y="390" width="22" height="18"/>
   <object id="70" name="movingplatformside" x="704" y="512" width="22" height="18"/>
@@ -56,9 +56,9 @@
    <polygon points="0,0 0,64 575.449,64 575.449,0"/>
   </object>
   <object id="75" name="safe" x="2496" y="576" width="61.3642" height="62.5443"/>
-  <object id="84" name="enemy" x="1472" y="1152" width="60.1841" height="60.1841"/>
-  <object id="88" name="safe" x="768" y="0" width="61.3642" height="62.5443"/>
-  <object id="92" x="1984" y="1152">
+  <object id="84" name="enemy" x="1472" y="1152" width="60" height="60"/>
+  <object id="88" name="safe" x="768" y="64" width="61.3642" height="62.5443"/>
+  <object id="92" x="2368" y="1088">
    <polygon points="0,0 64,0 64,-64 0,-64"/>
   </object>
   <object id="93" x="2112" y="960">
@@ -76,7 +76,7 @@
   <object id="97" x="1728" y="192">
    <polygon points="0,0 0,64 127.096,64 127.096,0"/>
   </object>
-  <object id="98" x="1280" y="192">
+  <object id="98" x="1280" y="256">
    <polygon points="0,0 0,64 64,64 64,0"/>
   </object>
   <object id="99" x="1983.37" y="65.1801">
@@ -88,10 +88,10 @@
   <object id="101" x="896" y="768">
    <polygon points="0,0 0,64 64,64 64,0"/>
   </object>
-  <object id="102" x="768" y="64">
+  <object id="102" x="768" y="128">
    <polygon points="0,0 0,64 64,64 64,0"/>
   </object>
-  <object id="103" x="2623.32" y="188.813">
+  <object id="103" x="2560" y="192">
    <polygon points="0,0 0,64 64,64 64,0"/>
   </object>
  </objectgroup>
