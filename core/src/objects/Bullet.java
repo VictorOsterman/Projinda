@@ -20,7 +20,8 @@ public class Bullet extends MovingRectangle{
     private boolean remove;
     private float lastX;
     private boolean outOfSight;
-    public Bullet(Body body, GameScreen gameScreen, float directionX) {
+    private String shotBy;
+    public Bullet(Body body, GameScreen gameScreen, float directionX, String shotBy) {
         super(20, 10, body, gameScreen);
 
         this.texture = directionX == 1 ? new Texture("bulletr.png") : new Texture("bulletl.png");
@@ -29,6 +30,7 @@ public class Bullet extends MovingRectangle{
         this.body.setGravityScale(0);    //Remove gravity from floating Bullet
         this.remove = false;
         this.className = "Bullet";
+        this.shotBy = shotBy;
         this.speedLevel = 3;
         this.lastX = -1;
         this.outOfSight = false;
@@ -66,7 +68,9 @@ public class Bullet extends MovingRectangle{
         return false;
     }
 
-    public static void shootBullet(float x, float y, float width, float height, GameScreen gameScreen, float directionX) {
+    public String getShotBy() { return shotBy; }
+
+    public static void shootBullet(float x, float y, float width, float height, GameScreen gameScreen, float directionX, String shotBy) {
         //Create the bullets body
         Body body = BodyHelper.createBody(
                 x+width/2+directionX*(width),
@@ -81,6 +85,6 @@ public class Bullet extends MovingRectangle{
                 (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.SAFE_BIT),
                 (short) 0
         );
-        gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX));
+        gameScreen.addMovingRectangle(new Bullet(body, gameScreen, directionX, shotBy));
     }
 }

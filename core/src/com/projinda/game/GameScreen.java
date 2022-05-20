@@ -265,11 +265,14 @@ public class GameScreen extends ScreenAdapter {
      * Checks if the bullet is in motion
      * @return true if it does, false otherwise
      */
-    public boolean bulletInMotion () {
+    public boolean bulletInMotion (String owner) {
         for (MovingRectangle movingRectangle :
                 movingRectangles) {
-            if (movingRectangle.getClassName().equals("Bullet"))
-                return true;
+            if (movingRectangle.getClassName().equals("Bullet")) {
+                Bullet bullet = (Bullet) movingRectangle;
+                if(bullet.getShotBy().equals(owner))
+                    return true;
+            }
         }
         return false;
     }
