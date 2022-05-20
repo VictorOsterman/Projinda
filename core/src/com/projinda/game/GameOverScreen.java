@@ -106,6 +106,11 @@ public class GameOverScreen implements Screen {
             if(mouseX >= tryAgainXPos && mouseX <= tryAgainXPos + tryAgain.width && mouseY >= tryAgainYPos - tryAgain.height && mouseY <= tryAgainYPos){
                 scoreFont.draw(batch, tryAgainHover, tryAgainXPos, tryAgainYPos);
                 if(Gdx.input.isTouched()){
+                   try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                     boot.setGameScreen();
                     return;
                 }
@@ -115,10 +120,14 @@ public class GameOverScreen implements Screen {
             if(mouseX >= returnToMenuXPos && mouseX <= returnToMenuXPos + returnToMenu.width && mouseY >= returnToMenuYPos - returnToMenu.height && mouseY <= returnToMenuYPos){
                 scoreFont.draw(batch, returnToMenuHover, returnToMenuXPos, returnToMenuYPos);
                 if(Gdx.input.isTouched()) {
+                   try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                     boot.setMainMenuScreen();
                     return;
                 }
-
             }
 
         if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE))

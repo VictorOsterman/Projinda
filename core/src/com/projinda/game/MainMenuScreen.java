@@ -60,6 +60,11 @@ public class MainMenuScreen implements Screen {
         if(Gdx.input.getX() >= PLAY_BUTTON_WIDTH_POS && Gdx.input.getX() <= PLAY_BUTTON_WIDTH_POS + ICON_WIDTH && Boot.INSTANCE.getScreenHeight() - Gdx.input.getY() >= PLAY_BUTTON_HEIGHT_POS && Boot.INSTANCE.getScreenHeight() - Gdx.input.getY() <= PLAY_BUTTON_HEIGHT_POS + ICON_HEIGHT){
             batch.draw(playButtonActive,PLAY_BUTTON_WIDTH_POS, PLAY_BUTTON_HEIGHT_POS, ICON_WIDTH,ICON_HEIGHT);
             if(Gdx.input.isTouched()){
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 boot.setGameScreen();
                 return;
             }
@@ -70,6 +75,11 @@ public class MainMenuScreen implements Screen {
         if(Gdx.input.getX() >= EXIT_BUTTON_WIDTH_POS && Gdx.input.getX() <= EXIT_BUTTON_WIDTH_POS + ICON_WIDTH && Boot.INSTANCE.getScreenHeight() - Gdx.input.getY() >= EXIT_BUTTON_HEIGHT_POS && Boot.INSTANCE.getScreenHeight() - Gdx.input.getY() <= EXIT_BUTTON_HEIGHT_POS + ICON_HEIGHT){
             batch.draw(exitButtonActive,EXIT_BUTTON_WIDTH_POS, EXIT_BUTTON_HEIGHT_POS, ICON_WIDTH,ICON_HEIGHT);
             if(Gdx.input.isTouched()){
+                try {
+                    Thread.sleep(150);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Gdx.app.exit();
             }
         }else{
