@@ -16,7 +16,13 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.projinda.game.Boot;
 
-
+/**
+ * Contains a scoreboard
+ * Uses its own viewport
+ * Has a stage containing all information
+ *
+ * Shows the score, amount of lives, time left
+ */
 public class ScoreBoard {
     public Stage stage;
     private Viewport viewport;
@@ -39,6 +45,10 @@ public class ScoreBoard {
 
     Image image;
 
+    /**
+     * Constructs the score board
+     * @param sb Spritebatch the scoreboard uses
+     */
     public ScoreBoard(SpriteBatch sb) {
 
         this.sb = sb;
@@ -54,6 +64,10 @@ public class ScoreBoard {
         updateStage("pictures/threehearts.png");
     }
 
+    /**
+     * Updates the stage
+     * @param filename filename of hearts picture
+     */
     private void updateStage(String filename) {
         stage = new Stage(viewport, sb);
 
@@ -77,13 +91,21 @@ public class ScoreBoard {
         table.add(timeLabel).expandX().padTop(10);
         table.row();
         table.add(scoreLabel).expandX();
-        //table.add(livesLabel).expandX();
         table.add(image).expandX();
         table.add(countdownLabel).expandX();
 
         stage.addActor(table);
     }
 
+    /**
+     * Lowers the timer
+     * Updates the score
+     * Updates the hearts picture
+     *
+     * @param dt time since last update
+     * @param playerScore score of the player
+     * @param playerLives lives of the player
+     */
     public void update (float dt, int playerScore, int playerLives) {
 
         timeCount += dt;
