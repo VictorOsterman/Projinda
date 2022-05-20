@@ -55,7 +55,7 @@ public class Player extends MovingRectangle{
         shotSound = Gdx.audio.newSound(Gdx.files.internal("shot.mp3"));
 
         className = "Player";
-        addAnimations("Player.png", 1);
+        addAnimations("player.png", 1);
     }
 
 
