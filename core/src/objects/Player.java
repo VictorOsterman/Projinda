@@ -110,6 +110,7 @@ public class Player extends MovingRectangle{
         if(Gdx.input.isKeyJustPressed(Input.Keys.UP) && jumpCounter < 2) {
             body.setLinearVelocity(body.getLinearVelocity().x, 0);
             body.applyLinearImpulse(new Vector2(0, 13), body.getPosition(), true);
+            onRectangle = false;
             jumpCounter ++;
         }
         //Dash down
