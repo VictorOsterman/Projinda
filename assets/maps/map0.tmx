@@ -11,7 +11,7 @@
  </layer>
  <layer id="1" name="Tile Layer 1" width="45" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBj+IJWKZjHRwEx89pADCLkNlx94sajFJkYuSCNCDS63Y3MzSIwHizp0TAmgRD+90go1wVB1MzXiehSMglEwCkbBKCAHULPdQak7iAVpaJjWgF72jALyAAB9awZD
+   eJzt1sEKABAQBFDJkc/k/z9BrpqN7K6ieeWitUYchPC/atgrOvREkmLtKpt0hgJq0dyqr6Rt9JCyo8xjLoO6eWho1t96K5ZezWxx10RERCcs/x3aHLvaNLzd2ofOdK3jBkc=
   </data>
  </layer>
  <objectgroup id="3" name="Objects">
@@ -57,7 +57,7 @@
   </object>
   <object id="75" name="safe" x="2496" y="576" width="61.3642" height="62.5443"/>
   <object id="84" name="enemy" x="1472" y="1152" width="60" height="60"/>
-  <object id="88" name="safe" x="768" y="64" width="61.3642" height="62.5443"/>
+  <object id="88" name="safe" x="768" y="128" width="61.3642" height="62.5443"/>
   <object id="92" x="2368" y="1088">
    <polygon points="0,0 64,0 64,-64 0,-64"/>
   </object>
@@ -88,7 +88,7 @@
   <object id="101" x="896" y="768">
    <polygon points="0,0 0,64 64,64 64,0"/>
   </object>
-  <object id="102" x="768" y="128">
+  <object id="102" x="768" y="192">
    <polygon points="0,0 0,64 64,64 64,0"/>
   </object>
   <object id="103" x="2560" y="192">

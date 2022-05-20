@@ -335,7 +335,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
         // Gives a small chance of spawning a big enemy
-        int width = rng.nextInt(5) == 0 ? 128 : 64;
+        int width = rng.nextInt(5) == 0 ? 125 : 60;
         int height = width;
 
         spawnEnemy(x, y, width, height);
@@ -350,11 +350,11 @@ public class GameScreen extends ScreenAdapter {
     public void spawnSafe(float x, float y) {
         if(x > 2800 && y > 900) {
             // Spawn big enemy
-            spawnEnemy(x, y + 64, 128, 128);
+            spawnEnemy(x, y + 64, 125, 125);
         }
         else if(x < 40 && 1000 < y && y < 1100) {
             // Spawn small enemy
-            spawnEnemy(x, y + 64, 64, 64);
+            spawnEnemy(x, y + 64, 60, 60);
         }
         //Create a body with correct position and size
         Body body = BodyHelper.createBody(
