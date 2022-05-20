@@ -12,7 +12,7 @@ This is a semi open world 2D-platform game where you are playing as the thief wi
     Arrow up: jump (double jump exist)
 
     Arrow down: dash down (if you dash down on an enemy, they'll take damage. 
-    But beware, even you can take damage)
+    But beware, you can also take damage)
 
     Space (hold): sprint
 
@@ -22,17 +22,22 @@ This is a semi open world 2D-platform game where you are playing as the thief wi
 
 ## How to run
 
+There are two options regarding how to run the game, either run the program through intellij or the executable file. 
 - clone the repo
 
 From here, you can choose two different paths: either run the program through intellij or the executable file.
 
 ### Executable file
-- Open the cloned directory
-- Loacate the "Thieves.exe"
+
+- Locate the "Thieves.exe" file or click on the link (https://github.com/VictorOsterman/Projinda/blob/master/Thieves.exe)
+- Press the download button
+- Loacate the "Thieves.exe" file on your machine
 - Run the located file
+
 
 ### Intellij
 
+- clone the repo
 - Open intellij
 - click file -> open
 - go to the cloned repo and select the build.gradle file
