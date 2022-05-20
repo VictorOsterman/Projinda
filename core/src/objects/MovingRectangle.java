@@ -364,22 +364,7 @@ public abstract class MovingRectangle extends Sprite {
         int numCoins = width > 100 ? 2 : 1;
 
         for (int i = 0; i < numCoins; i++) {
-            //Create the bullets body
-            Body body = BodyHelper.createBody(
-                    //x+width/2+directionX*(width/2),
-                    x+width/2,
-                    y+height/2,
-                    64,
-                    64,
-                    false,
-                    99999999,
-                    gameScreen.getWorld(),
-                    ContactType.COIN,
-                    Const.COIN_BIT,
-                    (short) (Const.SAFE_BIT | Const.PLATFORM_BIT | Const.PLAYER_BIT),
-                    (short) -1
-            );
-            gameScreen.addMoneyItem(new Coin(64, 64, body, gameScreen));
+            Coin.generateCoin(x, y, width, height, gameScreen);
         }
     }
 
