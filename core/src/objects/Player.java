@@ -139,8 +139,8 @@ public class Player extends MovingRectangle{
 
         //Shoot bullet
         if(Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            if(!gameScreen.bulletInMotion()) {
-                Bullet.shootBullet(x, y, width, height, gameScreen, directionX);
+            if(!gameScreen.bulletInMotion("player")) {
+                Bullet.shootBullet(x, y, width, height, gameScreen, directionX, "player");
                 shotSound.play();
             }
         }

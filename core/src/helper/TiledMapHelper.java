@@ -74,7 +74,7 @@ public class TiledMapHelper {
                             gameScreen.getWorld(),
                             ContactType.PLAYER,
                             Const.PLAYER_BIT,
-                            (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.COIN_BIT | Const.SAFE_BIT),
+                            (short) (Const.PLAYER_BIT | Const.ENEMY_BIT | Const.PLATFORM_BIT | Const.COIN_BIT | Const.SAFE_BIT | Const.BULLET_BIT),
                             (short) 1
                     );
                     gameScreen.setPlayer(new Player(rectangle.getWidth(), rectangle.getHeight(), body, gameScreen));
