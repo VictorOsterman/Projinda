@@ -1,6 +1,19 @@
-Music by:
+# Projinda
 
-Dragon Slayer by Makai Symphony | https://soundcloud.com/makai-symphony
-Music promoted by https://www.chosic.com/free-music/all/
-Creative Commons Attribution-ShareAlike 3.0 Unported
-https://creativecommons.org/licenses/by-sa/3.0/
+This is a semi open world 2D-platform game where you are playing as the thief with the goal of collecting coins, that turns into score. To win the game, you must survive the whole time and if you run out of lives, you lose. Compete against friends or even yourself to get the highest score.
+
+## How to run
+
+- clone the repo
+
+
+## Structure
+This project uses the java library LibGdx, and is completely written in java.
+
+---
+
+This file should include
+- why we are doing this project
+- how to install and run the game (how to use gradle)
+- "How to play"
+- possible shoutouts
